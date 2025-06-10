@@ -1,2 +1,15 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+
+</script>
+
+<main>
+<footer></footer>
+  </main>
+
+<style>
+:global(body) {
+  background-color: #0A081D;
+  margin: 0;
+  padding: 0;
+}
+</style>
