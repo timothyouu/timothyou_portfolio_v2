@@ -3,13 +3,15 @@
 </script>
 
 <main>
-<h1 class = "home-title group">Hello, I'm Timothy!!</h1>
-<h2 class = "home-subtitle group">Computer Science Student @CSUF</h2>
-<h3 class = "list group">List of Stuff I am</h3>
-<h4 class = "first fun-fact group">🤝 I'm an Open Source and Marketing Board member @acmcsuf</h4>
-<h4 class = "fun-fact group">🖥️ I play Valorant and Roblox in my free time</h4>
-<h4 class = "fun-fact group">📸 I love taking pictures</h4>
-<img src="/timothyou1.png" alt="Timothy Ou">
+  <div class = "center-text-div">
+    <h1 class = "home-title group">Hello, I'm Timothy!!</h1>
+    <h2 class = "home-subtitle group">Computer Science Student @CSUF</h2>
+    <h3 class = "list group">List of Stuff I am</h3>
+    <h4 class = "first fun-fact group">🤝 I'm an Open Source and Marketing Board member @acmcsuf</h4>
+    <h4 class = "fun-fact group">🖥️ I play Valorant and Roblox in my free time</h4>
+    <h4 class = "fun-fact group">📸 I love taking pictures</h4>
+    <img src="/timothyou1.png" alt="Timothy Ou">
+  </div>
 </main>
 
 <style>
@@ -18,6 +20,14 @@
   background-color: #16142A;
   margin: 0;
   padding: 0;
+}
+.center-text-div {
+  display: flex;
+  justify-content: content;
+  align-items: left;
+  flex-direction: column;
+  margin-top: -7%;
+  margin-left: -5%;
 }
 .group {
   margin-top: 175px;
