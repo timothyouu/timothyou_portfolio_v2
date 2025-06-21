@@ -31,6 +31,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 main {
@@ -39,105 +42,158 @@ main {
   align-items: center;
   width: 100%;
   height: 100%;
-  border: 2px dashed green;
 }
 
 .home-content {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
-  border: 2px solid red;
+  max-width: 1400px;
+  gap: 120px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .text-box {
   display: flex;
   flex-direction: column;
-  border: 2px solid red;
+  flex-basis: 500px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  gap: 20px;
+  min-width: 280px;
+  box-sizing: border-box;
+}
+
+.home-title,
+.home-subtitle,
+.list,
+.fun-fact {
+  font-family: "Titan One";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2em;
+  margin: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .home-title {
   color: #7D73EC;
-  font-family: "Titan One";
   font-size: 72px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  -webkit-text-stroke-width: 200px;
-  -webkit-text-stroke-color: rgba(0, 0, 0, 0.00);
-  width: 750px;
-  align-items: center;
-  border: 2px solid red;
-  margin: 0;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: rgba(0, 0, 0, 0.5);
 }
 
 .home-subtitle {
   color: #BC95D1;
   font-family: "Titan One";
   font-size: 56px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  width: 641px;
-  height: 130px;
   flex-shrink: 0;
-  align-items: center;
-  border: 2px solid red;
-  margin: 0;
+  width: 680px;
+  margin-top: -20px;
 }
 
 .list {
   color: #E0E1DD;
   font-family: Kanit;
   font-size: 48px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
-  width: 374px;
-  height: 60px;
   flex-shrink: 0;
-  align-items: center;
-  border: 2px solid red;
-  margin-bottom: 35px;
-  margin-top: 20px;
 }
 
 .fun-facts {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 2px solid red;
-  width: fit-content;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .fun-fact {
   color: #E0E1DD;
   font-family: Kanit;
   font-size: 48px;
-  font-style: normal;
   font-weight: 600;
   line-height: 1.2em;
-  width: 850px;
   flex-shrink: 0;
-  border: 2px solid red;
-  margin: 0;
 }
 
 img {
   width: 532px;
-  height: 532px;
+  aspect-ratio: 1 / 1;
+  min-width: 250px;
+  max-width: 100%;
+  
+  
   flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  
   border: 10px solid #0A081D;
   border-radius: 50%;
   overflow: hidden;
-  position: relative;
-  background: url(/timothyou1.png) lightgray;
-  background-position: -116.252px -37.747px;
-  background-size: 166.98% 111.086%;
+  object-fit: cover;
+  background: url('/timothyou1.png') lightgray;
+  background-position: center;
+  background-size: cover;
   background-repeat: no-repeat;
-  justify-content: center;
-  align-items: center;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .home-content {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .text-box {
+    order: 1;
+    flex-basis: auto;
+    min-width: 100%;
+    padding: 0 10px;
+  }
+
+  img {
+    order: 2;
+    flex-basis: auto;
+    min-width: 250px;
+    width: 100%;
+    height: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  .home-title {
+    font-size: 56px;
+  }
+  .home-subtitle {
+    font-size: 40px;
+    width: auto;
+    margin-top: -10px;
+  }
+  .list, .fun-fact {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 500px) {
+  .home-title {
+    font-size: 40px;
+  }
+  .home-subtitle {
+    font-size: 30px;
+    margin-top: -5px;
+  }
+  .list, .fun-fact {
+    font-size: 24px;
+  }
+  img {
+    min-width: 180px;
+  }
 }
 </style>
