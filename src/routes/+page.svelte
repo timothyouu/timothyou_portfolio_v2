@@ -1,8 +1,38 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
+  import { tweened } from 'svelte/motion';
+  import { cubicOut } from 'svelte/easing';
 
   let isSidebarOpen = false;
   let navCalculatedHeight = 136;
+
+  let whatIAmList = [
+    "Timmy!",
+    "2nd Year",
+    "Aspiring SWE",
+    "Open Source Board",
+    "Marketing Board",
+    "Eagle Scout",
+    "Leetcoder",
+    "Valorant Player",
+    "Arsenal Sweat",
+    "GAG Gardener",
+    "Peripheral Enthusiast",
+    "Photographer",
+    "Smiski Collector 🤓",
+    "Matcha Enjoyer ☕",
+    "Silly 🪿",
+    "Shrimp 🦐",
+    "Famirry 🫶"
+  ];
+  let currentWhatIAmIndex = 0;
+  let currentWhatIAm = whatIAmList[currentWhatIAmIndex];
+  let intervalId;
+
+  const textOpacity = tweened(1, {
+    duration: 500,
+    easing: cubicOut
+  });
 
   function toggleSidebar(event) {
     if (event) {
@@ -40,9 +70,22 @@
 
     window.addEventListener('resize', handleResize);
 
+
+    intervalId = setInterval(() => {
+      textOpacity.set(0, { duration: 200 }).then(() => { 
+        currentWhatIAmIndex = (currentWhatIAmIndex + 1) % whatIAmList.length;
+        currentWhatIAm = whatIAmList[currentWhatIAmIndex];
+        textOpacity.set(1, { duration: 400 });
+      });
+    }, 3000);
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
+  });
+
+  onDestroy(() => {
+    clearInterval(intervalId);
   });
 </script>
 
@@ -84,7 +127,7 @@
     <div class="text-box">
       <h1 class="home-title">Hello, I'm Timothy!!</h1>
       <h2 class="home-subtitle"><span class="nowrap-phrase">Computer Science</span><br>Student @CSUF</h2>
-      <h3 class="list">List of Stuff I am</h3>
+      <h3 class="list" style="opacity: {$textOpacity};">{currentWhatIAm}</h3>
       <div class="fun-facts">
         <h4 class="fun-fact">🤝 I'm an Open Source and Marketing Board member @acmcsuf</h4>
         <h4 class="fun-fact">🖥️ I play Valorant and Roblox in my free time</h4>
@@ -274,10 +317,17 @@
   }
 
   .list {
-    color: #E0E1DD;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #e0cbff;
+    font-family: 'Poppins', sans-serif;
     font-size: 48px;
     font-weight: 600;
+    line-height: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100px;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 
   .fun-facts {
@@ -371,6 +421,11 @@
       margin-top: -10px;
     }
 
+    .list {
+      font-size: 32px;
+      height: 70px;
+    }
+
     img {
       order: 2;
       flex: unset;
@@ -410,7 +465,6 @@
 
     .sidebar li {
       width: 100%;
-      height: 70px;
     }
 
     .sidebar a {
@@ -419,8 +473,8 @@
     }
 
     .home-content .responsive-image-align {
-        margin-left: auto;
-        margin-right: auto;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
   
@@ -500,7 +554,6 @@
     }
     img {
       max-width: 280px;
-      min-width: 180px;
     }
     .text-box {
       gap: 15px;
@@ -525,7 +578,6 @@
     }
     img {
       max-width: 220px;
-      min-width: 150px;
     }
     .text-box {
       gap: 10px;
@@ -550,7 +602,6 @@
     }
     img {
       max-width: 180px;
-      min-width: 100px;
     }
     .text-box {
       gap: 5px;
