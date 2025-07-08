@@ -423,11 +423,8 @@
         margin-right: auto;
     }
   }
-
-  /* Height-based media queries for text and image scaling */
-  /* These are more aggressive to ensure content always fits */
-
-  @media (max-height: 950px) { /* Start shrinking earlier */
+  
+  @media (max-height: 950px) {
     .home-title {
       font-size: 68px;
     }
