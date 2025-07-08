@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
 
   let isSidebarOpen = false;
+  let navCalculatedHeight = 136;
 
   function toggleSidebar(event) {
     if (event) {
@@ -15,6 +16,26 @@
       if (window.innerWidth > 1050 && isSidebarOpen) {
         isSidebarOpen = false;
       }
+
+      const navElement = document.querySelector('nav');
+      if (navElement) {
+        navCalculatedHeight = navElement.offsetHeight;
+        document.documentElement.style.setProperty('--nav-height', `${navCalculatedHeight}px`);
+      }
+      const footerElement = document.querySelector('footer');
+      if (footerElement) {
+        document.documentElement.style.setProperty('--footer-height', `${footerElement.offsetHeight}px`);
+      }
+    }
+
+    const navElement = document.querySelector('nav');
+    if (navElement) {
+      navCalculatedHeight = navElement.offsetHeight;
+      document.documentElement.style.setProperty('--nav-height', `${navCalculatedHeight}px`);
+    }
+    const footerElement = document.querySelector('footer');
+    if (footerElement) {
+      document.documentElement.style.setProperty('--footer-height', `${footerElement.offsetHeight}px`);
     }
 
     window.addEventListener('resize', handleResize);
@@ -25,39 +46,40 @@
   });
 </script>
 
-<main>
-  <nav>
-    {#if isSidebarOpen}
-      <ul class="sidebar">
-        <li>
-          <a href="#" onclick={toggleSidebar(event)} aria-label="Close navigation menu">
-            <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="#D5B8E2">
-              <path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/>
-            </svg>
-          </a>
-        </li>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Skills</a></li>
-      </ul>
-    {/if}
-
-    <ul>
-      <li><a href="#">Timothy Ou</a></li>
-      <li class="hide-on-desktop-nav"><a href="#">Home</a></li>
-      <li class="hide-on-desktop-nav"><a href="#">About</a></li>
-      <li class="hide-on-desktop-nav"><a href="#">Projects</a></li>
-      <li class="hide-on-desktop-nav"><a href="#">Skills</a></li>
-      <li class="menu-button">
-        <a href="#" onclick={toggleSidebar(event)} aria-label="Open navigation menu">
+<nav>
+  {#if isSidebarOpen}
+    <ul class="sidebar">
+      <li>
+        <a href="#" on:click={toggleSidebar} aria-label="Close navigation menu">
           <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="#D5B8E2">
-            <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+            <path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/>
           </svg>
         </a>
       </li>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Projects</a></li>
+      <li><a href="#">Skills</a></li>
     </ul>
-  </nav>
+  {/if}
+
+  <ul>
+    <li><a href="#">Timothy Ou</a></li>
+    <li class="hide-on-desktop-nav"><a href="#">Home</a></li>
+    <li class="hide-on-desktop-nav"><a href="#">About</a></li>
+    <li class="hide-on-desktop-nav"><a href="#">Projects</a></li>
+    <li class="hide-on-desktop-nav"><a href="#">Skills</a></li>
+    <li class="menu-button">
+      <a href="#" on:click={toggleSidebar} aria-label="Open navigation menu">
+        <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="#D5B8E2">
+          <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<main>
   <div class="home-content">
     <div class="text-box">
       <h1 class="home-title">Hello, I'm Timothy!!</h1>
@@ -79,6 +101,11 @@
 </footer>
 
 <style>
+  :root {
+    --nav-height: 136px;
+    --footer-height: 100px;
+  }
+
   :global(html),
   :global(body) {
     height: 100%;
@@ -94,6 +121,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-y: auto;
   }
 
   nav {
@@ -179,9 +207,9 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding-top: 136px;
-    box-sizing: border-box;
     flex-grow: 1;
+    box-sizing: border-box;
+    padding-top: var(--nav-height);
   }
 
   .home-content {
@@ -195,6 +223,8 @@
     padding: 20px;
     box-sizing: border-box;
     gap: 120px;
+    flex: 1;
+    height: auto;
   }
 
   .text-box {
@@ -261,8 +291,8 @@
   .fun-fact {
     color: #E0E1DD;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 48px;
     font-weight: 600;
+    font-size: 48px;
     line-height: 1.2em;
   }
 
@@ -291,6 +321,10 @@
   }
 
   @media (max-width: 1050px) {
+    :root {
+      --nav-height: 70px;
+    }
+
     .hide-on-desktop-nav {
       display: none;
     }
@@ -299,8 +333,16 @@
       display: list-item;
     }
 
+    nav ul {
+      height: 70px;
+    }
+
+    nav li {
+      height: 70px;
+    }
+
     main {
-      padding-top: 136px;
+      padding-top: var(--nav-height);
     }
 
     .home-content {
@@ -348,12 +390,7 @@
   }
 
   @media (max-width: 768px) {
-    main {
-      padding-top: 70px;
-    }
-
     nav li {
-      height: 70px;
       padding: 0 10px;
     }
 
@@ -384,6 +421,142 @@
     .home-content .responsive-image-align {
         margin-left: auto;
         margin-right: auto;
+    }
+  }
+
+  /* Height-based media queries for text and image scaling */
+  /* These are more aggressive to ensure content always fits */
+
+  @media (max-height: 950px) { /* Start shrinking earlier */
+    .home-title {
+      font-size: 68px;
+    }
+    .home-subtitle {
+      font-size: 52px;
+    }
+    .list,
+    .fun-fact {
+      font-size: 44px;
+    }
+    .home-content {
+      gap: 100px;
+    }
+    img {
+      max-width: 500px;
+    }
+  }
+
+  @media (max-height: 850px) {
+    .home-title {
+      font-size: 60px;
+    }
+    .home-subtitle {
+      font-size: 46px;
+    }
+    .list,
+    .fun-fact {
+      font-size: 38px;
+    }
+    .home-content {
+      gap: 80px;
+    }
+    img {
+      max-width: 420px;
+    }
+  }
+
+  @media (max-height: 750px) {
+    .home-title {
+      font-size: 52px;
+    }
+    .home-subtitle {
+      font-size: 40px;
+      margin-top: -10px;
+    }
+    .list,
+    .fun-fact {
+      font-size: 32px;
+    }
+    .home-content {
+      gap: 60px;
+    }
+    img {
+      max-width: 350px;
+    }
+  }
+
+  @media (max-height: 650px) {
+    .home-content {
+      gap: 40px;
+      padding: 15px;
+    }
+    .home-title {
+      font-size: 44px;
+    }
+    .home-subtitle {
+      font-size: 32px;
+      margin-top: -8px;
+    }
+    .list,
+    .fun-fact {
+      font-size: 26px;
+    }
+    img {
+      max-width: 280px;
+      min-width: 180px;
+    }
+    .text-box {
+      gap: 15px;
+    }
+  }
+
+  @media (max-height: 550px) {
+    .home-content {
+      gap: 25px;
+      padding: 10px;
+    }
+    .home-title {
+      font-size: 36px;
+    }
+    .home-subtitle {
+      font-size: 26px;
+      margin-top: -5px;
+    }
+    .list,
+    .fun-fact {
+      font-size: 20px;
+    }
+    img {
+      max-width: 220px;
+      min-width: 150px;
+    }
+    .text-box {
+      gap: 10px;
+    }
+  }
+
+  @media (max-height: 450px) {
+    .home-content {
+      gap: 10px;
+      padding: 5px;
+    }
+    .home-title {
+      font-size: 28px;
+    }
+    .home-subtitle {
+      font-size: 20px;
+      margin-top: -3px;
+    }
+    .list,
+    .fun-fact {
+      font-size: 16px;
+    }
+    img {
+      max-width: 180px;
+      min-width: 100px;
+    }
+    .text-box {
+      gap: 5px;
     }
   }
 
