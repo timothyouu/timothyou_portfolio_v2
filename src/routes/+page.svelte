@@ -107,11 +107,11 @@
   {/if}
 
   <ul>
-    <li><a href="#">Timothy Ou</a></li>
-    <li class="hide-on-desktop-nav"><a href="#">Home</a></li>
-    <li class="hide-on-desktop-nav"><a href="#">About</a></li>
-    <li class="hide-on-desktop-nav"><a href="#">Projects</a></li>
-    <li class="hide-on-desktop-nav"><a href="#">Skills</a></li>
+    <li><a href="/">Timothy Ou</a></li>
+    <li class="hide-on-desktop-nav"><a href="/">Home</a></li>
+    <li class="hide-on-desktop-nav"><a href="/about">About</a></li>
+    <li class="hide-on-desktop-nav"><a href="/project">Projects</a></li>
+    <li class="hide-on-desktop-nav"><a href="/skills">Skills</a></li>
     <li class="menu-button">
       <a href="#" on:click={toggleSidebar} aria-label="Open navigation menu">
         <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="#D5B8E2">
