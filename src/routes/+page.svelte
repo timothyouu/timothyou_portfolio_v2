@@ -560,8 +560,9 @@
   @media (max-width: 500px) {
     .home-title {
       font-size: 40px;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: normal;
+      overflow: unset; 
+      text-overflow: unset;
     }
 
     .home-subtitle {
