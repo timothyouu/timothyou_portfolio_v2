@@ -1,8 +1,10 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
+  import { page } from '$app/stores';
 
   let isSidebarOpen = false;
   let navCalculatedHeight = 136;
+  let currentPath;
 
   function toggleSidebar(event) {
     if (event) {
@@ -12,6 +14,10 @@
   }
 
   onMount(() => {
+    const unsubscribe = page.subscribe($page => {
+      currentPath = $page.url.pathname;
+    });
+
     function handleResize() {
       if (window.innerWidth > 1050 && isSidebarOpen) {
         isSidebarOpen = false;
@@ -42,6 +48,7 @@
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      unsubscribe();
     };
   });
 </script>
@@ -56,19 +63,19 @@
           </svg>
         </a>
       </li>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Projects</a></li>
-      <li><a href="#">Skills</a></li>
+      <li><a href="/" class:active={currentPath === '/'}>Home</a></li>
+      <li><a href="/about" class:active={currentPath === '/about'}>About</a></li>
+      <li><a href="/projects" class:active={currentPath === '/projects'}>Projects</a></li>
+      <li><a href="/skills" class:active={currentPath === '/skills'}>Skills</a></li>
     </ul>
   {/if}
 
   <ul>
-    <li><a href="/">Timothy Ou</a></li>
-    <li class="hide-on-desktop-nav"><a href="/">Home</a></li>
-    <li class="hide-on-desktop-nav"><a href="/about">About</a></li>
-    <li class="hide-on-desktop-nav"><a href="/project">Projects</a></li>
-    <li class="hide-on-desktop-nav"><a href="/skills">Skills</a></li>
+    <li><a href="/" class:active={currentPath === '/'}>Timothy Ou</a></li>
+    <li class="hide-on-desktop-nav"><a href="/" class:active={currentPath === '/'}>Home</a></li>
+    <li class="hide-on-desktop-nav"><a href="/about" class:active={currentPath === '/about'}>About</a></li>
+    <li class="hide-on-desktop-nav"><a href="/projects" class:active={currentPath === '/projects'}>Projects</a></li>
+    <li class="hide-on-desktop-nav"><a href="/skills" class:active={currentPath === '/skills'}>Skills</a></li>
     <li class="menu-button">
       <a href="#" on:click={toggleSidebar} aria-label="Open navigation menu">
         <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="#D5B8E2">
@@ -150,6 +157,11 @@
     font-weight: 600;
     line-height: normal;
     align-items: center;
+    transition: color 0.3s ease;
+  }
+
+  nav a.active {
+    color: #7D73EC;
   }
 
   nav a:hover {
@@ -161,6 +173,7 @@
   }
 
   nav li:first-child a {
+    color:#7D73EC;
     white-space: nowrap;
     min-width: fit-content;
   }
@@ -173,9 +186,7 @@
     width: 250px;
     z-index: 999;
     background-color: #16142A;
-    opacity: 95%;
     box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
@@ -221,6 +232,12 @@
       display: list-item;
     }
 
+    .sidebar {
+      display: flex;
+      opacity: 95%;
+      backdrop-filter: blur(10px);
+    }
+
     nav ul {
       height: 70px;
     }
@@ -249,10 +266,6 @@
       padding: 0 10px;
     }
 
-    .sidebar {
-      display: flex;
-    }
-
     .sidebar li {
       width: 100%;
     }
@@ -264,11 +277,11 @@
   }
   
   @media (max-height: 950px) {
-
+    
   }
 
   @media (max-height: 850px) {
-  
+    
   }
 
   @media (max-height: 750px) {
@@ -292,23 +305,7 @@
   }
 
   @media (max-width: 350px) {
-    .home-title {
-      font-size: 32px;
-    }
-
-    .home-subtitle {
-      font-size: 24px;
-    }
-
-    .list,
-    .fun-fact {
-      font-size: 20px;
-    }
-
-    .text-box {
-      min-width: unset;
-      padding: 0 5px;
-    }
+    
   }
 
   footer {
