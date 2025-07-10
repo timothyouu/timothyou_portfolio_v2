@@ -87,7 +87,22 @@
 </nav>
 
 <main>
-  
+  <div class = "about-content">
+    <div class = "column-content">
+      <img src="/timothyou2.png" alt="Timothy Ou" class = "timothy-pic">
+      <div class = "contact-panel">
+        <div class = "resume">
+
+        </div>
+        <div class = "socials">
+
+        </div>
+      </div>
+    </div>
+    <div class = "gallery"> 
+
+    </div> 
+  </div>
 </main>
 
 <footer>
@@ -217,6 +232,19 @@
 
   .hide-on-desktop-nav {
     display: flex;
+  }
+
+  .column-content {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  .timothy-pic {
+    height: 25%;
+    width: 25%;
+    border-radius: 48px;
   }
 
   @media (max-width: 1050px) {
