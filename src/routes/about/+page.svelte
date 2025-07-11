@@ -114,6 +114,7 @@
   :root {
     --nav-height: 136px;
     --footer-height: 100px;
+    --content-vertical-padding:20px;
   }
 
   :global(html),
@@ -223,7 +224,8 @@
     width: 100%;
     flex-grow: 1;
     box-sizing: border-box;
-    padding-top: var(--nav-height);
+    padding-top: calc(var(--nav-height) + var(--content-vertical-padding));
+    padding-bottom: var(--content-vertical-padding);
   }
 
   .menu-button {
@@ -237,14 +239,13 @@
   .about-content {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 30px;
   padding: 20px;
   width: 100%;
   max-width: 1200px;
-  height: 100%;
-  max-height: 752px;
+  height: auto;
   box-sizing: border-box;
 }
 
@@ -277,13 +278,15 @@
 
 .gallery {
   background-color: #0A091A;
-  min-height: 400px; 
   width: 100%; 
-  max-width: 700px; 
+  max-width: 814px; 
   flex-grow: 1; 
   border-radius: 48px; 
   padding: 20px; 
   box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  height: 762px;
 }
 
   @media (max-width: 1050px) {
