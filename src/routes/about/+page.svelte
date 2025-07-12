@@ -259,8 +259,8 @@
 }
 
 .timothy-pic {
-  max-height: 460px;
-  max-width: 356px;
+  max-height: 400px;
+  max-width: 400px;
   border-radius: 48px;
   width: 100%; 
   height: auto; 
@@ -268,9 +268,9 @@
 
 .contact-panel {
   background-color: #0A091A;
-  height: 272px;
+  height: 200px;
   width: 100%;
-  max-width: 356px;
+  max-width: 400px;
   border-radius: 48px;
   padding: 20px; 
   box-sizing: border-box; 
@@ -279,14 +279,14 @@
 .gallery {
   background-color: #0A091A;
   width: 100%; 
-  max-width: 814px; 
+  max-width: 850px; 
   flex-grow: 1; 
   border-radius: 48px; 
   padding: 20px; 
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  height: 762px;
+  height: 650px;
 }
 
   @media (max-width: 1050px) {
