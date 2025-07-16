@@ -6,6 +6,40 @@
   let navCalculatedHeight = 136;
   let currentPath;
 
+  let galleryItems = [
+    { path: '/mono_lake.jpg', location: 'Mono Lake, California' },
+    { path: '/gum_wall.jpg', location: 'Gum Wall, Washington' }, 
+    { path: '/farmers_market.jpg', location: 'Pike Place, Washington' }, 
+    { path: '/light_jellyfish.jpg', location: 'Sensorio, California' },
+    { path: '/light_field.jpg', location: 'Sensorio, California' },
+    { path: '/tokyo_tower.jpg', location: 'Tokyo Tower, Japan' },
+    { path: '/shrine.jpg', location: 'Meiji Jingu Shrine, Japan' },
+    { path: '/sumida_river.jpg', location: 'Sumida River, Japan' },
+    { path: '/bixby.JPEG', location: 'Bixby Bridge, California' },
+    { path: '/waves.JPEG', location: 'Pebble Beach, California' },
+    { path: '/lone_cypress.JPEG', location: 'Lone Cypress, California' },
+    { path: '/mcway_falls.JPEG', location: 'Mcway Falls, California' },
+    { path: '/zion.JPEG', location: 'Zion National Park, California' },
+    { path: '/snoqualmie_falls.jpg', location: 'Snoqualmie Falls, Washington' },
+    { path: '/space_needle.jpg', location: 'Space Needle, Washington' }
+  ];
+
+  let currentImageIndex = 0;
+
+  // Reactive declarations: currentPhoto and currentLocation will automatically update
+  // whenever currentImageIndex changes.
+  $: currentPhoto = galleryItems[currentImageIndex];
+  $: currentLocation = currentPhoto.location;
+
+  function nextPhoto() {
+    currentImageIndex = (currentImageIndex + 1) % galleryItems.length;
+  }
+
+  function prevPhoto() {
+    // The '+ galleryItems.length' handles negative results from modulo correctly
+    currentImageIndex = (currentImageIndex - 1 + galleryItems.length) % galleryItems.length;
+  }
+
   function toggleSidebar(event) {
     if (event) {
       event.preventDefault();
@@ -92,16 +126,47 @@
       <img src="/timothyou2.png" alt="Timothy Ou" class = "timothy-pic">
       <div class = "contact-panel">
         <div class = "resume">
-
+          <p>Resume 📄</p>
         </div>
-        <div class = "socials">
-
+        <div class="socials">
+          <div class="linkedin">
+            <a href="https://www.linkedin.com/in/timothy-ou/">
+              <img class ="image-effects" src="/linkedin.png" alt="LinkedIn Profile">
+            </a>
+          </div>
+          <div class="instagram">
+            <a href="https://www.instagram.com/timothyouu/">
+              <img class ="image-effects" src="/instagram.png" alt="Instagram Profile">
+            </a>
+          </div>
+          <div class="github">
+            <a href="https://github.com/timothyouu">
+              <img class ="image-effects" src="/github.png" alt="GitHub Profile">
+            </a>
+          </div>
         </div>
       </div>
     </div>
-    <div class = "gallery"> 
-
-    </div> 
+    <div class="gallery">
+      <div class="media-content">
+        <button type="button" class="side-button left-arrow" on:click={prevPhoto} aria-label="Previous photo">
+          <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="#D5B8E2">
+            <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/>
+          </svg>
+        </button>
+        <div class="photo-image">
+          <img src={currentPhoto.path} alt={currentPhoto.location} class="gallery-photo">
+        </div>
+        <button type="button" class="side-button right-arrow" on:click={nextPhoto} aria-label="Next photo">
+          <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="#D5B8E2">
+            <path d="m321-80-71-71 329-329-329-329 71-71 400 400-400 400Z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="location">
+        <p>Location: {currentLocation}</p>
+      </div>
+    </div>
   </div>
 </main>
 
@@ -244,7 +309,7 @@
   gap: 30px;
   padding: 20px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1800px;
   height: auto;
   box-sizing: border-box;
 }
@@ -259,34 +324,170 @@
 }
 
 .timothy-pic {
-  max-height: 400px;
-  max-width: 400px;
+  max-height: 500px;
+  max-width: 500px;
   border-radius: 48px;
-  width: 100%; 
-  height: auto; 
+  width: 100%;
+  height: auto;
 }
 
 .contact-panel {
   background-color: #0A091A;
-  height: 200px;
+  height: 300px;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   border-radius: 48px;
-  padding: 20px; 
-  box-sizing: border-box; 
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.resume {
+  background-color: #282450;
+  width: 90%;
+  height: 45%;
+  border-radius: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #D5B8E2;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.resume p {
+  font-size: 50px;
+  font-weight: 300;
+  font-family: "Titan One";
+  text-align: center;
+}
+
+.socials {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 90%;
+  height: 45%;
+  align-items: center;
+}
+
+.image-effects {
+  filter: invert(100%) sepia(100%) saturate(200%) hue-rotate(270deg) brightness(100%) contrast(100%);
+}
+
+.linkedin,
+.instagram,
+.github {
+  background-color: #282450;
+  width: 30%;
+  height: 90px;
+  border-radius: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.linkedin img,
+.instagram img,
+.github img {
+  height: 50px;
+  width: auto;
+  color:#D5B8E2;
 }
 
 .gallery {
   background-color: #0A091A;
-  width: 100%; 
-  max-width: 850px; 
-  flex-grow: 1; 
-  border-radius: 48px; 
-  padding: 20px; 
+  width: 100%;
+  max-width: 1500px;
+  flex-grow: 1;
+  border-radius: 48px;
+  padding: 30px;
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
+  height: 830px;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.media-content {
+  width: 100%;
+  flex-grow: 1; 
+  display: flex; 
   flex-direction: row;
-  height: 650px;
+  justify-content: space-between; 
+  align-items: center; 
+  gap: 20px; 
+  max-height: 70%;
+}
+
+.side-button {
+  background-color: #282450;
+  width: 70px; 
+  height: 90%;
+  border-radius: 32px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  flex-shrink: 0; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.side-button:hover {
+  background-color: #3f3b79;
+}
+
+.side-button svg {
+  height: 48px;
+  width: 48px;
+  fill: #D5B8E2;
+  transform: translateX(5px);
+}
+
+.photo-image {
+ 
+  width: 80%;
+  max-width: 800px;
+  height: 100%;
+  border-radius: 32px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gallery-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 32px;
+}
+
+
+.location {
+  background-color: #282450; 
+  width: 90%; 
+  max-width: 500px; 
+  height: 80px; 
+  border-radius: 32px;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  flex-shrink: 0; 
+}
+
+.location p {
+  color: #D5B8E2; 
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
 }
 
   @media (max-width: 1050px) {
