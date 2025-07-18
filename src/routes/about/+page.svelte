@@ -423,7 +423,7 @@
   justify-content: space-between; 
   align-items: center; 
   gap: 20px; 
-  max-height: 70%;
+  max-height: 80%;
 }
 
 .side-button {
@@ -453,7 +453,7 @@
 .photo-image {
  
   width: 80%;
-  max-width: 800px;
+  max-width: 1100px;
   height: 100%;
   border-radius: 32px;
   overflow: hidden;
@@ -490,122 +490,311 @@
   margin: 0;
 }
 
+.side-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px #D5B8E2;
+}
+
+button:focus {
+  outline: none !important;
+}
+
+footer {
+  background-color: #0A081D;
+  color: #D5B8E2;
+  padding: 20px 0;
+  text-align: center;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 600;
+  font-size: 1.2em;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+footer p {
+  margin: 5px 0;
+}
+
   @media (max-width: 1050px) {
-    :root {
-      --nav-height: 70px;
-    }
-
-    .hide-on-desktop-nav {
-      display: none;
-    }
-
-    .menu-button {
-      display: list-item;
-    }
-
-    .sidebar {
-      display: flex;
-      opacity: 95%;
-      backdrop-filter: blur(10px);
-    }
-
-    nav ul {
-      height: 70px;
-    }
-
-    nav li {
-      height: 70px;
-    }
-
-    main {
-      padding-top: var(--nav-height);
-    }
+  :root {
+    --nav-height: 70px;
   }
 
-  @media (max-width: 768px) {
-    nav li {
-      padding: 0 10px;
-    }
-
-    nav a {
-      font-size: 24px;
-      padding: 0 15px;
-    }
-
-    nav li:first-child a {
-      font-size: 26px;
-      padding: 0 10px;
-    }
-
-    .sidebar li {
-      width: 100%;
-    }
-
-    .sidebar a {
-      font-size: 24px;
-      padding: 0 20px;
-    }
-  }
-  
-  @media (max-height: 950px) {
-    
+  .hide-on-desktop-nav {
+    display: none;
   }
 
-  @media (max-height: 850px) {
-    
+  .menu-button {
+    display: list-item;
   }
 
-  @media (max-height: 750px) {
-    
+  .sidebar {
+    display: flex;
+    opacity: 95%;
+    backdrop-filter: blur(10px);
   }
 
-  @media (max-height: 650px) {
-    
+  nav ul {
+    height: 70px;
   }
 
-  @media (max-height: 550px) {
-    
+  nav li {
+    height: 70px;
   }
 
-  @media (max-height: 450px) {
-    
+  main {
+    padding-top: var(--nav-height);
   }
 
-  @media (max-width: 500px) {
-    
+  .about-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    padding: 15px;
   }
 
-  @media (max-width: 350px) {
-    
+  .column-content {
+    width: 100%;
+    max-width: 500px;
+    gap: 25px;
+  }
+
+  .timothy-pic {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .contact-panel {
+    width: 90%;
+    max-width: 350px;
+    height: auto;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .resume {
+    height: 100px;
+  }
+
+  .resume p {
+    font-size: 36px;
+  }
+
+  .socials {
+    height: 80px;
+  }
+
+  .linkedin,
+  .instagram,
+  .github {
+    height: 60px;
+  }
+
+  .linkedin img,
+  .instagram img,
+  .github img {
+    height: 40px;
+  }
+
+  .gallery {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .media-content {
+    height: auto;
+    max-height: none;
+  }
+
+  .photo-image {
+    height: 300px;
+    width: 100%;
+    max-width: none;
+  }
+
+  .side-button {
+    width: 50px;
+    height: 100%;
+  }
+
+  .side-button svg {
+    height: 36px;
+    width: 36px;
+    transform: translateX(0);
+  }
+
+  .location {
+    height: 60px;
   }
 
   footer {
-    background-color: #0A081D;
-    color: #D5B8E2;
-    padding: 20px 0;
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 600;
-    font-size: 1.2em;
-    flex-shrink: 0;
+    font-size: 1em;
+    padding: 15px 0;
+  }
+}
+  
+  @media (max-width: 768px) {
+  nav li {
+    padding: 0 10px;
+  }
+
+  nav a {
+    font-size: 24px;
+    padding: 0 15px;
+  }
+
+  nav li:first-child a {
+    font-size: 26px;
+    padding: 0 10px;
+  }
+
+  .sidebar li {
     width: 100%;
   }
 
-  footer p {
-    margin: 5px 0;
+  .sidebar a {
+    font-size: 24px;
+    padding: 0 20px;
   }
 
-  @media (max-width: 768px) {
-    footer {
-      font-size: 1em;
-      padding: 15px 0;
-    }
+  .about-content {
+     flex-direction: row;
   }
+
+  .column-content {
+    width: 50%;
+  }
+
+  .gallery {
+    width: 50%;
+  }
+
+  .contact-panel {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .resume p {
+    font-size: 30px;
+  }
+
+  .socials {
+    height: 70px;
+  }
+
+  .linkedin img,
+  .instagram img,
+  .github img {
+    height: 35px;
+  }
+
+  .gallery {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .photo-image {
+    height: 250px;
+  }
+
+  .side-button {
+    width: 40px;
+  }
+
+  .side-button svg {
+    height: 28px;
+    width: 28px;
+  }
+
+  .location {
+    height: 45px;
+  }
+
+  .location p {
+    font-size: 16px;
+  }
+
+  footer {
+    font-size: 1em;
+    padding: 15px 0;
+  }
+}
 
   @media (max-width: 500px) {
-    footer {
-      font-size: 0.9em;
-      padding: 10px 0;
-    }
+  .about-content {
+    flex-direction: column;
+    align-items: center;
   }
+
+  .column-content {
+    width: 90%;
+  }
+
+  .timothy-pic {
+    max-width: 250px;
+  }
+
+  .contact-panel {
+    max-width: 250px;
+  }
+
+  .gallery {
+    width: 90%;
+  }
+
+  .photo-image {
+    height: 200px;
+  }
+
+  .side-button {
+    width: 30px;
+  }
+
+  .side-button svg {
+    height: 20px;
+    width: 20px;
+  }
+
+  .location p {
+    font-size: 14px;
+  }
+
+  footer {
+    font-size: 0.9em;
+    padding: 10px 0;
+  }
+}
+
+@media (max-width: 350px) {
+  .resume {
+    height: 60px;
+  }
+
+  .resume p {
+    font-size: 20px;
+  }
+
+  .socials {
+    height: 50px;
+  }
+
+  .linkedin,
+  .instagram,
+  .github {
+    height: 50px;
+  }
+
+  .linkedin img,
+  .instagram img,
+  .github img {
+    height: 25px;
+  }
+
+  .photo-image {
+  height: 150px;
+  }
+}
 </style>
