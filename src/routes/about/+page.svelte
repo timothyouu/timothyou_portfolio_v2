@@ -3,8 +3,8 @@
   import { page } from '$app/stores';
 
   let isSidebarOpen = false;
-  let navHeight = 0; // Initialize to 0, will be calculated on mount
-  let footerHeight = 0; // Initialize to 0, will be calculated on mount
+  let navHeight = 0; 
+  let footerHeight = 0;
   let currentPath;
 
   let galleryItems = [
@@ -45,7 +45,6 @@
     isSidebarOpen = !isSidebarOpen;
   }
 
-  // Function to calculate and set dynamic heights
   function calculateLayoutHeights() {
     const navElement = document.querySelector('nav');
     if (navElement) {
@@ -58,26 +57,22 @@
   }
 
   onMount(() => {
-    // Subscribe to page store to track current path
     const unsubscribe = page.subscribe($page => {
       currentPath = $page.url.pathname;
     });
 
-    // Initial calculation and listener for resize
-    calculateLayoutHeights(); // Calculate on initial mount
+    calculateLayoutHeights();
 
     function handleResize() {
-      // Close sidebar if window gets wider than a certain point
       if (window.innerWidth > 1050 && isSidebarOpen) {
         isSidebarOpen = false;
       }
-      calculateLayoutHeights(); // Recalculate on resize
+      calculateLayoutHeights();
     }
 
     window.addEventListener('resize', handleResize);
 
     return () => {
-      // Cleanup
       window.removeEventListener('resize', handleResize);
       unsubscribe();
     };
@@ -175,7 +170,6 @@
 </footer>
 
 <style>
-  /* Base styles and variables */
   :root {
     --content-vertical-padding: 20px;
   }
@@ -198,7 +192,6 @@
     overflow-y: auto;
   }
 
-  /* Navigation Styles (retained from previous improvements for fluidity) */
   nav {
     background-color: #0A081D;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
@@ -220,7 +213,7 @@
   }
 
   nav li {
-    height: 136px; /* Original desktop height */
+    height: 136px;
     line-height: 50px;
     padding: 0 20px;
   }
@@ -263,16 +256,16 @@
     top: 0;
     right: 0;
     height: 100vh;
-    width: 250px; /* Original fixed width */
+    width: 250px;
     z-index: 999;
     background-color: #16142A;
     box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    display: none; /* Hidden by default, shown by JS */
-    opacity: 95%; /* Keep existing opacity */
-    backdrop-filter: blur(10px); /* Keep existing blur */
+    display: none;
+    opacity: 95%;
+    backdrop-filter: blur(10px);
   }
 
   .sidebar li {
@@ -283,7 +276,6 @@
     width: 100%;
   }
 
-  /* Main content layout */
   main {
     display: flex;
     justify-content: center;
@@ -291,10 +283,8 @@
     width: 100%;
     flex-grow: 1;
     box-sizing: border-box;
-    /* Use the calculated navHeight and dynamic padding */
     padding-top: calc(var(--nav-height, 136px) + var(--content-vertical-padding));
     padding-bottom: var(--content-vertical-padding);
-    /* Min-height to ensure main content pushes footer down */
     min-height: calc(100vh - var(--nav-height, 136px) - var(--footer-height, 100px) - (var(--content-vertical-padding) * 2));
   }
 
@@ -306,14 +296,13 @@
     display: flex;
   }
 
-  /* About Content Section - Reverting to original sizes for large screens */
   .about-content {
     display: flex;
-    flex-direction: row; /* Default for larger screens */
+    flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    gap: 30px; /* Original fixed gap */
-    padding: 20px; /* Original fixed padding */
+    gap: 30px;
+    padding: 20px;
     width: 100%;
     max-width: 1800px;
     height: auto;
@@ -325,15 +314,15 @@
     align-items: center;
     justify-content: center;
     display: flex;
-    gap: 30px; /* Original fixed gap */
+    gap: 30px;
     flex-shrink: 0;
     width: 100%;
-    max-width: 500px; /* Original fixed max-width */
+    max-width: 500px;
   }
 
   .timothy-pic {
-    max-height: 500px; /* Original fixed max-height */
-    max-width: 500px; /* Original fixed max-width */
+    max-height: 500px;
+    max-width: 500px;
     border-radius: 48px;
     width: 100%;
     height: auto;
@@ -342,11 +331,11 @@
 
   .contact-panel {
     background-color: #0A091A;
-    height: 300px; /* Original fixed height */
+    height: 300px;
     width: 100%;
-    max-width: 500px; /* Original fixed max-width */
+    max-width: 500px;
     border-radius: 48px;
-    padding: 20px; /* Original fixed padding */
+    padding: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -367,11 +356,11 @@
   }
 
   .resume p {
-    font-size: 50px; /* Original fixed font size */
+    font-size: 50px;
     font-weight: 300;
     font-family: "Titan One";
     text-align: center;
-    margin: 0; /* Remove default paragraph margin */
+    margin: 0;
   }
 
   .socials {
@@ -397,7 +386,7 @@
   .github {
     background-color: #282450;
     width: 30%;
-    height: 90px; /* Original fixed height */
+    height: 90px;
     border-radius: 32px;
     display: flex;
     justify-content: center;
@@ -407,24 +396,23 @@
   .linkedin img,
   .instagram img,
   .github img {
-    height: 50px; /* Original fixed height */
+    height: 50px;
     width: auto;
     color: #D5B8E2;
   }
 
-  /* Gallery Section - Reverting to original sizes for large screens */
   .gallery {
     background-color: #0A091A;
     width: 100%;
     max-width: 1500px;
     flex-grow: 1;
     border-radius: 48px;
-    padding: 30px; /* Original fixed padding */
+    padding: 30px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    height: 830px; /* Original fixed height */
-    gap: 30px; /* Original fixed gap */
+    height: 830px;
+    gap: 30px;
     justify-content: center;
     align-items: center;
   }
@@ -436,13 +424,13 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 20px; /* Original fixed gap */
+    gap: 20px; 
     max-height: 80%;
   }
 
   .side-button {
     background-color: #282450;
-    width: 70px; /* Original fixed width */
+    width: 70px;
     height: 90%;
     border-radius: 32px;
     display: flex;
@@ -458,8 +446,8 @@
   }
 
   .side-button svg {
-    height: 48px; /* Original fixed height */
-    width: 48px; /* Original fixed width */
+    height: 48px;
+    width: 48px;
     fill: #D5B8E2;
     transform: translateX(5px);
   }
@@ -486,7 +474,7 @@
     background-color: #282450;
     width: 90%;
     max-width: 500px;
-    height: 80px; /* Original fixed height */
+    height: 80px;
     border-radius: 32px;
     display: flex;
     justify-content: center;
@@ -497,7 +485,7 @@
   .location p {
     color: #D5B8E2;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 24px; /* Original fixed font size */
+    font-size: 24px;
     font-weight: 600;
     margin: 0;
   }
@@ -511,7 +499,6 @@
     outline: none !important;
   }
 
-  /* Footer (retained from previous improvements for fluidity) */
   footer {
     background-color: #0A081D;
     color: #D5B8E2;
@@ -519,7 +506,7 @@
     text-align: center;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: 600;
-    font-size: 1.2em; /* Original em size */
+    font-size: 1.2em;
     flex-shrink: 0;
     width: 100%;
   }
@@ -528,11 +515,7 @@
     margin: 5px 0;
   }
 
-  /* Media Queries - Adjusting fixed sizes for responsiveness */
-
-  /* Tablet & smaller desktop (approx. 1050px and below) */
   @media (max-width: 1050px) {
-    /* Navigation remains similar to previous version */
     nav li {
       height: 70px;
     }
@@ -561,94 +544,92 @@
       padding-top: var(--nav-height, 70px);
     }
 
-    /* ABOUT CONTENT ADJUSTMENTS */
     .about-content {
-      flex-direction: column; /* Stack columns */
+      flex-direction: column;
       align-items: center;
-      gap: 25px; /* Adjust gap */
-      padding: 15px; /* Adjust padding */
+      gap: 25px;
+      padding: 15px;
     }
 
     .column-content {
-      width: 100%; /* Take full width within its flex container */
-      max-width: 500px; /* Keep the max-width for consistency */
+      width: 100%;
+      max-width: 500px;
       gap: 25px;
     }
 
     .timothy-pic {
-      max-width: 350px; /* Reduce image size */
-      max-height: 350px; /* Match new max-width for square images */
+      max-width: 350px;
+      max-height: 350px;
     }
 
     .contact-panel {
-      width: 90%; /* Scale width relative to column-content */
-      max-width: 350px; /* Reduce max-width */
-      height: auto; /* Allow height to adjust based on content */
+      width: 90%;
+      max-width: 350px;
+      height: auto;
       padding: 15px;
       gap: 15px;
     }
 
     .resume {
-      height: 100px; /* Reduce height */
+      height: 100px;
     }
 
     .resume p {
-      font-size: 36px; /* Reduce font size */
+      font-size: 36px;
     }
 
     .socials {
-      height: 80px; /* Reduce height */
+      height: 80px;
     }
 
     .linkedin,
     .instagram,
     .github {
-      height: 60px; /* Reduce height */
+      height: 60px;
     }
 
     .linkedin img,
     .instagram img,
     .github img {
-      height: 40px; /* Reduce icon size */
+      height: 40px;
     }
 
-    /* GALLERY ADJUSTMENTS */
     .gallery {
-      width: 100%; /* Take full width within its flex container */
-      height: auto; /* Allow height to adjust */
-      max-width: 500px; /* Reduce max-width */
+      width: 100%;
+      height: auto;
+      max-width: 500px;
       padding: 20px;
       gap: 20px;
     }
 
     .media-content {
       height: auto;
-      max-height: none; /* No max height here to allow flexibility */
+      max-height: none;
     }
 
     .photo-image {
-      height: 300px; /* Set a fixed height for image container */
+      height: 300px;
       width: 100%;
       max-width: none;
     }
 
     .side-button {
-      width: 50px; /* Reduce button width */
-      height: 100%; /* Keep height relative to its flex parent */
+      width: 50px;
+      height: 100%;
     }
 
     .side-button svg {
-      height: 36px; /* Reduce SVG size */
+      height: 36px;
       width: 36px;
-      transform: translateX(0); /* Remove small translateX on smaller screens */
+      transform: translateX(0); 
     }
 
     .location {
-      height: 60px; /* Reduce height */
+      height: 60px;
     }
 
     .location p {
-      font-size: 20px; /* Reduce font size */
+      font-size: 20px;
     }
 
     footer {
@@ -657,7 +638,6 @@
     }
   }
 
-  /* Smaller Tablets and larger Phones (approx. 768px and below) */
   @media (max-width: 768px) {
     nav li {
       padding: 0 10px;
@@ -676,19 +656,18 @@
       padding: 0 15px;
     }
 
-    /* ABOUT CONTENT ADJUSTMENTS */
     .about-content {
       padding: 10px;
       gap: 20px;
     }
 
     .column-content {
-      max-width: 400px; /* Further reduce max-width */
+      max-width: 400px;
       gap: 20px;
     }
 
     .timothy-pic {
-      max-width: 280px; /* Further reduce image size */
+      max-width: 280px;
       max-height: 280px;
     }
 
@@ -699,11 +678,11 @@
     }
 
     .resume {
-      height: 80px; /* Further reduce height */
+      height: 80px;
     }
 
     .resume p {
-      font-size: 30px; /* Further reduce font size */
+      font-size: 30px;
     }
 
     .socials {
@@ -722,19 +701,18 @@
       height: 35px;
     }
 
-    /* GALLERY ADJUSTMENTS */
     .gallery {
-      max-width: 400px; /* Further reduce max-width */
+      max-width: 400px;
       padding: 15px;
       gap: 15px;
     }
 
     .photo-image {
-      height: 250px; /* Further reduce image container height */
+      height: 250px;
     }
 
     .side-button {
-      width: 40px; /* Further reduce button width */
+      width: 40px;
     }
 
     .side-button svg {
@@ -756,24 +734,22 @@
     }
   }
 
-  /* Very Small Phones (approx. 500px and below) */
   @media (max-width: 500px) {
-    /* ABOUT CONTENT ADJUSTMENTS */
     .about-content {
-      flex-direction: column; /* Ensure stacked */
+      flex-direction: column;
       align-items: center;
       padding: 10px;
       gap: 15px;
     }
 
     .column-content {
-      width: 95%; /* Wider on smallest screens */
-      max-width: 280px; /* Cap max-width */
+      width: 95%;
+      max-width: 280px; 
       gap: 15px;
     }
 
     .timothy-pic {
-      max-width: 200px; /* Smallest image size */
+      max-width: 200px;
       max-height: 200px;
     }
 
@@ -807,16 +783,15 @@
       height: 30px;
     }
 
-    /* GALLERY ADJUSTMENTS */
     .gallery {
-      width: 95%; /* Wider on smallest screens */
-      max-width: 300px; /* Cap max-width */
+      width: 95%;
+      max-width: 300px; 
       padding: 10px;
       gap: 10px;
     }
 
     .photo-image {
-      height: 180px; /* Smallest image container height */
+      height: 180px; 
     }
 
     .side-button {
@@ -842,9 +817,7 @@
     }
   }
 
-  /* Extra Small Phones (e.g., iPhone 5/SE old models) */
   @media (max-width: 350px) {
-    /* ABOUT CONTENT ADJUSTMENTS */
     .timothy-pic {
       max-width: 180px;
       max-height: 180px;
@@ -872,7 +845,6 @@
       height: 25px;
     }
 
-    /* GALLERY ADJUSTMENTS */
     .gallery {
       max-width: 250px;
     }
