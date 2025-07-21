@@ -118,7 +118,7 @@
       <img src="/timothyou2.png" alt="Timothy Ou" class="timothy-pic">
       <div class="contact-panel">
         <div class="resume">
-          <a href="https://www.linkedin.com/in/timothy-ou/" target="_blank" rel="noopener noreferrer">
+          <a href="/timothy_resume.pdf" target="_blank" rel="noopener noreferrer">
             <p>Resume 📄</p>
           </a>
         </div>
