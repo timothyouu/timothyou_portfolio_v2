@@ -124,11 +124,11 @@
           </div>
           <div class = "description">
             <h1>{currentPhoto.project}</h1>
-            <p>{currentPhoto.date}</p>
+            <p class="date">{currentPhoto.date}</p>
             <h2>Technologies Used:</h2>
-            <p>{currentPhoto.tech}</p>
+            <p class="tech-description">{currentPhoto.tech}</p>
             <h2>Description</h2>
-            <p>{currentPhoto.description}</p>
+            <p class="project-description">{currentPhoto.description}</p>
           </div>
         </div>
         <button type="button" class="side-button right-arrow" on:click={nextPhoto} aria-label="Next photo">
@@ -270,7 +270,7 @@
   }
 
   .projects-content {
-    flex-direction: row;
+    flex-direction: row; /* Default for larger screens */
     align-items: flex-start;
     justify-content: center;
     gap: 30px;
@@ -288,7 +288,7 @@
     height: 100%;
     background-color: #0A081D;
     border-radius: 40px;
-    flex-direction: row;
+    flex-direction: row; /* Default for larger screens */
     align-items: center;
     justify-content: center;
   }
@@ -318,7 +318,7 @@
     color: #E0E1DD;
   }
 
-    .side-button {
+  .side-button {
     background-color: #282450;
     width: 70px;
     height: 90%;
@@ -330,6 +330,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     align-content: center;
+    transform: translateX(5px); /* Default transform for larger screens */
   }
 
   .side-button:hover {
@@ -340,50 +341,60 @@
     height: 48px;
     width: 48px;
     fill: #D5B8E2;
-    transform: translateX(5px);
   }
 
   .description {
-  width:100%;
-  height: 40%;
-  background-color: #16142A;
-  border-radius: 32px;
-  padding: 10px 20px;
-  box-sizing: border-box;
-  align-content: center;
-}
+    width:100%;
+    height: 40%;
+    background-color: #16142A;
+    border-radius: 32px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    align-content: center;
+  }
 
-h1 {
-  color: #BC95D1;
-  font-family: "Titan One";
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.2;
-  margin-top: 0;
-  margin-bottom: 0.2em;
-}
+  h1 {
+    color: #BC95D1;
+    font-family: "Titan One";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: 0.2em;
+  }
 
-h2 {
-  color: #D5B8E2;
-  font-family: "Titan One";
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.2;
-  margin-top: 0.4em; 
-  margin-bottom: 0.2em;
-}
+  h2 {
+    color: #D5B8E2;
+    font-family: "Titan One";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-top: 0.4em;
+    margin-bottom: 0.2em;
+  }
 
-p {
-  color: #E0E1DD;
-  font-size: 24px;
-  font-weight: 600;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  line-height: 1.4;
-  margin-top: 0.4em;
-  margin-bottom: 0.5em;
-}
+  p { /* Base styling for all paragraphs */
+    color: #E0E1DD;
+    font-weight: 600;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    line-height: 1.4;
+    margin-top: 0.4em;
+    margin-bottom: 0.5em;
+  }
+
+  p.date {
+    font-size: 24px; /* Default for date paragraph */
+  }
+
+  p.tech-description {
+    font-size: 24px; /* Default for tech description paragraph */
+  }
+
+  p.project-description {
+    font-size: 24px; /* Default for project description paragraph */
+  }
 
   @media (max-width: 1050px) {
     :root {
@@ -415,6 +426,49 @@ p {
     main {
       padding-top: var(--nav-height);
     }
+
+    .projects-content {
+      /* Keep as row here, but adjust inner elements */
+      flex-direction: row;
+      align-items: center; /* Center items vertically within this row */
+      max-height: unset; /* Allow content to flow */
+      height: auto; /* Allow height to adjust based on content */
+      padding: 10px; /* Reduce overall padding for more space */
+    }
+
+    .project-gallery {
+      flex-direction: row; /* Keep as row to have buttons on sides */
+      height: auto; /* Allow height to adjust based on content */
+      padding: 10px; /* Reduce padding for more compact display */
+      gap: 10px; /* Reduce gap between elements */
+    }
+
+    .column-content {
+      width: calc(100% - 140px); /* Adjust width to make space for 2x side-buttons (70px each) + gaps */
+      height: auto; /* Allow height to adjust based on content */
+      padding: 10px; /* Reduce padding */
+      gap: 15px; /* Reduce gap within column content */
+    }
+
+    .project-image {
+        height: auto; /* Allow image height to adjust */
+    }
+
+    .side-button {
+      width: 50px; /* Make buttons smaller */
+      height: calc(100% - 20px); /* Fill most of the gallery height, accounting for padding */
+      margin-bottom: 0; /* No margin-bottom when side-by-side */
+      transform: translateX(0); /* Remove transform */
+    }
+
+    .side-button.left-arrow, .side-button.right-arrow {
+      order: unset; /* Remove order property as they are now side-by-side */
+    }
+
+    .side-button svg {
+        height: 36px; /* Smaller SVG icons */
+        width: 36px;
+    }
   }
 
   @media (max-width: 768px) {
@@ -440,38 +494,99 @@ p {
       font-size: 24px;
       padding: 0 20px;
     }
-  }
-  
-  @media (max-height: 950px) {
-    
-  }
 
-  @media (max-height: 850px) {
-    
-  }
+    h1 {
+      font-size: 28px; /* Slightly reduced for better fit */
+    }
 
-  @media (max-height: 750px) {
-    
-  }
+    h2 {
+      font-size: 22px; /* Slightly reduced for better fit */
+    }
 
-  @media (max-height: 650px) {
-    
-  }
+    p.date, p.tech-description, p.project-description {
+      font-size: 18px; /* Consistent size for all description paragraphs */
+    }
 
-  @media (max-height: 550px) {
-    
-  }
+    .description {
+      padding: 10px;
+    }
 
-  @media (max-height: 450px) {
-    
+    .column-content {
+      width: calc(100% - 120px); /* Further adjust width for smaller buttons */
+    }
+
+    .side-button {
+        width: 40px; /* Even smaller buttons */
+    }
   }
 
   @media (max-width: 500px) {
-    
+    nav li:first-child a {
+      font-size: 20px;
+    }
+
+    h1 {
+      font-size: 24px; /* Further reduced */
+    }
+
+    h2 {
+      font-size: 18px; /* Further reduced */
+    }
+
+    p.date, p.tech-description {
+      font-size: 15px;
+    }
+
+    p.project-description {
+      font-size: 14px; /* Smallest font for the main description */
+      line-height: 1.3; /* Adjust line height for denser text */
+    }
+
+    .side-button {
+      width: 35px; /* Even smaller buttons */
+      height: calc(100% - 10px); /* Keep them filling height */
+    }
+    .side-button svg {
+        height: 30px; /* Smaller SVG icons */
+        width: 30px;
+    }
+
+    .description {
+      padding: 5px 10px; /* More compact padding */
+    }
+    .column-content {
+      width: calc(100% - 90px); /* Adjust width as buttons get smaller */
+      gap: 10px; /* Reduce gap even more */
+    }
   }
 
   @media (max-width: 350px) {
-    
+    h1 {
+      font-size: 20px; /* Even smaller for very narrow screens */
+    }
+
+    h2 {
+      font-size: 16px; /* Even smaller */
+    }
+
+    p.date, p.tech-description {
+      font-size: 13px;
+    }
+
+    p.project-description {
+      font-size: 12px; /* Smallest possible for readability */
+      line-height: 1.2; /* Tighter line height */
+    }
+    .column-content {
+      width: calc(100% - 80px); /* Smallest width, give more room to buttons */
+    }
+     .side-button {
+      width: 30px; /* Absolute smallest buttons */
+    }
+    .side-button svg {
+        height: 24px; /* Smallest SVG icons */
+        width: 24px;
+    }
   }
 
   footer {
