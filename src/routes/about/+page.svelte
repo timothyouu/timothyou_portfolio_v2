@@ -323,7 +323,7 @@
   .timothy-pic {
     max-height: 500px;
     max-width: 500px;
-    border-radius: 48px;
+    border-radius: 40px;
     width: 100%;
     height: auto;
     object-fit: cover;
@@ -334,7 +334,7 @@
     height: 300px;
     width: 100%;
     max-width: 500px;
-    border-radius: 48px;
+    border-radius: 40px;
     padding: 20px;
     box-sizing: border-box;
     display: flex;
@@ -406,7 +406,7 @@
     width: 100%;
     max-width: 1500px;
     flex-grow: 1;
-    border-radius: 48px;
+    border-radius: 40px;
     padding: 30px;
     box-sizing: border-box;
     display: flex;
@@ -439,6 +439,7 @@
     flex-shrink: 0;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    align-content: center;
   }
 
   .side-button:hover {

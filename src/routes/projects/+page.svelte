@@ -6,6 +6,30 @@
   let navCalculatedHeight = 136;
   let currentPath;
 
+  let galleryItems = [
+    { path: '/os_stats.png', project: 'Open Source Stats', date: 'October 2024 - Present', tech: 'Python, GitHub API', description: 'Contributed to Python CLI tool that retrieves commits and pull requests from acmcsufoss GitHub organization' },
+    { path: '/global_city_explorer.png', project: 'Global City Explorer - FullyHacks Project', date: 'April 2025 - April 2025', tech: 'Javascript, HTML, CSS, SvelteKit', description: 'Developed a real-time global city information app using SvelteKit, Enabling users to search and view key data' },
+    { path: '/geometric_calculator.png', project: 'Geometric Shapes Calculator', date: 'March 2024 - May 2024', tech: 'JavaScript, HTML, CSS', description: 'Developed a web application to calculate the area and volume of 2D and 3D geometric shapes' },
+    { path: '/password.png', project: 'Secure Password Generator', date: 'February 2024 - April 2024', tech: 'JavaScript, HTML, CSS', description: 'Developed a robust JavaScript application for generating secure passwords based on user-defined strength levels' }
+  ];
+
+  let currentImageIndex = 0;
+
+  $: currentPhoto = galleryItems[currentImageIndex];
+  $: currentproject = currentPhoto.project;
+  $: currentdate = currentPhoto.date;
+  $: currenttech = currentPhoto.tech;
+  $: currentdescription = currentPhoto.description;
+
+
+  function nextPhoto() {
+    currentImageIndex = (currentImageIndex + 1) % galleryItems.length;
+  }
+
+  function prevPhoto() {
+    currentImageIndex = (currentImageIndex - 1 + galleryItems.length) % galleryItems.length;
+  }
+
   function toggleSidebar(event) {
     if (event) {
       event.preventDefault();
@@ -87,7 +111,33 @@
 </nav>
 
 <main>
-  
+    <div class = "projects-content">
+      <div class = "project-gallery">
+        <button type="button" class="side-button left-arrow" on:click={prevPhoto} aria-label="Previous photo">
+          <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="#D5B8E2">
+            <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/>
+          </svg>
+        </button>
+        <div class = "column-content">
+          <div class="project-image">
+            <img src= {currentPhoto.path} alt={currentPhoto.project} class="gallery-photo">
+          </div>
+          <div class = "description">
+            <h1>{currentPhoto.project}</h1>
+            <p>{currentPhoto.date}</p>
+            <h2>Technologies Used:</h2>
+            <p>{currentPhoto.tech}</p>
+            <h2>Description</h2>
+            <p>{currentPhoto.description}</p>
+          </div>
+        </div>
+        <button type="button" class="side-button right-arrow" on:click={nextPhoto} aria-label="Next photo">
+          <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="#D5B8E2">
+            <path d="m321-80-71-71 329-329-329-329 71-71 400 400-400 400Z"/>
+          </svg>
+        </button>
+    </div>
+  </div>
 </main>
 
 <footer>
@@ -218,6 +268,122 @@
   .hide-on-desktop-nav {
     display: flex;
   }
+
+  .projects-content {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1800px;
+    height: 100%;
+    max-height: 950px;
+    box-sizing: border-box;
+  }
+
+  .project-gallery {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: #0A081D;
+    border-radius: 40px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .column-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:85%;
+    height: 95%;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 40px;
+    gap: 30px;
+  }
+
+  .project-image {
+    width: 100%;
+    max-width: 1600px;
+    height: 100%;
+    border-radius: 32px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #E0E1DD;
+  }
+
+    .side-button {
+    background-color: #282450;
+    width: 70px;
+    height: 90%;
+    border-radius: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-content: center;
+  }
+
+  .side-button:hover {
+    background-color: #3f3b79;
+  }
+
+  .side-button svg {
+    height: 48px;
+    width: 48px;
+    fill: #D5B8E2;
+    transform: translateX(5px);
+  }
+
+  .description {
+  width:100%;
+  height: 40%;
+  background-color: #16142A;
+  border-radius: 32px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  align-content: center;
+}
+
+h1 {
+  color: #BC95D1;
+  font-family: "Titan One";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 0.2em;
+}
+
+h2 {
+  color: #D5B8E2;
+  font-family: "Titan One";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 0.4em; 
+  margin-bottom: 0.2em;
+}
+
+p {
+  color: #E0E1DD;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  line-height: 1.4;
+  margin-top: 0.4em;
+  margin-bottom: 0.5em;
+}
 
   @media (max-width: 1050px) {
     :root {
