@@ -173,7 +173,7 @@
   :root {
     --nav-height-desktop: 136px;
     --footer-height-desktop: 100px;
-    --content-vertical-padding: 10px; /* Reduced vertical padding */
+    --content-vertical-padding: 10px;
   }
 
   :global(html),
@@ -201,7 +201,7 @@
     top: 0;
     left: 0;
     z-index: 1000;
-    height: var(--nav-height-desktop); /* Use variable */
+    height: var(--nav-height-desktop);
   }
 
   nav ul {
@@ -212,13 +212,13 @@
     align-items: center;
     padding: 0;
     margin: 0;
-    height: 100%; /* Fill nav height */
+    height: 100%;
   }
 
   nav li {
-    height: 100%; /* Fill nav ul height */
-    line-height: 1; /* Adjust to better center text vertically */
-    padding: 0 15px; /* Reduced padding */
+    height: 100%;
+    line-height: 1;
+    padding: 0 15px;
   }
 
   nav a {
@@ -226,8 +226,8 @@
     height: 100%;
     text-decoration: none;
     display: flex;
-    padding: 0 20px; /* Reduced padding */
-    font-size: 32px; /* Slightly reduced font size */
+    padding: 0 20px;
+    font-size: 32px;
     font-style: normal;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: 600;
@@ -281,15 +281,14 @@
   main {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align content to the top within main */
+    align-items: flex-start;
     width: 100%;
     flex-grow: 1;
     box-sizing: border-box;
-    /* Calculate padding dynamically based on navHeight */
     padding-top: calc(var(--nav-height, var(--nav-height-desktop)) + var(--content-vertical-padding));
     padding-bottom: var(--content-vertical-padding);
-    overflow-y: auto; /* Allow main to scroll if content overflows vertically */
-    min-height: calc(100vh - var(--nav-height, var(--nav-height-desktop)) - var(--footer-height, var(--footer-height-desktop))); /* Ensure main fills available vertical space, allowing scrolling */
+    overflow-y: auto;
+    min-height: calc(100vh - var(--nav-height, var(--nav-height-desktop)) - var(--footer-height, var(--footer-height-desktop)));
   }
 
   .menu-button {
@@ -309,7 +308,7 @@
     padding: 20px;
     width: 100%;
     max-width: 1800px;
-    height: auto; /* Allow height to be flexible */
+    height: auto;
     box-sizing: border-box;
     flex-shrink: 1;
     min-width: 0;
@@ -322,11 +321,11 @@
     justify-content: space-around;
     display: flex;
     gap: 30px;
-    flex-shrink: 1; /* Allow column-content to shrink */
-    flex-basis: 450px; /* Preferred width */
-    min-width: 250px; /* Minimum width */
+    flex-shrink: 1;
+    flex-basis: 450px;
+    min-width: 250px;
     width: auto;
-    height: 600px; /* Adjusted height to match gallery from screenshot */
+    height: 600px;
     max-height: 600px;
     min-height: 0;
     background-color: #0A091A;
@@ -336,12 +335,12 @@
   }
 
   .timothy-pic {
-    max-height: 45%; /* Max height within column-content */
+    max-height: 45%;
     max-width: 100%;
     border-radius: 40px;
     width: auto;
     height: auto;
-    object-fit: cover; /* Changed to cover */
+    object-fit: cover;
   }
 
   .contact-panel {
@@ -356,7 +355,7 @@
     align-items: center;
     gap: 15px;
     flex-shrink: 1;
-    height: 50%; /* Approx. height for contact panel within column-content */
+    height: 50%;
     min-height: 0;
   }
 
@@ -427,14 +426,14 @@
     max-width: 1500px;
     flex-grow: 1;
     flex-shrink: 1;
-    flex-basis: 700px; /* Preferred width */
-    min-width: 400px; /* Minimum width */
+    flex-basis: 700px;
+    min-width: 400px;
     border-radius: 40px;
     padding: 30px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    height: 830px; /* Fixed height for gallery as per screenshot */
+    height: 830px;
     min-height: 0;
     gap: 30px;
     justify-content: center;
@@ -456,7 +455,7 @@
   .side-button {
     background-color: #282450;
     width: 70px;
-    height: 90%; /* Keep 90% of media-content height */
+    height: 90%;
     border-radius: 32px;
     display: flex;
     justify-content: center;
@@ -479,8 +478,7 @@
 
   .photo-image {
     width: 80%;
-    /* max-width: 1100px;  REMOVE this fixed max-width for scaling */
-    height: 100%; /* Fill 100% of media-content's height */
+    height: 100%;
     border-radius: 32px;
     overflow: hidden;
     display: flex;
@@ -492,7 +490,7 @@
   .gallery-photo {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Fill and crop as per screenshot */
+    object-fit: cover;
     border-radius: 32px;
   }
 
@@ -528,14 +526,14 @@
   footer {
     background-color: #0A081D;
     color: #D5B8E2;
-    padding: 10px 0; /* Reduced padding */
+    padding: 10px 0;
     text-align: center;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: 600;
     font-size: 1.2em;
     flex-shrink: 0;
     width: 100%;
-    height: var(--footer-height-desktop); /* Use variable */
+    height: var(--footer-height-desktop);
   }
 
   footer p {
@@ -572,16 +570,13 @@
       display: flex;
     }
 
-    /* Main content padding-top adjusted */
     main {
       padding-top: calc(70px + var(--content-vertical-padding));
     }
 
-    /* About content (main sections shrink proportionally) */
     .about-content {
       gap: 20px;
       padding: 15px;
-      /* Removed max-height here, allow height to be driven by fixed children or scroll */
       height: auto;
     }
 
@@ -590,7 +585,7 @@
       min-width: 180px;
       gap: 20px;
       padding: 15px;
-      height: 500px; /* Maintained fixed height */
+      height: 500px;
       max-height: 500px;
     }
 
@@ -629,7 +624,7 @@
       min-width: 250px;
       padding: 20px;
       gap: 15px;
-      height: 650px; /* Maintained fixed height */
+      height: 650px;
     }
 
     .media-content {
@@ -637,7 +632,7 @@
     }
 
     .photo-image {
-      height: 250px; /* Fixed height for image frame */
+      height: 250px;
     }
 
     .side-button {
@@ -681,11 +676,11 @@
     }
 
     .about-content {
-      flex-direction: column; /* Force stacking on smaller screens */
+      flex-direction: column;
       align-items: center;
       gap: 15px;
       padding: 10px;
-      height: auto; /* Allow height to adjust dynamically when stacked */
+      height: auto;
     }
 
     .column-content,
@@ -694,7 +689,7 @@
       min-width: unset;
       max-width: 90%;
       width: 100%;
-      height: auto; /* Allow height to adjust dynamically when content stacks */
+      height: auto;
       margin: 0 auto;
     }
 
@@ -760,7 +755,6 @@
   }
 
   @media (max-width: 500px) {
-    /* Already stacked at 768px, just adjust sizes */
     .about-content {
       gap: 15px;
       padding: 8px;

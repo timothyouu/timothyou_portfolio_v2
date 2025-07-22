@@ -270,7 +270,7 @@
   }
 
   .projects-content {
-    flex-direction: row; /* Default for larger screens */
+    flex-direction: row;
     align-items: flex-start;
     justify-content: center;
     gap: 30px;
@@ -288,7 +288,7 @@
     height: 100%;
     background-color: #0A081D;
     border-radius: 40px;
-    flex-direction: row; /* Default for larger screens */
+    flex-direction: row;
     align-items: center;
     justify-content: center;
   }
@@ -330,7 +330,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     align-content: center;
-    transform: translateX(5px); /* Default transform for larger screens */
+    transform: translateX(5px);
   }
 
   .side-button:hover {
@@ -375,7 +375,7 @@
     margin-bottom: 0.2em;
   }
 
-  p { /* Base styling for all paragraphs */
+  p {
     color: #E0E1DD;
     font-weight: 600;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -385,15 +385,15 @@
   }
 
   p.date {
-    font-size: 24px; /* Default for date paragraph */
+    font-size: 24px;
   }
 
   p.tech-description {
-    font-size: 24px; /* Default for tech description paragraph */
+    font-size: 24px;
   }
 
   p.project-description {
-    font-size: 24px; /* Default for project description paragraph */
+    font-size: 24px;
   }
 
   @media (max-width: 1050px) {
@@ -428,45 +428,44 @@
     }
 
     .projects-content {
-      /* Keep as row here, but adjust inner elements */
       flex-direction: row;
-      align-items: center; /* Center items vertically within this row */
-      max-height: unset; /* Allow content to flow */
-      height: auto; /* Allow height to adjust based on content */
-      padding: 10px; /* Reduce overall padding for more space */
+      align-items: center;
+      max-height: unset;
+      height: auto;
+      padding: 10px;
     }
 
     .project-gallery {
-      flex-direction: row; /* Keep as row to have buttons on sides */
-      height: auto; /* Allow height to adjust based on content */
-      padding: 10px; /* Reduce padding for more compact display */
-      gap: 10px; /* Reduce gap between elements */
+      flex-direction: row;
+      height: auto;
+      padding: 10px;
+      gap: 10px;
     }
 
     .column-content {
-      width: calc(100% - 140px); /* Adjust width to make space for 2x side-buttons (70px each) + gaps */
-      height: auto; /* Allow height to adjust based on content */
-      padding: 10px; /* Reduce padding */
-      gap: 15px; /* Reduce gap within column content */
+      width: calc(100% - 140px);
+      height: auto;
+      padding: 10px;
+      gap: 15px;
     }
 
     .project-image {
-        height: auto; /* Allow image height to adjust */
+        height: auto;
     }
 
     .side-button {
-      width: 50px; /* Make buttons smaller */
-      height: calc(100% - 20px); /* Fill most of the gallery height, accounting for padding */
-      margin-bottom: 0; /* No margin-bottom when side-by-side */
-      transform: translateX(0); /* Remove transform */
+      width: 50px;
+      height: calc(100% - 20px);
+      margin-bottom: 0;
+      transform: translateX(0);
     }
 
     .side-button.left-arrow, .side-button.right-arrow {
-      order: unset; /* Remove order property as they are now side-by-side */
+      order: unset;
     }
 
     .side-button svg {
-        height: 36px; /* Smaller SVG icons */
+        height: 36px;
         width: 36px;
     }
   }
@@ -496,15 +495,15 @@
     }
 
     h1 {
-      font-size: 28px; /* Slightly reduced for better fit */
+      font-size: 28px;
     }
 
     h2 {
-      font-size: 22px; /* Slightly reduced for better fit */
+      font-size: 22px;
     }
 
     p.date, p.tech-description, p.project-description {
-      font-size: 18px; /* Consistent size for all description paragraphs */
+      font-size: 18px;
     }
 
     .description {
@@ -512,11 +511,11 @@
     }
 
     .column-content {
-      width: calc(100% - 120px); /* Further adjust width for smaller buttons */
+      width: calc(100% - 120px);
     }
 
     .side-button {
-        width: 40px; /* Even smaller buttons */
+        width: 40px;
     }
   }
 
@@ -526,11 +525,11 @@
     }
 
     h1 {
-      font-size: 24px; /* Further reduced */
+      font-size: 24px;
     }
 
     h2 {
-      font-size: 18px; /* Further reduced */
+      font-size: 18px;
     }
 
     p.date, p.tech-description {
@@ -538,35 +537,35 @@
     }
 
     p.project-description {
-      font-size: 14px; /* Smallest font for the main description */
-      line-height: 1.3; /* Adjust line height for denser text */
+      font-size: 14px;
+      line-height: 1.3;
     }
 
     .side-button {
-      width: 35px; /* Even smaller buttons */
-      height: calc(100% - 10px); /* Keep them filling height */
+      width: 35px;
+      height: calc(100% - 10px);
     }
     .side-button svg {
-        height: 30px; /* Smaller SVG icons */
+        height: 30px;
         width: 30px;
     }
 
     .description {
-      padding: 5px 10px; /* More compact padding */
+      padding: 5px 10px;
     }
     .column-content {
-      width: calc(100% - 90px); /* Adjust width as buttons get smaller */
-      gap: 10px; /* Reduce gap even more */
+      width: calc(100% - 90px);
+      gap: 10px;
     }
   }
 
   @media (max-width: 350px) {
     h1 {
-      font-size: 20px; /* Even smaller for very narrow screens */
+      font-size: 20px;
     }
 
     h2 {
-      font-size: 16px; /* Even smaller */
+      font-size: 16px;
     }
 
     p.date, p.tech-description {
@@ -574,17 +573,17 @@
     }
 
     p.project-description {
-      font-size: 12px; /* Smallest possible for readability */
-      line-height: 1.2; /* Tighter line height */
+      font-size: 12px;
+      line-height: 1.2;
     }
     .column-content {
-      width: calc(100% - 80px); /* Smallest width, give more room to buttons */
+      width: calc(100% - 80px);
     }
      .side-button {
-      width: 30px; /* Absolute smallest buttons */
+      width: 30px;
     }
     .side-button svg {
-        height: 24px; /* Smallest SVG icons */
+        height: 24px;
         width: 24px;
     }
   }
