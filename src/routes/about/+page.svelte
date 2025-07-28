@@ -173,7 +173,7 @@
   :root {
     --nav-height-desktop: 136px;
     --footer-height-desktop: 100px;
-    --content-vertical-padding: 10px;
+    --content-vertical-padding: 20px;
   }
 
   :global(html),
@@ -181,6 +181,7 @@
     height: 100%;
     margin: 0;
     padding: 0;
+    font-size: 16px;
   }
 
   :global(body) {
@@ -191,6 +192,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-y: auto;
   }
 
   nav {
@@ -218,7 +220,7 @@
   nav li {
     height: 100%;
     line-height: 1;
-    padding: 0 15px;
+    padding: 0 20px;
   }
 
   nav a {
@@ -226,8 +228,8 @@
     height: 100%;
     text-decoration: none;
     display: flex;
-    padding: 0 20px;
-    font-size: 32px;
+    padding: 0 30px;
+    font-size: 36px;
     font-style: normal;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: 600;
@@ -287,8 +289,8 @@
     box-sizing: border-box;
     padding-top: calc(var(--nav-height, var(--nav-height-desktop)) + var(--content-vertical-padding));
     padding-bottom: var(--content-vertical-padding);
-    overflow-y: auto;
-    min-height: calc(100vh - var(--nav-height, var(--nav-height-desktop)) - var(--footer-height, var(--footer-height-desktop)));
+    overflow-y: visible; 
+    min-height: calc(100vh - var(--nav-height, var(--nav-height-desktop)) - var(--footer-height, var(--footer-height-desktop)) - (var(--content-vertical-padding) * 2));
   }
 
   .menu-button {
@@ -325,8 +327,8 @@
     flex-basis: 450px;
     min-width: 250px;
     width: auto;
-    height: 600px;
-    max-height: 600px;
+    height: 500px;
+    max-height: 500px;
     min-height: 0;
     background-color: #0A091A;
     border-radius: 40px;
@@ -341,6 +343,7 @@
     width: auto;
     height: auto;
     object-fit: cover;
+    flex-shrink: 1;
   }
 
   .contact-panel {
@@ -433,7 +436,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    height: 830px;
+    height: 600px;
     min-height: 0;
     gap: 30px;
     justify-content: center;
@@ -541,7 +544,6 @@
   }
 
   @media (max-width: 1050px) {
-    /* Navbar */
     nav {
       height: 70px;
     }
@@ -749,8 +751,8 @@
     }
 
     footer {
-      font-size: 0.8em;
-      padding: 8px 0;
+      font-size: 1em;
+      padding: 15px 0;
     }
   }
 
