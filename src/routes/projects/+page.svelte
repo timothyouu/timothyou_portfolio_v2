@@ -259,6 +259,9 @@
     flex-grow: 1;
     box-sizing: border-box;
     padding-top: var(--nav-height);
+    /* Set min-height to allow content to push footer down, 
+       but not force scroll if content is short */
+    min-height: calc(100vh - var(--nav-height) - var(--footer-height));
   }
 
   .menu-button {
@@ -271,21 +274,22 @@
 
   .projects-content {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center; /* Changed back to center for vertical alignment */
     justify-content: center;
     gap: 30px;
     padding: 20px;
     width: 100%;
     max-width: 1800px;
+    /* Keeping original sizes as per your request */
     height: 100%;
-    max-height: 950px;
+    max-height: 950px; /* Keep this max-height */
     box-sizing: border-box;
   }
 
   .project-gallery {
     display: flex;
     width: 100%;
-    height: 100%;
+    height: 100%; /* Make it fill projects-content */
     background-color: #0A081D;
     border-radius: 40px;
     flex-direction: row;
@@ -299,23 +303,34 @@
     align-items: center;
     justify-content: center;
     width:85%;
-    height: 95%;
+    /* Keeping original sizes as per your request */
+    height: 95%; /* This means 95% of project-gallery's height (which is 100% of projects-content) */
     padding: 20px;
     box-sizing: border-box;
     border-radius: 40px;
     gap: 30px;
+    /* Removed overflow: hidden from here */
   }
 
   .project-image {
     width: 100%;
     max-width: 1600px;
-    height: 100%;
+    /* Reduced image height slightly to make more room for text */
+    height: 55%; 
     border-radius: 32px;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #E0E1DD;
+    flex-shrink: 0;
+  }
+
+  .gallery-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensure image fits */
+    border-radius: 32px;
   }
 
   .side-button {
@@ -345,55 +360,58 @@
 
   .description {
     width:100%;
-    height: 40%;
+    /* Increased description height slightly to give more room */
+    height: 45%; 
     background-color: #16142A;
     border-radius: 32px;
     padding: 10px 20px;
     box-sizing: border-box;
     align-content: center;
+    overflow-y: hidden; /* Ensure no scrollbar appears here */
   }
 
+  /* --- Text size adjustments for desktop (no media query) --- */
   h1 {
     color: #BC95D1;
     font-family: "Titan One";
-    font-size: 40px;
+    font-size: 36px; /* Reduced from 40px */
     font-style: normal;
     font-weight: 400;
-    line-height: 1.2;
+    line-height: 1.1; /* Reduced line height */
     margin-top: 0;
-    margin-bottom: 0.2em;
+    margin-bottom: 0.1em; /* Reduced margin */
   }
 
   h2 {
     color: #D5B8E2;
     font-family: "Titan One";
-    font-size: 32px;
+    font-size: 28px; /* Reduced from 32px */
     font-style: normal;
     font-weight: 400;
-    line-height: 1.2;
-    margin-top: 0.4em;
-    margin-bottom: 0.2em;
+    line-height: 1.1; /* Reduced line height */
+    margin-top: 0.3em; /* Reduced margin */
+    margin-bottom: 0.1em; /* Reduced margin */
   }
 
   p {
     color: #E0E1DD;
     font-weight: 600;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    line-height: 1.4;
-    margin-top: 0.4em;
-    margin-bottom: 0.5em;
+    line-height: 1.3; /* Reduced line height */
+    margin-top: 0.3em; /* Reduced margin */
+    margin-bottom: 0.4em; /* Reduced margin */
   }
 
   p.date {
-    font-size: 24px;
+    font-size: 20px; /* Reduced from 24px */
   }
 
   p.tech-description {
-    font-size: 24px;
+    font-size: 20px; /* Reduced from 24px */
   }
 
   p.project-description {
-    font-size: 24px;
+    font-size: 20px; /* Reduced from 24px */
   }
 
   @media (max-width: 1050px) {
@@ -579,7 +597,7 @@
     .column-content {
       width: calc(100% - 80px);
     }
-     .side-button {
+      .side-button {
       width: 30px;
     }
     .side-button svg {
