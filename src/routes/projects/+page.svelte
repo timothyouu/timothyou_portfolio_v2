@@ -259,8 +259,6 @@
     flex-grow: 1;
     box-sizing: border-box;
     padding-top: var(--nav-height);
-    /* Set min-height to allow content to push footer down, 
-       but not force scroll if content is short */
     min-height: calc(100vh - var(--nav-height) - var(--footer-height));
   }
 
@@ -274,22 +272,21 @@
 
   .projects-content {
     flex-direction: row;
-    align-items: center; /* Changed back to center for vertical alignment */
+    align-items: center;
     justify-content: center;
     gap: 30px;
     padding: 20px;
     width: 100%;
     max-width: 1800px;
-    /* Keeping original sizes as per your request */
     height: 100%;
-    max-height: 950px; /* Keep this max-height */
+    max-height: 950px;
     box-sizing: border-box;
   }
 
   .project-gallery {
     display: flex;
     width: 100%;
-    height: 100%; /* Make it fill projects-content */
+    height: 100%;
     background-color: #0A081D;
     border-radius: 40px;
     flex-direction: row;
@@ -303,19 +300,16 @@
     align-items: center;
     justify-content: center;
     width:85%;
-    /* Keeping original sizes as per your request */
-    height: 95%; /* This means 95% of project-gallery's height (which is 100% of projects-content) */
+    height: 95%; 
     padding: 20px;
     box-sizing: border-box;
     border-radius: 40px;
     gap: 30px;
-    /* Removed overflow: hidden from here */
   }
 
   .project-image {
     width: 100%;
     max-width: 1600px;
-    /* Reduced image height slightly to make more room for text */
     height: 55%; 
     border-radius: 32px;
     overflow: hidden;
@@ -329,7 +323,7 @@
   .gallery-photo {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Ensure image fits */
+    object-fit: contain;
     border-radius: 32px;
   }
 
@@ -360,58 +354,56 @@
 
   .description {
     width:100%;
-    /* Increased description height slightly to give more room */
     height: 45%; 
     background-color: #16142A;
     border-radius: 32px;
     padding: 10px 20px;
     box-sizing: border-box;
     align-content: center;
-    overflow-y: hidden; /* Ensure no scrollbar appears here */
+    overflow-y: hidden;
   }
 
-  /* --- Text size adjustments for desktop (no media query) --- */
   h1 {
     color: #BC95D1;
     font-family: "Titan One";
-    font-size: 36px; /* Reduced from 40px */
+    font-size: 36px;
     font-style: normal;
     font-weight: 400;
-    line-height: 1.1; /* Reduced line height */
+    line-height: 1.1;
     margin-top: 0;
-    margin-bottom: 0.1em; /* Reduced margin */
+    margin-bottom: 0.1em;
   }
 
   h2 {
     color: #D5B8E2;
     font-family: "Titan One";
-    font-size: 28px; /* Reduced from 32px */
+    font-size: 28px; 
     font-style: normal;
     font-weight: 400;
-    line-height: 1.1; /* Reduced line height */
-    margin-top: 0.3em; /* Reduced margin */
-    margin-bottom: 0.1em; /* Reduced margin */
+    line-height: 1.1; 
+    margin-top: 0.3em; 
+    margin-bottom: 0.1em;
   }
 
   p {
     color: #E0E1DD;
     font-weight: 600;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    line-height: 1.3; /* Reduced line height */
-    margin-top: 0.3em; /* Reduced margin */
-    margin-bottom: 0.4em; /* Reduced margin */
+    line-height: 1.3; 
+    margin-top: 0.3em; 
+    margin-bottom: 0.4em;
   }
 
   p.date {
-    font-size: 20px; /* Reduced from 24px */
+    font-size: 20px; 
   }
 
   p.tech-description {
-    font-size: 20px; /* Reduced from 24px */
+    font-size: 20px;
   }
 
   p.project-description {
-    font-size: 20px; /* Reduced from 24px */
+    font-size: 20px;
   }
 
   @media (max-width: 1050px) {
