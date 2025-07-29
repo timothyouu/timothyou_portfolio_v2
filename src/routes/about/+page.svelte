@@ -415,6 +415,22 @@
     align-items: center;
   }
 
+  .resume:hover {
+    background-color: #3f3b79;
+  }
+
+  .linkedin:hover {
+    background-color: #3f3b79;
+  }
+
+  .instagram:hover {
+    background-color: #3f3b79;
+  }
+
+  .github:hover {
+    background-color: #3f3b79;
+  }
+
   .linkedin img,
   .instagram img,
   .github img {
