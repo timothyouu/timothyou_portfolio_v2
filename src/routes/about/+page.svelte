@@ -350,7 +350,7 @@
     background-color: #16142A;
     width: 100%;
     border-radius: 40px;
-    padding: 30px;
+    padding: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
