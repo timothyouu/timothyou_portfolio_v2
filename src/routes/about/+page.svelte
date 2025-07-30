@@ -289,8 +289,8 @@
     box-sizing: border-box;
     padding-top: calc(var(--nav-height, var(--nav-height-desktop)) + var(--content-vertical-padding));
     padding-bottom: var(--content-vertical-padding);
-    overflow-y: visible; 
-    min-height: calc(100vh - var(--nav-height, var(--nav-height-desktop)) - var(--footer-height, var(--footer-height-desktop)) - (var(--content-vertical-padding) * 2));
+    overflow-y: visible;
+    
   }
 
   .menu-button {
@@ -306,10 +306,10 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    gap: 30px;
-    padding: 20px;
+    gap: 40px;
+    padding: 30px;
     width: 100%;
-    max-width: 1800px;
+    max-width: 2000px;
     height: auto;
     box-sizing: border-box;
     flex-shrink: 1;
@@ -322,17 +322,17 @@
     align-items: center;
     justify-content: space-around;
     display: flex;
-    gap: 30px;
+    gap: 40px;
     flex-shrink: 1;
-    flex-basis: 450px;
-    min-width: 250px;
+    flex-basis: 500px;
+    min-width: 300px;
     width: auto;
-    height: 500px;
-    max-height: 500px;
+    height: 600px;
+    max-height: 600px;
     min-height: 0;
     background-color: #0A091A;
     border-radius: 40px;
-    padding: 20px;
+    padding: 30px;
     box-sizing: border-box;
   }
 
@@ -350,13 +350,13 @@
     background-color: #16142A;
     width: 100%;
     border-radius: 40px;
-    padding: 20px;
+    padding: 30px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
     flex-shrink: 1;
     height: 50%;
     min-height: 0;
@@ -366,20 +366,20 @@
     background-color: #282450;
     width: 90%;
     height: auto;
-    padding: 15px 0;
+    padding: 20px 0;
     border-radius: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     color: #D5B8E2;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 600;
     text-align: center;
   }
 
   .resume p {
-    font-size: 36px;
+    font-size: 42px;
     font-weight: 300;
     font-family: "Titan One";
     margin: 0;
@@ -408,7 +408,7 @@
   .github {
     background-color: #282450;
     width: 30%;
-    height: 90px;
+    height: 110px;
     border-radius: 32px;
     display: flex;
     justify-content: center;
@@ -427,14 +427,14 @@
     background-color: #3f3b79;
   }
 
-  .linkedin:hover {
+  .github:hover {
     background-color: #3f3b79;
   }
 
   .linkedin img,
   .instagram img,
   .github img {
-    height: 50px;
+    height: 60px;
     width: auto;
     color: #D5B8E2;
   }
@@ -442,19 +442,19 @@
   .gallery {
     background-color: #0A091A;
     width: 100%;
-    max-width: 1500px;
+    max-width: 1800px;
     flex-grow: 1;
     flex-shrink: 1;
-    flex-basis: 700px;
-    min-width: 400px;
+    flex-basis: 900px;
+    min-width: 500px;
     border-radius: 40px;
-    padding: 30px;
+    padding: 40px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    height: 600px;
+    height: 750px;
     min-height: 0;
-    gap: 30px;
+    gap: 40px;
     justify-content: center;
     align-items: center;
   }
@@ -466,14 +466,14 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
     height: auto;
     min-height: 0;
   }
 
   .side-button {
     background-color: #282450;
-    width: 70px;
+    width: 90px;
     height: 90%;
     border-radius: 32px;
     display: flex;
@@ -489,8 +489,8 @@
   }
 
   .side-button svg {
-    height: 48px;
-    width: 48px;
+    height: 58px;
+    width: 58px;
     fill: #D5B8E2;
     transform: translateX(5px);
   }
@@ -516,8 +516,8 @@
   .location {
     background-color: #282450;
     width: 90%;
-    max-width: 500px;
-    height: 80px;
+    max-width: 600px;
+    height: 100px;
     border-radius: 32px;
     display: flex;
     justify-content: center;
@@ -528,7 +528,7 @@
   .location p {
     color: #D5B8E2;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 600;
     margin: 0;
   }
@@ -553,6 +553,7 @@
     flex-shrink: 0;
     width: 100%;
     height: var(--footer-height-desktop);
+    margin-top: auto;
   }
 
   footer p {
