@@ -427,7 +427,7 @@
     background-color: #3f3b79;
   }
 
-  .github:hover {
+  .linkedin:hover {
     background-color: #3f3b79;
   }
 

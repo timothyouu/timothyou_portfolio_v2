@@ -6,6 +6,16 @@
   let navCalculatedHeight = 136;
   let currentPath;
 
+  const programmingLanguages = [
+    'C++', 'Javascript', 'Python', 'HTML', 'CSS', 'R', 'Svelte', 'SvelteKit'
+  ];
+  const programmingTools = [
+    'Git', 'GitHub', 'Linux', 'Visual Studio Code', 'SvelteKit', 'RStudio'
+  ];
+  const otherSkills = [
+    'Problem Solving', 'Leadership', 'Teamwork', 'Communication', 'Collaboration', 'Adaptability', 'Mentoring', 'Marketing'
+  ];
+
   function toggleSidebar(event) {
     if (event) {
       event.preventDefault();
@@ -31,7 +41,7 @@
       const footerElement = document.querySelector('footer');
       if (footerElement) {
         document.documentElement.style.setProperty('--footer-height', `${footerElement.offsetHeight}px`);
-      }
+      G}
     }
 
     const navElement = document.querySelector('nav');
@@ -87,7 +97,46 @@
 </nav>
 
 <main>
-  
+  <div class="skills-content">
+    <div class="skill-category-section">
+      <h1>Programming Languages & Frameworks</h1>
+      <div class="skill-list-container">
+        {#each programmingLanguages as skill (skill)}
+          <div class="box-skill">
+            <div class="inner-box">
+              <p>{skill}</p>
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+
+    <div class="skill-category-section">
+      <h1>Programming Tools</h1>
+      <div class="skill-list-container">
+        {#each programmingTools as skill (skill)}
+          <div class="box-skill">
+            <div class="inner-box">
+              <p>{skill}</p>
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+
+    <div class="skill-category-section">
+      <h1>Other Skills</h1>
+      <div class="skill-list-container">
+        {#each otherSkills as skill (skill)}
+          <div class="box-skill">
+            <div class="inner-box">
+              <p>{skill}</p>
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+  </div>
 </main>
 
 <footer>
@@ -204,11 +253,13 @@
   main {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
     flex-grow: 1;
     box-sizing: border-box;
     padding-top: var(--nav-height);
+    padding-bottom: var(--footer-height);
+    flex-direction: column; 
   }
 
   .menu-button {
@@ -217,6 +268,82 @@
 
   .hide-on-desktop-nav {
     display: flex;
+  }
+
+  .skills-content {
+    width: 90%; 
+    max-width: 1200px; 
+    margin: 40px auto; 
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .skill-category-section {
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    color: #BC95D1;
+    font-family: "Titan One";
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    height: 40px;
+    flex-shrink: 0;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .skill-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; 
+    width: 100%;
+    max-width: 1200px; 
+  }
+
+  .box-skill:hover {
+    background-color: #0a081d75;
+  }
+
+  .box-skill {
+    background-color: #0A081D;
+    width: 225px;
+    height: 225px;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .inner-box {
+    background-color:#282450;
+    width: 175px;
+    height: 175px;
+    border-radius: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    color: #BBB;
+    font-family: "Titan One";
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    margin: 0;
+    padding: 5px;
+    word-break: break-word;
+    box-sizing: border-box;
   }
 
   @media (max-width: 1050px) {
@@ -249,6 +376,13 @@
     main {
       padding-top: var(--nav-height);
     }
+
+    h1 {
+      font-size: 36px;
+      height: auto;
+      max-width: 90%;
+      line-height: 1.2;
+    }
   }
 
   @media (max-width: 768px) {
@@ -274,38 +408,48 @@
       font-size: 24px;
       padding: 0 20px;
     }
+
+    .skills-content {
+      width: 95%;
+    }
   }
   
-  @media (max-height: 950px) {
-    
-  }
-
-  @media (max-height: 850px) {
-    
-  }
-
-  @media (max-height: 750px) {
-    
-  }
-
-  @media (max-height: 650px) {
-    
-  }
-
-  @media (max-height: 550px) {
-    
-  }
-
-  @media (max-height: 450px) {
-    
-  }
-
   @media (max-width: 500px) {
-    
+    h1 {
+      font-size: 28px;
+    }
+
+    .box-skill {
+      width: 180px;
+      height: 180px;
+    }
+
+    .inner-box {
+      width: 140px;
+      height: 140px;
+    }
+
+    p {
+      font-size: 20px;
+    }
+
+    .skill-list-container {
+      gap: 10px;
+    }
   }
 
   @media (max-width: 350px) {
-    
+    .box-skill {
+        width: 150px;
+        height: 150px;
+    }
+    .inner-box {
+        width: 120px;
+        height: 120px;
+    }
+    p {
+        font-size: 18px;
+    }
   }
 
   footer {
