@@ -283,14 +283,14 @@
   main {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     width: 100%;
     flex-grow: 1;
     box-sizing: border-box;
-    padding-top: calc(var(--nav-height, var(--nav-height-desktop)) + var(--content-vertical-padding));
+    padding-top: calc(var(--nav-height, 0px) + var(--content-vertical-padding));
     padding-bottom: var(--content-vertical-padding);
-    overflow-y: visible;
-    
+    min-height: calc(100vh - var(--nav-height, 0px) - var(--footer-height, 0px));
+    overflow-y: auto; 
   }
 
   .menu-button {
@@ -304,13 +304,14 @@
   .about-content {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     gap: 40px;
     padding: 30px;
     width: 100%;
     max-width: 2000px;
     height: auto;
+    max-height: calc(100vh - var(--nav-height, 0px) - var(--footer-height, 0px) - (var(--content-vertical-padding) * 2));
     box-sizing: border-box;
     flex-shrink: 1;
     min-width: 0;
@@ -318,18 +319,17 @@
   }
 
   .column-content {
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    display: flex;
     gap: 40px;
     flex-shrink: 1;
     flex-basis: 500px;
-    min-width: 300px;
+    min-width: 300px; 
     width: auto;
-    height: 600px;
-    max-height: 600px;
-    min-height: 0;
+    height: 550px;
+    max-height: 100%; 
     background-color: #0A091A;
     border-radius: 40px;
     padding: 30px;
@@ -356,10 +356,10 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     flex-shrink: 1;
     height: 50%;
-    min-height: 0;
+    max-height: 100%;
   }
 
   .resume {
@@ -448,15 +448,16 @@
     flex-basis: 900px;
     min-width: 500px;
     border-radius: 40px;
-    padding: 40px;
+    padding: 40px; 
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    height: 750px;
-    min-height: 0;
+    height: 650px;
+    max-height: 100%;
     gap: 40px;
     justify-content: center;
     align-items: center;
+    overflow-y: auto;
   }
 
   .media-content {
@@ -467,7 +468,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 30px;
-    height: auto;
+    height: 450px;
     min-height: 0;
   }
 
@@ -590,13 +591,17 @@
     }
 
     main {
-      padding-top: calc(70px + var(--content-vertical-padding));
+      padding-top: calc(var(--nav-height) + var(--content-vertical-padding));
+      padding-bottom: var(--content-vertical-padding);
+      min-height: calc(100vh - var(--nav-height) - var(--footer-height, var(--footer-height-desktop)));
+      align-items: center;
     }
 
     .about-content {
       gap: 20px;
       padding: 15px;
       height: auto;
+      max-height: calc(100vh - var(--nav-height) - var(--footer-height, var(--footer-height-desktop)) - (var(--content-vertical-padding) * 2));
     }
 
     .column-content {
@@ -604,8 +609,8 @@
       min-width: 180px;
       gap: 20px;
       padding: 15px;
-      height: 500px;
-      max-height: 500px;
+      height: 480px;
+      max-height: 100%;
     }
 
     .timothy-pic {
@@ -615,6 +620,8 @@
     .contact-panel {
       padding: 10px;
       gap: 10px;
+      height: 50%;
+      max-height: 100%;
     }
 
     .resume {
@@ -643,11 +650,14 @@
       min-width: 250px;
       padding: 20px;
       gap: 15px;
-      height: 650px;
+      height: 600px;
+      max-height: 100%;
+      overflow-y: auto;
     }
 
     .media-content {
-      max-height: 350px;
+      height: 350px;
+      max-height: 100%;
     }
 
     .photo-image {
@@ -678,20 +688,8 @@
   }
 
   @media (max-width: 768px) {
-    nav li {
-      padding: 0 8px;
-    }
-    nav a {
-      font-size: 18px;
-      padding: 0 8px;
-    }
-    nav li:first-child a {
-      font-size: 20px;
-      padding: 0 5px;
-    }
-    .sidebar a {
-      font-size: 18px;
-      padding: 0 10px;
+    main {
+      align-items: flex-start;
     }
 
     .about-content {
@@ -700,6 +698,7 @@
       gap: 15px;
       padding: 10px;
       height: auto;
+      max-height: calc(100vh - var(--nav-height) - var(--footer-height, var(--footer-height-desktop)) - (var(--content-vertical-padding) * 2));
     }
 
     .column-content,
@@ -710,6 +709,8 @@
       width: 100%;
       height: auto;
       margin: 0 auto;
+      max-height: 100%;
+      overflow-y: auto;
     }
 
     .timothy-pic {
@@ -719,6 +720,8 @@
     .contact-panel {
       padding: 8px;
       gap: 8px;
+      height: auto;
+      max-height: 100%;
     }
 
     .resume {
@@ -740,10 +743,14 @@
     .gallery {
       padding: 10px;
       gap: 10px;
+      height: auto;
+      max-height: 100%;
+      overflow-y: auto;
     }
 
     .media-content {
-      max-height: 250px;
+      height: 250px;
+      max-height: 100%;
     }
 
     .photo-image {
@@ -781,6 +788,8 @@
 
     .column-content {
       max-width: 280px;
+      height: auto;
+      max-height: 100%;
     }
 
     .timothy-pic {
@@ -790,6 +799,8 @@
     .contact-panel {
       padding: 6px;
       gap: 6px;
+      height: auto;
+      max-height: 100%;
     }
 
     .resume {
@@ -812,10 +823,13 @@
       max-width: 300px;
       padding: 8px;
       gap: 8px;
+      height: auto;
+      max-height: 100%;
+      overflow-y: auto;
     }
 
     .media-content {
-      max-height: 180px;
+      height: 180px;
     }
 
     .photo-image {
