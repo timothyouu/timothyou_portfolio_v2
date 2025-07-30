@@ -127,11 +127,11 @@
           </div>
           <div class = "description">
             <h1>{currentPhoto.project}</h1>
-            <p class="date">{currentPhoto.date}</p>
+            <p class="date">&nbsp;&nbsp;&nbsp;{currentPhoto.date}</p>
             <h2>Technologies Used:</h2>
-            <p class="tech-description">{currentPhoto.tech}</p>
+            <p class="tech-description">&nbsp;&nbsp;&nbsp;{currentPhoto.tech}</p>
             <h2>Description</h2>
-            <p class="project-description">{currentPhoto.description}</p>
+            <p class="project-description">&nbsp;&nbsp;&nbsp;{currentPhoto.description}</p>
           </div>
         </div>
         <button type="button" class="side-button right-arrow" on:click={nextPhoto} aria-label="Next photo">
