@@ -256,7 +256,7 @@
  main {
    display: flex;
    justify-content: center;
-   align-items: center; /* This is the key change to center the content vertically */
+   align-items: center;
    width: 100%;
    flex-grow: 1;
    box-sizing: border-box;
@@ -273,15 +273,15 @@
  }
 
  .projects-content {
-   display: flex; /* Added display: flex */
+   display: flex; 
    flex-direction: row;
-   align-items: center; /* This centers the gallery vertically within its container */
-   justify-content: center; /* This centers the gallery horizontally within its container */
+   align-items: center;
+   justify-content: center;
    gap: 30px;
    padding: 20px;
    width: 100%;
    max-width: 1800px;
-   height: 100%; /* Ensures it takes up the full height of the parent */
+   height: 100%;
    max-height: 950px;
    box-sizing: border-box;
  }
