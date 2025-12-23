@@ -22,7 +22,9 @@
     { path: '/mcway_falls.JPEG', location: 'Mcway Falls, California' },
     { path: '/zion.JPEG', location: 'Zion National Park, Utah' },
     { path: '/snoqualmie_falls.jpg', location: 'Snoqualmie Falls, Washington' },
-    { path: '/space_needle.jpg', location: 'Space Needle, Washington' }
+    { path: '/space_needle.jpg', location: 'Space Needle, Washington' },
+    { path: '/palace1.jpg', location: 'Palace of Fine Arts, California' },
+    { path: '/palace2.jpg', location: 'Palace of Fine Arts, California' }
   ];
 
   let currentImageIndex = 0;

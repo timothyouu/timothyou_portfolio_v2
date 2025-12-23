@@ -7,10 +7,10 @@
   let currentPath;
 
   const programmingLanguages = [
-    'C++', 'Javascript', 'Python', 'HTML', 'CSS', 'R', 'Svelte', 'SvelteKit'
+    'C++', 'Javascript', 'Python', 'HTML', 'CSS', 'R'
   ];
   const programmingTools = [
-    'Git', 'GitHub', 'Linux', 'Visual Studio Code', 'SvelteKit', 'RStudio'
+    'Git', 'GitHub', 'Linux', 'Visual Studio Code', 'Reactive Native Expo', 'Firebase', 'AWS S3', 'Crow', 'SvelteKit', 'RStudio'
   ];
   const otherSkills = [
     'Problem Solving', 'Leadership', 'Teamwork', 'Communication', 'Collaboration', 'Adaptability', 'Mentoring', 'Marketing'
