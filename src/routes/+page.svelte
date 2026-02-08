@@ -146,7 +146,13 @@
 </main>
 
 <footer>
-  <p>Made with Timmy’s ❤️</p>
+  <p>
+    <a href="https://webring-1.vercel.app/?from=timothyouu&dir=prev" class="webring-link">←</a>
+    <span style="display: inline-flex; align-items: center; gap: 10px; margin: 0 10px;">
+      Made with Timmy’s ❤️
+    </span>
+    <a href="https://webring-1.vercel.app/?from=timothyouu&dir=next" class="webring-link">→</a>
+  </p>
   <p>&copy; 2025 Timothy Ou</p>
 </footer>
 
@@ -459,6 +465,18 @@
     .fun-fact {
       font-size: 32px;
     }
+  }
+
+  .webring-link {
+    color: #D5B8E2;
+    text-decoration: none;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    font-size: 1.2em;
+  }
+
+  .webring-link:hover {
+    color: #BC95D1;
+    opacity: 0.8;
   }
 
   @media (max-width: 768px) {
