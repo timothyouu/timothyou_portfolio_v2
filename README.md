@@ -1,38 +1,56 @@
-# sv
+# Timothy Ou — Portfolio v2
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Personal portfolio built with **Next.js 15**, **TypeScript**, and **Tailwind CSS v4**. It showcases my projects, photography, and skills as a Computer Science student at Cal State Fullerton.
 
-## Creating a project
+## Pages
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Home** — intro, fun facts, and a cycling text component
+- **About** — profile photo, resume link, social media links, and a photo gallery
+- **Projects** — gallery of personal and class projects with tech stack and descriptions
+- **Skills** — categorized skill tiles for languages, tools, and soft skills
+
+## Tech Stack
+
+- [Next.js 15](https://nextjs.org/) (App Router)
+- [React 19](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS v4](https://tailwindcss.com/)
+
+## Getting Started
+
+**Prerequisites:** Node.js 18+
 
 ```bash
-# create a new project in the current directory
-npx sv create
+# Install dependencies
+npm install
 
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
+# Start the development server
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To create a production version of your app:
+## Other Commands
 
 ```bash
+# Production build
 npm run build
+
+# Start production server (after build)
+npm start
 ```
 
-You can preview the production build with `npm run preview`.
+## Project Structure
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```
+app/          # Next.js App Router pages
+components/   # Shared components (Nav, Footer, Gallery, SkillGrid, TextCycler)
+data/         # Static data for photos, projects, and skills
+public/       # Images and static assets
+```
+
+## Contact
+
+- LinkedIn: [timothy-ou](https://www.linkedin.com/in/timothy-ou/)
+- GitHub: [timothyouu](https://github.com/timothyouu)
+- Instagram: [@timothyouu](https://www.instagram.com/timothyouu/)
