@@ -26,8 +26,12 @@ export default function TextCycler() {
 
   return (
     <p
-      className="text-[#e0cbff] text-5xl font-semibold h-[100px] flex items-center overflow-hidden transition-opacity duration-300 font-[family-name:var(--font-poppins)] max-[1050px]:text-3xl max-[1050px]:h-[70px]"
-      style={{ opacity: visible ? 1 : 0 }}
+      className="text-[#e0cbff] font-semibold flex items-center overflow-hidden transition-opacity duration-300 font-[family-name:var(--font-poppins)] m-0"
+      style={{
+        opacity: visible ? 1 : 0,
+        fontSize: 'clamp(1.1rem, 2.8vw, 2.75rem)',
+        height: 'clamp(2rem, 4vw, 4rem)',
+      }}
     >
       {items[index]}
     </p>
