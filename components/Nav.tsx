@@ -46,7 +46,7 @@ export default function Nav() {
 
       <ul className="flex items-center justify-end w-full list-none p-0 m-0 h-[136px] max-[1050px]:h-[70px]">
         <li className="mr-auto">
-          <Link href="/" className="flex items-center h-full px-8 text-4xl font-semibold no-underline text-[#7D73EC] whitespace-nowrap font-[family-name:var(--font-titan-one)] transition-colors duration-300">
+          <Link href="/" className="flex items-center h-full px-8 max-[480px]:px-5 text-4xl max-[1050px]:text-3xl max-[480px]:text-2xl font-semibold no-underline text-[#7D73EC] whitespace-nowrap font-[family-name:var(--font-titan-one)] transition-colors duration-300">
             Timothy Ou
           </Link>
         </li>

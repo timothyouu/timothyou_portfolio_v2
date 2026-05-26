@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`${titanOne.variable} ${poppins.variable} flex flex-col min-h-screen bg-[#16142A]`}>
         <Nav />
-        <main className="flex-1 flex justify-center items-center w-full pt-[136px] max-[1050px]:pt-[70px]">
+        <main className="flex-1 flex justify-center items-center w-full pt-[136px] max-[1050px]:pt-[70px] pb-8">
           {children}
         </main>
         <Footer />
