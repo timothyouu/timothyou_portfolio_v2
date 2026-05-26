@@ -34,7 +34,7 @@ export default function About() {
           </a>
 
           {/* Social icons */}
-          <div className="flex flex-row justify-around w-[90%] items-center">
+          <div className="flex flex-row justify-around w-[90%] items-center pb-4">
             <a
               href="https://www.linkedin.com/in/timothy-ou/"
               target="_blank"
