@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #16142A;
+  --color-bg-dark: #0A081D;
+  --color-accent: #7D73EC;
+  --color-lavender: #D5B8E2;
+  --color-mauve: #BC95D1;
+  --color-light: #E0E1DD;
+  --color-skill-tile: #1E1B3A;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #16142A;
+  overflow-x: hidden;
+}
