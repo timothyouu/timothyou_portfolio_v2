@@ -1,36 +1,23 @@
 import type { Metadata } from 'next'
-import { Titan_One, Poppins } from 'next/font/google'
-import './globals.css'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
+import { JetBrains_Mono, IBM_Plex_Mono, Fira_Code, Space_Mono } from 'next/font/google'
+import './v2.css'
 import { Analytics } from '@vercel/analytics/next'
 
-const titanOne = Titan_One({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-titan-one',
-})
-
-const poppins = Poppins({
-  weight: ['400', '600'],
-  subsets: ['latin'],
-  variable: '--font-poppins',
-})
+const jetbrains = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains-mono' })
+const ibmPlex = IBM_Plex_Mono({ weight: ['300', '400', '500', '600', '700'], subsets: ['latin'], variable: '--font-ibm-plex-mono' })
+const fira = Fira_Code({ subsets: ['latin'], variable: '--font-fira-code' })
+const space = Space_Mono({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-space-mono' })
 
 export const metadata: Metadata = {
-  title: 'Timothy Ou',
-  description: 'Portfolio of Timothy Ou — CS Student @ CSUF',
+  title: 'Timothy Ou — Portfolio',
+  description: 'Full-stack engineer & AI builder. Junior CS @ Cal State Fullerton.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${titanOne.variable} ${poppins.variable} flex flex-col min-h-screen bg-[#16142A]`}>
-        <Nav />
-        <main className="flex-1 flex justify-center items-center w-full pt-[136px] max-[1050px]:pt-[70px] pb-8">
-          {children}
-        </main>
-        <Footer />
+      <body className={`${jetbrains.variable} ${ibmPlex.variable} ${fira.variable} ${space.variable}`}>
+        {children}
         <Analytics />
       </body>
     </html>
