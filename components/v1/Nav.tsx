@@ -5,10 +5,10 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 const links = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/skills', label: 'Skills' },
+  { href: '/v1', label: 'Home' },
+  { href: '/v1/about', label: 'About' },
+  { href: '/v1/projects', label: 'Projects' },
+  { href: '/v1/skills', label: 'Skills' },
 ]
 
 export default function Nav() {
@@ -46,7 +46,7 @@ export default function Nav() {
 
       <ul className="flex items-center justify-end w-full list-none p-0 m-0 h-[136px] max-[1050px]:h-[70px]">
         <li className="mr-auto">
-          <Link href="/" className="flex items-center h-full px-8 max-[480px]:px-5 text-4xl max-[1050px]:text-3xl max-[480px]:text-2xl font-semibold no-underline text-[#7D73EC] whitespace-nowrap font-[family-name:var(--font-titan-one)] transition-colors duration-300">
+          <Link href="/v1" className="flex items-center h-full px-8 max-[480px]:px-5 text-4xl max-[1050px]:text-3xl max-[480px]:text-2xl font-semibold no-underline text-[#7D73EC] whitespace-nowrap font-[family-name:var(--font-titan-one)] transition-colors duration-300">
             Timothy Ou
           </Link>
         </li>

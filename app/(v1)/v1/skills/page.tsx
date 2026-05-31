@@ -1,4 +1,4 @@
-import SkillGrid from '@/components/SkillGrid'
+import SkillGrid from '@/components/v1/SkillGrid'
 import { programmingLanguages, programmingTools, otherSkills } from '@/data/skills'
 
 export default function Skills() {

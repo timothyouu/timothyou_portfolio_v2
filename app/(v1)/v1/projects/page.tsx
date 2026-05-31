@@ -1,4 +1,4 @@
-import Gallery from '@/components/Gallery'
+import Gallery from '@/components/v1/Gallery'
 import { projects } from '@/data/projects'
 
 export default function Projects() {

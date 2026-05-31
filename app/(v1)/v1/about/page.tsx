@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Gallery from '@/components/Gallery'
+import Gallery from '@/components/v1/Gallery'
 import { photos } from '@/data/photos'
 
 const lavenderFilter = 'invert(100%) sepia(100%) saturate(200%) hue-rotate(270deg) brightness(100%) contrast(100%)'

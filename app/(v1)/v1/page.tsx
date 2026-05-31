@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import TextCycler from '@/components/TextCycler'
+import TextCycler from '@/components/v1/TextCycler'
 
 export default function Home() {
   return (
