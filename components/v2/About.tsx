@@ -1,12 +1,12 @@
 'use client'
 
-import { LINKS, TOP_TRACKS } from '@/data/v2/config'
+import { TOP_TRACKS } from '@/data/v2/config'
 import { ASCII_DATA } from '@/data/v2/ascii-data'
 import AsciiImage from './AsciiImage'
 import TopBar from './TopBar'
+import Footer from './Footer'
 
 export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => void; setSettingsOpen: (fn: (o: boolean) => boolean) => void }) {
-  const L = LINKS;
   return (
     <div className="shell">
       <TopBar current="about" goTo={goTo} setSettingsOpen={setSettingsOpen} />
@@ -164,19 +164,7 @@ export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => 
         </div>
       </section>
 
-      <footer className="foot">
-        <div className="webring">
-          <a href="https://webring-1.vercel.app/?from=timothyouu&dir=prev" aria-label="Previous site in webring">←</a>
-          <span>© 2026 Timothy Ou</span>
-          <a href="https://webring-1.vercel.app/?from=timothyouu&dir=next" aria-label="Next site in webring">→</a>
-        </div>
-        <div className="socials">
-          <a href={L.github} target="_blank" rel="noopener">github</a>
-          <a href={L.linkedin} target="_blank" rel="noopener">linkedin</a>
-          <a href={L.x} target="_blank" rel="noopener">x</a>
-          <a href={L.email}>email</a>
-        </div>
-      </footer>
+      <Footer />
     </div>);
 
 }

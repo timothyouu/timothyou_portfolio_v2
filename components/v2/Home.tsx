@@ -6,6 +6,7 @@ import { LINKS } from '@/data/v2/config'
 import { CURRENT_VERSION } from '@/data/v2/changelog'
 import AsciiImage from './AsciiImage'
 import TopBar from './TopBar'
+import Footer from './Footer'
 
 export default function Home({ goTo, setSettingsOpen }: { goTo: (p: string) => void; setSettingsOpen: (fn: (o: boolean) => boolean) => void }) {
   const [open, setOpen] = useState<number | null>(null);
@@ -96,18 +97,6 @@ export default function Home({ goTo, setSettingsOpen }: { goTo: (p: string) => v
         </div>
       </section>
 
-      <footer className="foot">
-        <div className="webring">
-          <a href="https://webring-1.vercel.app/?from=timothyouu&dir=prev" aria-label="Previous site in webring">←</a>
-          <span>© 2026 Timothy Ou · built with matcha & love</span>
-          <a href="https://webring-1.vercel.app/?from=timothyouu&dir=next" aria-label="Next site in webring">→</a>
-        </div>
-        <div className="socials">
-          <a href={L.github} target="_blank" rel="noopener">github</a>
-          <a href={L.linkedin} target="_blank" rel="noopener">linkedin</a>
-          <a href={L.x} target="_blank" rel="noopener">x</a>
-          <a href={L.email}>email</a>
-        </div>
-      </footer>
+      <Footer />
     </div>);
 }
