@@ -723,6 +723,67 @@ body.v2 ::selection { background: var(--fg); color: var(--bg); }
   min-width: 0;
 }
 
+/* ---- Changelog (settings toggle + shared view) ---- */
+.settings-divider {
+  height: 1px;
+  background: var(--line);
+  margin: 2px 0;
+}
+.settings-changelog-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+.settings-changelog-toggle:hover { color: var(--fg); }
+.settings-changelog {
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.changelog { display: flex; flex-direction: column; gap: 14px; }
+.changelog-entry { display: flex; flex-direction: column; gap: 5px; }
+.changelog-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.changelog-ver {
+  font-weight: 600;
+  color: var(--fg);
+  font-size: 12px;
+}
+.changelog-date {
+  font-size: 10px;
+  color: var(--fg-dim);
+  letter-spacing: 0.04em;
+}
+.changelog-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.changelog-list li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--fg-muted);
+}
+.changelog-list li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--fg-dim);
+}
+
 /* ---- Terminal launcher (fixed bottom-right) ---- */
 .bottom-buttons {
   position: fixed;

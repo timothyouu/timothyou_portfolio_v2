@@ -1,6 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import type { Tweaks } from './useTweaks'
+import Changelog from './Changelog'
 
 type Props = {
   t: Tweaks
@@ -12,6 +14,7 @@ const fonts = ['JetBrains Mono', 'IBM Plex Mono', 'Fira Code', 'Space Mono']
 
 export default function SettingsPanel({ t, setTweak, onClose }: Props) {
   const cur = t.hoverReveal === 'ascii' ? 'ascii' : 'realistic'
+  const [showChangelog, setShowChangelog] = useState(false)
   return (
     <div className="settings-panel settings-panel--topright">
       <div className="settings-header">
@@ -40,6 +43,20 @@ export default function SettingsPanel({ t, setTweak, onClose }: Props) {
           ))}
         </div>
       </div>
+      <div className="settings-divider" />
+      <button
+        className="settings-changelog-toggle"
+        aria-expanded={showChangelog}
+        onClick={() => setShowChangelog((s) => !s)}
+      >
+        <span>changelog</span>
+        <span aria-hidden="true">{showChangelog ? '▲' : '▼'}</span>
+      </button>
+      {showChangelog && (
+        <div className="settings-changelog">
+          <Changelog />
+        </div>
+      )}
     </div>
   )
 }

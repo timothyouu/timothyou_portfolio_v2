@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { HOME_PROJECTS } from '@/data/v2/projects'
 import { LINKS } from '@/data/v2/config'
+import { CURRENT_VERSION } from '@/data/v2/changelog'
 import AsciiImage from './AsciiImage'
 import TopBar from './TopBar'
 
@@ -31,7 +32,7 @@ export default function Home({ goTo, setSettingsOpen }: { goTo: (p: string) => v
       <TopBar current="home" goTo={goTo} setSettingsOpen={setSettingsOpen} />
 
       <section className="hero">
-        <div className="eyebrow">portfolio / v2.0.0 / 2026</div>
+        <div className="eyebrow">portfolio / v{CURRENT_VERSION} / 2026</div>
         <h1>
           Timothy<br />Ou<span className="caret"></span>
         </h1>

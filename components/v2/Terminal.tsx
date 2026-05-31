@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, Fragment } from 'react'
 import { LINKS } from '@/data/v2/config'
 import { HOME_PROJECTS } from '@/data/v2/projects'
 import DinoGame from './DinoGame'
+import Changelog from './Changelog'
 
 export type TerminalApi = {
   goTo: (p: string) => void
@@ -54,7 +55,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
   const CMD_GROUPS = [
     { name: 'navigation', cmds: ['cd', 'ls', 'pwd'] },
     { name: 'settings  — cd settings', cmds: ['theme', 'font', 'reveal'] },
-    { name: 'info', cmds: ['whoami', 'contact', 'resume'] },
+    { name: 'info', cmds: ['whoami', 'contact', 'resume', 'changelog'] },
     { name: 'socials', cmds: ['github', 'linkedin', 'x', 'email', 'web'] },
     { name: 'misc', cmds: ['echo', 'clear', 'exit'] },
     { name: 'secrets 🤫', cmds: ['sudo', 'rm', 'coffee', 'matcha', 'timmy', 'disconnect'], showHidden: true },
@@ -179,6 +180,11 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
     resume: {
       desc: 'open my resume (pdf)',
       run: (a: any, ctx: any) => { open(L.resume); ctx.ok('opening resume.pdf in a new tab'); },
+    },
+
+    changelog: {
+      desc: 'changes by version',
+      run: (a: any, ctx: any) => { ctx.node(<Changelog />); },
     },
 
     theme: {
