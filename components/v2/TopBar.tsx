@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { LINKS } from '@/data/v2/config'
 
 type Props = {
@@ -9,6 +10,8 @@ type Props = {
 }
 
 export default function TopBar({ current, goTo, setSettingsOpen }: Props) {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const go = (p: string) => { goTo(p); setMenuOpen(false) }
   return (
     <div className="topbar">
       <div className="brand">
@@ -16,11 +19,30 @@ export default function TopBar({ current, goTo, setSettingsOpen }: Props) {
         <span>timothy_ou</span>
         <span style={{ color: 'var(--fg-dim)' }}>~/ portfolio</span>
       </div>
-      <nav className="nav">
-        <button className={current === 'home' ? 'active' : ''} onClick={() => goTo('home')}>home</button>
-        <button className={current === 'about' ? 'active' : ''} onClick={() => goTo('about')}>about</button>
-        <a href={LINKS.resume} target="_blank" rel="noopener" style={{ color: 'var(--fg-muted)', alignSelf: 'center' }}>resume ↗</a>
-        <button className="theme-toggle" onClick={() => setSettingsOpen((o) => !o)} title="settings" aria-label="open settings">
+      <button
+        className="nav-burger"
+        aria-label="toggle navigation menu"
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen((o) => !o)}
+      >
+        {menuOpen ? (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+            <line x1="6" y1="18" x2="18" y2="6"></line>
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        )}
+      </button>
+      <nav className={`nav${menuOpen ? ' open' : ''}`}>
+        <button className={current === 'home' ? 'active' : ''} onClick={() => go('home')}>home</button>
+        <button className={current === 'about' ? 'active' : ''} onClick={() => go('about')}>about</button>
+        <a href={LINKS.resume} target="_blank" rel="noopener" onClick={() => setMenuOpen(false)} style={{ color: 'var(--fg-muted)', alignSelf: 'center' }}>resume ↗</a>
+        <button className="theme-toggle" onClick={() => { setSettingsOpen((o) => !o); setMenuOpen(false) }} title="settings" aria-label="open settings">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>

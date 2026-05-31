@@ -495,6 +495,12 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
         <div className="lights"><span></span><span></span><span></span></div>
         <div className="title">timothy_ou — zsh</div>
         <div className="hint">close<span className="kbd" style={{cursor:'pointer'}} onClick={onClose}>esc</span></div>
+        <button
+          className="term-close"
+          aria-label="close terminal"
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={onClose}
+        >✕</button>
       </div>
       <div className="term-body" ref={bodyRef} onMouseDown={(e) => { e.preventDefault(); focusEnd(); }}>
         {lines.map((l, i) => {
