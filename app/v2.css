@@ -985,11 +985,18 @@ body.v2 ::selection { background: var(--fg); color: var(--bg); }
   }
   .nav.open { display: flex; }
   .nav button.active::after { bottom: -3px; }
+  /* resume link + settings gear inherit the column's left edge (they carry an
+     align-self:center for the desktop row — !important beats the inline style) */
+  .nav a, .nav .theme-toggle { align-self: flex-start !important; }
 
-  /* Footer stacks: webring on one line, socials on the next */
+  /* Footer stacks left-aligned: webring on one line, socials on the next */
   .foot {
     flex-direction: column;
     align-items: flex-start;
+    text-align: left;
     gap: 14px;
   }
+
+  /* Expanded project: paragraph drops below the image instead of beside it */
+  .project-detail { grid-template-columns: 1fr; }
 }
