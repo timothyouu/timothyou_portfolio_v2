@@ -35,7 +35,7 @@ export default function Nav() {
               <Link
                 href={href}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center w-full h-[70px] px-5 text-2xl font-semibold no-underline transition-colors duration-300 font-[family-name:var(--font-titan-one)] ${pathname === href ? 'text-[#7D73EC]' : 'text-[#D5B8E2] hover:bg-[#16142A]'}`}
+                className={`flex items-center w-full h-[70px] px-5 text-2xl font-semibold no-underline transition-colors duration-300 font-[family-name:var(--font-titan-one)] ${pathname === href ? 'text-[#7D73EC]' : 'text-[#7D73EC] hover:bg-[#16142A]'}`}
               >
                 {label}
               </Link>
@@ -54,7 +54,7 @@ export default function Nav() {
           <li key={href} className="hidden min-[1050px]:flex h-[136px] items-center">
             <Link
               href={href}
-              className={`flex items-center h-full px-8 text-4xl font-semibold no-underline transition-colors duration-300 font-[family-name:var(--font-titan-one)] ${pathname === href ? 'text-[#7D73EC]' : 'text-[#D5B8E2] hover:bg-[#16142A]'}`}
+              className={`flex items-center h-full px-8 text-4xl font-semibold no-underline transition-colors duration-300 font-[family-name:var(--font-titan-one)] ${pathname === href ? 'text-[#7D73EC]' : 'text-[#7D73EC] hover:bg-[#16142A]'}`}
             >
               {label}
             </Link>

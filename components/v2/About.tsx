@@ -165,7 +165,11 @@ export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => 
       </section>
 
       <footer className="foot">
-        <div>© 2026 Timothy Ou</div>
+        <div className="webring">
+          <a href="https://webring-1.vercel.app/?from=timothyouu&dir=prev" aria-label="Previous site in webring">←</a>
+          <span>© 2026 Timothy Ou</span>
+          <a href="https://webring-1.vercel.app/?from=timothyouu&dir=next" aria-label="Next site in webring">→</a>
+        </div>
         <div className="socials">
           <a href={L.github} target="_blank" rel="noopener">github</a>
           <a href={L.linkedin} target="_blank" rel="noopener">linkedin</a>

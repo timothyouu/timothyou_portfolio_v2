@@ -85,13 +85,15 @@ body.v2 {
   -moz-osx-font-smoothing: grayscale;
 }
 
-a { color: inherit; text-decoration: none; }
-a.link { border-bottom: 1px solid var(--fg); padding-bottom: 1px; }
-a.link:hover { background: var(--fg); color: var(--bg); }
+body.v2 a { color: inherit; text-decoration: none; }
+body.v2 a.link { border-bottom: 1px solid var(--fg); padding-bottom: 1px; }
+body.v2 a.link:hover { background: var(--fg); color: var(--bg); }
 
-::selection { background: var(--fg); color: var(--bg); }
+body.v2 ::selection { background: var(--fg); color: var(--bg); }
 
-button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; padding: 0; }
+/* Reset wrapped in :where() so it has minimal specificity (0,0,1) — component
+   button styles (.term-launch, .settings-seg button, etc.) win by default. */
+:where(body.v2 button) { font: inherit; color: inherit; background: none; border: none; cursor: pointer; padding: 0; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -337,6 +339,9 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 .foot .socials { display: flex; gap: 18px; }
 .foot .socials a:hover { color: var(--fg); }
+.foot .webring { display: flex; align-items: center; gap: 12px; }
+.foot .webring a { color: var(--fg-dim); }
+.foot .webring a:hover { color: var(--fg); }
 
 /* ---- Version toggle (bottom-left fixed) ---- */
 .vtoggle {
@@ -685,8 +690,8 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   background: none;
   border: none;
   border-radius: 4px;
-  padding: 3px 10px;
-  font-size: 11px;
+  padding: 2px 7px;
+  font-size: 10px;
   font-family: var(--mono);
   color: var(--fg-muted);
   cursor: pointer;
@@ -726,15 +731,20 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   align-items: center;
   gap: 8px;
   background: var(--bg);
-  border: 1px solid var(--line);
-  padding: 8px 13px;
-  border-radius: 999px;
+  border: 1px solid var(--fg-dim);
+  padding: 11px 20px;
+  border-radius: 12px;
   font-size: 11px;
   letter-spacing: 0.06em;
   color: var(--fg-muted);
-  transition: background .15s ease, color .15s ease, border-color .15s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  transition: background .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
-.term-launch:hover { color: var(--fg); border-color: var(--fg-dim); }
+.term-launch:hover {
+  color: var(--fg);
+  border-color: var(--fg);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.16);
+}
 .term-launch .glyph { font-weight: 700; color: var(--fg); }
 .term-launch .kbd {
   border: 1px solid var(--line);

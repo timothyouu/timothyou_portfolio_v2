@@ -57,7 +57,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
     { name: 'info', cmds: ['whoami', 'contact', 'resume'] },
     { name: 'socials', cmds: ['github', 'linkedin', 'x', 'email', 'web'] },
     { name: 'misc', cmds: ['echo', 'clear', 'exit'] },
-    { name: 'secrets 🤫', cmds: ['sudo', 'rm', 'coffee', 'matcha', 'tim', 'disconnect'], showHidden: true },
+    { name: 'secrets 🤫', cmds: ['sudo', 'rm', 'coffee', 'matcha', 'timmy', 'disconnect'], showHidden: true },
   ];
 
   const cmds: Record<string, any> = {
@@ -79,7 +79,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
                   ))}
                 </div>
                 {g.showHidden && (
-                  <div className="term-line out" style={{ color: 'var(--fg-dim)', fontSize: 11, marginTop: 4 }}>also try typing &apos;tim&apos; on the keyboard</div>
+                  <div className="term-line out" style={{ color: 'var(--fg-dim)', fontSize: 11, marginTop: 4 }}>also try typing &apos;timmy&apos; on the keyboard</div>
                 )}
               </div>
             ))}
@@ -298,14 +298,14 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
       ctx.ok(next === 'matcha' ? 'matcha mode on 🍵 brewing...' : 'matcha mode off. back to terminal.');
     } },
     coffee: { hidden: true, desc: 'wrong drink', run: (a: any, ctx: any) => ctx.out('we use matcha in this house. try `matcha`.') },
-    disconnect: { hidden: true, desc: 'kill the wifi (you know what happens)', usage: '<network>', args: ['network'], run: (args: any, ctx: any) => {
+    disconnect: { hidden: true, desc: 'kill the wifi (you know what happens)', usage: 'network', args: ['network'], run: (args: any, ctx: any) => {
       if ((args[0] || '').toLowerCase() !== 'network') return ctx.err('usage: disconnect network');
       ctx.err('✕ network connection lost.');
       ctx.out('no internet — but here is something to do:');
       ctx.node(<DinoGame />);
     } },
     rm: { hidden: true, desc: 'delete something', run: (a: any, ctx: any) => ctx.err('absolutely not.') },
-    tim: { hidden: true, desc: 'toggle lavender mode', run: (a: any, ctx: any) => {
+    timmy: { hidden: true, desc: 'toggle lavender mode', run: (a: any, ctx: any) => {
       const current = (window as any).PORTFOLIO_EASTER || 'none';
       const next = current === 'lavender' ? 'none' : 'lavender';
       (window as any).PORTFOLIO_EASTER = next;

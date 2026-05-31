@@ -28,7 +28,10 @@ export default function TerminalPortfolio() {
 
   // Apply tweaks to the document
   useEffect(() => {
-    const root = document.documentElement
+    // Write to <body>, not <html>: the theme/font CSS vars are declared on
+    // `body.v2`, and a value set directly on body shadows anything inherited
+    // from <html>. Setting these on the documentElement had no effect.
+    const root = document.body
     const stack = FONT_STACKS[t.font] || FONT_STACKS['JetBrains Mono']
     root.style.setProperty('--mono', stack)
     root.style.setProperty('--display', stack)
