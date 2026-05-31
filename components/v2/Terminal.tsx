@@ -324,10 +324,13 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [histIdx, setHistIdx] = useState(-1);
-  const [pos, setPos] = useState(() => ({
-    x: Math.max(20, (window.innerWidth - 580) / 2),
-    y: Math.max(20, (window.innerHeight - 360) / 2),
-  }));
+  const [pos, setPos] = useState(() => {
+    if (typeof window === 'undefined') return { x: 20, y: 20 }
+    return {
+      x: Math.max(20, (window.innerWidth - 580) / 2),
+      y: Math.max(20, (window.innerHeight - 360) / 2),
+    }
+  });
   const [isDragging, setIsDragging] = useState(false);
   const [navPath, setNavPath] = useState<string[]>([]);
   const dragOffset = useRef<{ active: boolean; dx: number; dy: number }>({ active: false, dx: 0, dy: 0 });
