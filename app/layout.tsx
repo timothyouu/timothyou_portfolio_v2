@@ -11,6 +11,11 @@ const space = Space_Mono({ weight: ['400', '700'], subsets: ['latin'], variable:
 export const metadata: Metadata = {
   title: 'Timothy Ou — Portfolio',
   description: 'Full-stack engineer & AI builder. Junior CS @ Cal State Fullerton.',
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
