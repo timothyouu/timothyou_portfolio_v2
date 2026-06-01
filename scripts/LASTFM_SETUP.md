@@ -1,7 +1,7 @@
 # Last.fm top-tracks setup (one time)
 
 The "music" column on the About page shows your top 5 tracks from the last
-~4 weeks. A weekly GitHub Action (`.github/workflows/update-top-tracks.yml`)
+~4 weeks. A daily GitHub Action (`.github/workflows/update-top-tracks.yml`)
 runs `scripts/update_top_tracks.py`, which calls Last.fm's `user.getTopTracks`
 (`period=1month`), writes `data/v2/top-tracks.json`, and commits it — Vercel
 then auto-redeploys. The display itself is unchanged.
@@ -52,7 +52,7 @@ the script still reads `LASTFM_USER` from the environment.
   ```
   It should print your top 5 and update `data/v2/top-tracks.json`.
 - **In CI:** repo → **Actions → "Update top tracks" → Run workflow**. After this
-  it runs automatically every Monday.
+  it runs automatically every day (committing only when the list changes).
 
 ## Notes
 

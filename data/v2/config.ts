@@ -14,6 +14,6 @@ export const LINKS = {
   caltech:    'http://minerals.gps.caltech.edu/',
 } as const
 
-// Top tracks live in ./top-tracks.json, refreshed weekly by the Last.fm
+// Top tracks live in ./top-tracks.json, refreshed daily by the Last.fm
 // GitHub Action (scripts/update_top_tracks.py). About.tsx imports that file
 // directly. See scripts/LASTFM_SETUP.md for the one-time setup.

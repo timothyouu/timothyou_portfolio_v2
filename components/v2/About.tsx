@@ -7,7 +7,7 @@ import AsciiImage from './AsciiImage'
 import TopBar from './TopBar'
 import Footer from './Footer'
 
-// Refreshed weekly by the Last.fm GitHub Action; falls back to whatever the
+// Refreshed daily by the Last.fm GitHub Action; falls back to whatever the
 // last successful run committed to top-tracks.json.
 const TOP_TRACKS = topTracksData as Track[]
 
