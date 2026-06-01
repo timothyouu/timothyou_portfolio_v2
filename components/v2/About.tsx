@@ -118,8 +118,8 @@ export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => 
             <h4>music</h4>
             <ul>
               {TOP_TRACKS.map((t, i) => <li key={i}>
-                  <span className="t">{t.name}</span>
-                  <span className="s">{t.artist}</span>
+                  <span className="t">{t.name.replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase())}</span>
+                  <span className="s">{t.artist.replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase())}</span>
                 </li>
               )}
             </ul>
