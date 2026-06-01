@@ -21,7 +21,7 @@ export default function About() {
         />
 
         {/* Contact panel */}
-        <div className="bg-[#16142A] w-full rounded-[40px] p-5 pb-14 flex flex-col justify-around items-center gap-3 h-[50%] max-[768px]:h-auto box-border">
+        <div className="bg-[#16142A] w-full rounded-[40px] p-5 pb-14 max-[768px]:pb-5 flex flex-col justify-around items-center gap-3 h-[50%] max-[768px]:h-auto box-border">
 
           {/* Resume */}
           <a

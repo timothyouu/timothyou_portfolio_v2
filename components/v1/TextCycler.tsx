@@ -26,11 +26,12 @@ export default function TextCycler() {
 
   return (
     <p
-      className="text-[#e0cbff] font-semibold flex items-center overflow-hidden transition-opacity duration-300 font-[family-name:var(--font-poppins)] m-0"
+      className="text-[#e0cbff] font-semibold flex items-center transition-opacity duration-300 font-[family-name:var(--font-poppins)] m-0 leading-tight"
       style={{
         opacity: visible ? 1 : 0,
         fontSize: 'clamp(1.1rem, 2.8vw, 2.75rem)',
-        height: 'clamp(2rem, 4vw, 4rem)',
+        minHeight: 'clamp(2rem, 4vw, 4rem)',
+        height: 'clamp(4rem, 8vw, 8rem)',
       }}
     >
       {items[index]}
