@@ -25,7 +25,7 @@ jobs:
       - name: Fetch top tracks
         env:
           LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
-          LASTFM_USER: ${{ secrets.LASTFM_USER }}
+          LASTFM_USER: timothyou # public username, not a secret
         run: python scripts/update_top_tracks.py
 
       - name: Commit if changed

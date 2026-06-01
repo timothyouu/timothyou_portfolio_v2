@@ -28,14 +28,18 @@ You only need to do the steps below once.
    (any app name/description is fine; callback URL can be blank).
 2. Copy the **API key** it gives you.
 
-## 3. Add two GitHub repo secrets
+## 3. Add one GitHub repo secret
 
 Repo → **Settings → Secrets and variables → Actions → New repository secret**:
 
-| Secret name      | Value                  |
-| ---------------- | ---------------------- |
-| `LASTFM_API_KEY` | your Last.fm API key   |
-| `LASTFM_USER`    | your Last.fm username  |
+| Secret name      | Value                                   |
+| ---------------- | --------------------------------------- |
+| `LASTFM_API_KEY` | your Last.fm API key (the key ONLY)     |
+
+The username isn't sensitive, so it's hardcoded in the workflow
+(`LASTFM_USER: timothyou`) rather than stored as a secret. If your username
+changes, edit that line in `.github/workflows/update-top-tracks.yml`. Locally,
+the script still reads `LASTFM_USER` from the environment.
 
 ## 4. Test it
 
