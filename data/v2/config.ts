@@ -14,10 +14,6 @@ export const LINKS = {
   caltech:    'http://minerals.gps.caltech.edu/',
 } as const
 
-export const TOP_TRACKS: Track[] = [
-  { name: 'Hit the Wall',                    artist: 'Gracie Abrams' },
-  { name: 'the cure',                        artist: 'Olivia Rodrigo' },
-  { name: 'drop dead',                       artist: 'Olivia Rodrigo' },
-  { name: 'I Thought I Saw Your Face Today', artist: 'She & Him' },
-  { name: 'Superficial Love',                artist: 'Ruth B.' },
-]
+// Top tracks live in ./top-tracks.json, refreshed weekly by the Last.fm
+// GitHub Action (scripts/update_top_tracks.py). About.tsx imports that file
+// directly. See scripts/LASTFM_SETUP.md for the one-time setup.

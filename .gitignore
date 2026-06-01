@@ -23,3 +23,9 @@ Thumbs.db
 
 # Local tooling
 .claude/
+
+# Python (scripts/ tooling)
+.venv/
+__pycache__/
+*.pyc
+.cache

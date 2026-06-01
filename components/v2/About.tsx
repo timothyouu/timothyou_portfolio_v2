@@ -1,10 +1,15 @@
 'use client'
 
-import { TOP_TRACKS } from '@/data/v2/config'
+import type { Track } from '@/data/v2/config'
+import topTracksData from '@/data/v2/top-tracks.json'
 import { ASCII_DATA } from '@/data/v2/ascii-data'
 import AsciiImage from './AsciiImage'
 import TopBar from './TopBar'
 import Footer from './Footer'
+
+// Refreshed weekly by the Last.fm GitHub Action; falls back to whatever the
+// last successful run committed to top-tracks.json.
+const TOP_TRACKS = topTracksData as Track[]
 
 export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => void; setSettingsOpen: (fn: (o: boolean) => boolean) => void }) {
   return (
