@@ -58,7 +58,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
     { name: 'info', cmds: ['whoami', 'contact', 'resume', 'changelog'] },
     { name: 'socials', cmds: ['github', 'linkedin', 'x', 'email', 'web'] },
     { name: 'misc', cmds: ['echo', 'clear', 'exit'] },
-    { name: 'secrets 🤫', cmds: ['sudo', 'rm', 'coffee', 'matcha', 'timmy', 'disconnect'], showHidden: true },
+    { name: 'secrets 🤫', cmds: ['sudo', 'rm', 'coffee', 'matcha', 'timmy', 'disc'], showHidden: true },
   ];
 
   const cmds: Record<string, any> = {
@@ -122,7 +122,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
       },
     },
     ls: {
-      desc: 'list contents of current directory',
+      desc: 'list this directory',
       usage: '[projects]',
       args: ['projects'],
       run: (args: any, ctx: any) => {
@@ -135,7 +135,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
               <div className="term-cols">
                 <div className="k">theme [light|dark]</div><div className="v">switch color theme</div>
                 <div className="k">font &lt;name&gt;</div><div className="v">change mono font</div>
-                <div className="k">reveal [ascii|realistic]</div><div className="v">photo reveal mode</div>
+                <div className="k">reveal [ascii|real]</div><div className="v">photo reveal mode</div>
                 <div className="k">cd ..</div><div className="v">back to ~/</div>
               </div>
             </div>
@@ -263,8 +263,8 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
     web: { desc: 'open timothyou.dev', run: (a: any, ctx: any) => { open(L.web); ctx.ok('opening timothyou.dev'); } },
 
     reveal: {
-      desc: 'set photo reveal mode',
-      usage: '[ascii|realistic]',
+      desc: 'photo reveal mode',
+      usage: '[ascii|real]',
       args: ['ascii', 'realistic'],
       run: (args: any, ctx: any) => {
         const s = api.getState();
@@ -290,8 +290,8 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
       },
     },
     echo: { desc: 'print text', usage: '<text>', run: (args: any, ctx: any) => ctx.out(args.join(' ') || '') },
-    clear: { desc: 'clear the screen', run: (a: any, ctx: any) => { ctx.clear(); ctx.node(<WelcomeBanner />); } },
-    exit: { desc: 'close the terminal', run: (a: any, ctx: any) => ctx.close() },
+    clear: { desc: 'clear screen', run: (a: any, ctx: any) => { ctx.clear(); ctx.node(<WelcomeBanner />); } },
+    exit: { desc: 'close terminal', run: (a: any, ctx: any) => ctx.close() },
 
     sudo: { hidden: true, desc: 'try to escalate privileges', run: (a: any, ctx: any) => ctx.err("nice try. you don't have root here :)") },
     matcha: { hidden: true, desc: 'replenish caffeine levels', run: (a: any, ctx: any) => {
@@ -303,13 +303,21 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
       document.body.classList.remove('lavender');
       ctx.ok(next === 'matcha' ? 'matcha mode on 🍵 brewing...' : 'matcha mode off. back to terminal.');
     } },
+    unmatcha: { hidden: true, desc: 'leave matcha mode', run: (a: any, ctx: any) => {
+      const wasOn = ((window as any).PORTFOLIO_EASTER || 'none') === 'matcha';
+      (window as any).PORTFOLIO_EASTER = 'none';
+      window.dispatchEvent(new CustomEvent('portfolio:easter', { detail: { theme: 'none' } }));
+      document.body.classList.remove('matcha');
+      ctx.ok(wasOn ? `matcha mode off — back to ${api.getState().theme} theme` : 'matcha mode is already off.');
+    } },
     coffee: { hidden: true, desc: 'wrong drink', run: (a: any, ctx: any) => ctx.out('we use matcha in this house. try `matcha`.') },
-    disconnect: { hidden: true, desc: 'kill the wifi (you know what happens)', usage: 'network', args: ['network'], run: (args: any, ctx: any) => {
-      if ((args[0] || '').toLowerCase() !== 'network') return ctx.err('usage: disconnect network');
+    disc: { hidden: true, desc: 'kill the wifi 😈', usage: 'network', args: ['network'], run: (args: any, ctx: any) => {
+      if ((args[0] || '').toLowerCase() !== 'network') return ctx.err('usage: disc network');
       ctx.err('✕ network connection lost.');
       ctx.out('no internet — but here is something to do:');
       ctx.node(<DinoGame />);
     } },
+    disconnect: { hidden: true, run: (args: any, ctx: any) => cmds.disc.run(args, ctx) },
     rm: { hidden: true, desc: 'delete something', run: (a: any, ctx: any) => ctx.err('absolutely not.') },
     timmy: { hidden: true, desc: 'toggle lavender mode', run: (a: any, ctx: any) => {
       const current = (window as any).PORTFOLIO_EASTER || 'none';
@@ -319,6 +327,13 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
       document.body.classList.toggle('lavender', next === 'lavender');
       document.body.classList.remove('matcha');
       ctx.ok(next === 'lavender' ? 'lavender mode on 💜' : 'lavender mode off.');
+    } },
+    untimmy: { hidden: true, desc: 'leave lavender mode', run: (a: any, ctx: any) => {
+      const wasOn = ((window as any).PORTFOLIO_EASTER || 'none') === 'lavender';
+      (window as any).PORTFOLIO_EASTER = 'none';
+      window.dispatchEvent(new CustomEvent('portfolio:easter', { detail: { theme: 'none' } }));
+      document.body.classList.remove('lavender');
+      ctx.ok(wasOn ? `lavender mode off — back to ${api.getState().theme} theme` : 'lavender mode is already off.');
     } },
     ll: { hidden: true, run: (a: any, ctx: any) => cmds.ls.run([], ctx) },
   };
@@ -339,6 +354,9 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
   });
   const [isDragging, setIsDragging] = useState(false);
   const [navPath, setNavPath] = useState<string[]>([]);
+  // On phones, track the visual viewport so the input row stays above the
+  // on-screen keyboard instead of being pushed off the bottom of the screen.
+  const [vv, setVv] = useState<{ h: number; top: number } | null>(null);
   const dragOffset = useRef<{ active: boolean; dx: number; dy: number }>({ active: false, dx: 0, dy: 0 });
   const inputRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -373,6 +391,28 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
     document.body.style.userSelect = 'none';
   };
 
+  // Keep the terminal height pinned to the visual viewport on phones so the
+  // keyboard can't hide the input line. Only active under the mobile breakpoint.
+  useEffect(() => {
+    if (!open) return;
+    const view = window.visualViewport;
+    if (!view) return;
+    const mq = window.matchMedia('(max-width: 760px)');
+    const update = () => {
+      if (mq.matches) setVv({ h: view.height, top: view.offsetTop });
+      else setVv(null);
+    };
+    update();
+    view.addEventListener('resize', update);
+    view.addEventListener('scroll', update);
+    mq.addEventListener('change', update);
+    return () => {
+      view.removeEventListener('resize', update);
+      view.removeEventListener('scroll', update);
+      mq.removeEventListener('change', update);
+    };
+  }, [open]);
+
   // welcome banner on first open
   useEffect(() => {
     if (open && lines.length === 0) {
@@ -386,7 +426,7 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
 
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-  }, [lines, open]);
+  }, [lines, open, vv]);
 
   // ---- completion ----
   const getCompletion = (val: string) => {
@@ -492,7 +532,11 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
       className="term-win"
       role="dialog"
       aria-label="terminal"
-      style={{ left: pos.x, top: pos.y }}
+      style={{
+        left: pos.x,
+        top: pos.y,
+        ...(vv ? { ['--term-h']: `${vv.h}px`, ['--term-top']: `${vv.top}px` } as React.CSSProperties : {}),
+      }}
     >
       <div
         className={`term-bar${isDragging ? ' dragging' : ''}`}
