@@ -28,10 +28,14 @@ jobs:
           LASTFM_USER: timothyou # public username, not a secret
         run: python scripts/update_top_tracks.py
 
-      - name: Commit and push
+      - name: Commit if changed
         run: |
+          if git diff --quiet -- data/v2/top-tracks.json; then
+            echo "No change in top tracks — nothing to commit."
+            exit 0
+          fi
           git config user.name "Timothy Ou"
           git config user.email "timothyou02@gmail.com"
           git add data/v2/top-tracks.json
-          git commit -m "chore: refresh top tracks" || echo "Nothing to commit."
+          git commit -m "chore: refresh top tracks"
           git push
