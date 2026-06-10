@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Fetch my top 5 Last.fm tracks (last ~4 weeks) and write them to JSON.
+"""Fetch my top 5 Last.fm tracks (last 7 days) and write them to JSON.
 
 Last.fm scrobbles your Spotify plays, and its read API needs only an API key
-(no OAuth, no Premium). Run weekly by .github/workflows/update-top-tracks.yml.
+(no OAuth, no Premium). Run daily by .github/workflows/update-top-tracks.yml.
 On ANY failure it exits non-zero WITHOUT touching the JSON, so the last good
 list stays in place and the Action simply skips its commit.
 
@@ -20,7 +20,7 @@ from pathlib import Path
 import requests
 
 API_URL = "https://ws.audioscrobbler.com/2.0/"
-PERIOD = "1month"  # Last.fm's closest bucket to "last 4 weeks"
+PERIOD = "7day"
 LIMIT = 5
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "data" / "v2" / "top-tracks.json"
 

@@ -11,7 +11,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '2.0.2',
     date: '2026-05-31',
     changes: [
-      'music column now auto-updates weekly with my real top tracks (via last.fm)',
+      'music column now auto-updates daily with my real top tracks (via last.fm)',
       'added `untimmy` and `unmatcha` to leave the easter-egg themes and return to your light/dark theme',
       'tidied `help` so every command fits on one line; shortened `disconnect network` to `disc network`',
       'mobile: terminal now shrinks with the on-screen keyboard so the input line stays visible',
