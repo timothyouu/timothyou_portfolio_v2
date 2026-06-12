@@ -4,10 +4,6 @@
     "artist": "Olivia Rodrigo"
   },
   {
-    "name": "I Thought I Saw Your Face Today",
-    "artist": "She & Him"
-  },
-  {
     "name": "Close to You",
     "artist": "Gracie Abrams"
   },
@@ -17,6 +13,10 @@
   },
   {
     "name": "I Love You, I'm Sorry",
+    "artist": "Gracie Abrams"
+  },
+  {
+    "name": "I miss you, I’m sorry",
     "artist": "Gracie Abrams"
   }
 ]
