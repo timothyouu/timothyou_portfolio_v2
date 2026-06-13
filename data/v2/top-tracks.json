@@ -4,6 +4,10 @@
     "artist": "Olivia Rodrigo"
   },
   {
+    "name": "drop dead",
+    "artist": "Olivia Rodrigo"
+  },
+  {
     "name": "Close to You",
     "artist": "Gracie Abrams"
   },
@@ -13,10 +17,6 @@
   },
   {
     "name": "I Love You, I'm Sorry",
-    "artist": "Gracie Abrams"
-  },
-  {
-    "name": "I miss you, I’m sorry",
     "artist": "Gracie Abrams"
   }
 ]
