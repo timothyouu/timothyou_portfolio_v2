@@ -115,7 +115,10 @@ function spriteSize(sprite: string[], px: number) {
 
 export default function DinoGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [hi, setHi] = useState(() => parseInt(localStorage.getItem('dino-hi') || '0', 10));
+  const [hi, setHi] = useState(() => {
+    try { return parseInt(localStorage.getItem('dino-hi') || '0', 10) || 0 }
+    catch { return 0 }
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -136,6 +139,9 @@ export default function DinoGame() {
     const myId = ++DINO_SEQ;
     (window as any).__activeDinoId = myId;
 
+    let savedHi = 0
+    try { savedHi = parseInt(localStorage.getItem('dino-hi') || '0', 10) || 0 } catch {}
+
     const G: any = {
       id: myId,
       raf: 0,
@@ -151,7 +157,7 @@ export default function DinoGame() {
       speed: 5.2,
       scoreF: 0,
       score: 0,
-      hi: parseInt(localStorage.getItem('dino-hi') || '0', 10),
+      hi: savedHi,
       spawnTimer: 50,
       pebbles: Array.from({ length: 18 }, () => ({ x: Math.random() * W, s: Math.random() < 0.5 ? 1 : 2 })),
       flap: 0,
@@ -233,7 +239,7 @@ export default function DinoGame() {
           G.flashT = 6;
           if (G.score > G.hi) {
             G.hi = G.score;
-            localStorage.setItem('dino-hi', String(G.hi));
+            try { localStorage.setItem('dino-hi', String(G.hi)) } catch {}
             setHi(G.hi);
           }
         }

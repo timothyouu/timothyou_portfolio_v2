@@ -43,6 +43,7 @@ export async function handleCallback(code: string, state: string | null) {
       redirect_uri: redirectUri(), code_verifier: verifier,
     }),
   })
+  if (!res.ok) throw new Error(`Token request failed (${res.status})`)
   const tokens = await res.json()
   if (tokens.error) throw new Error(tokens.error_description || tokens.error)
   tokens.expires_at = Date.now() + tokens.expires_in * 1000
@@ -55,13 +56,21 @@ export async function handleCallback(code: string, state: string | null) {
 async function getToken(): Promise<string | null> {
   const raw = localStorage.getItem(TOKEN_KEY)
   if (!raw) return null
-  let t = JSON.parse(raw)
+  let t: any
+  try {
+    t = JSON.parse(raw)
+  } catch {
+    console.warn('[spotify] corrupt token data in localStorage, clearing')
+    localStorage.removeItem(TOKEN_KEY)
+    return null
+  }
   if (Date.now() > t.expires_at - 300_000) {
     if (!t.refresh_token) { localStorage.removeItem(TOKEN_KEY); return null }
     const res = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({ client_id: CLIENT_ID, grant_type: 'refresh_token', refresh_token: t.refresh_token }),
     })
+    if (!res.ok) { localStorage.removeItem(TOKEN_KEY); return null }
     const refreshed = await res.json()
     if (refreshed.error) { localStorage.removeItem(TOKEN_KEY); return null }
     t = { ...t, ...refreshed, expires_at: Date.now() + refreshed.expires_in * 1000 }
@@ -74,8 +83,13 @@ export async function fetchTopTracks(force = false) {
   if (!force) {
     const cached = localStorage.getItem(CACHE_KEY)
     if (cached) {
-      const { tracks, ts } = JSON.parse(cached)
-      if (Date.now() - ts < CACHE_TTL) return tracks
+      try {
+        const { tracks, ts } = JSON.parse(cached)
+        if (Date.now() - ts < CACHE_TTL) return tracks
+      } catch {
+        console.warn('[spotify] corrupt cache data in localStorage, refetching')
+        localStorage.removeItem(CACHE_KEY)
+      }
     }
   }
   const token = await getToken()
@@ -83,6 +97,7 @@ export async function fetchTopTracks(force = false) {
   const res = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=short_term', {
     headers: { Authorization: 'Bearer ' + token },
   })
+  if (!res.ok) return null
   const data = await res.json()
   if (data.error) return null
   const tracks = data.items.map((t: any) => ({

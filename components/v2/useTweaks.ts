@@ -28,13 +28,18 @@ export function useTweaks(): [Tweaks, <K extends keyof Tweaks>(k: K, v: Tweaks[K
     try {
       const raw = localStorage.getItem(KEY)
       if (raw) setT((prev) => ({ ...prev, ...JSON.parse(raw) }))
-    } catch {}
+    } catch (e) {
+      console.warn('[tweaks] failed to parse saved preferences, using defaults:', e)
+      localStorage.removeItem(KEY)
+    }
   }, [])
 
   const setTweak = useCallback(<K extends keyof Tweaks>(k: K, v: Tweaks[K]) => {
     setT((prev) => {
       const next = { ...prev, [k]: v }
-      try { localStorage.setItem(KEY, JSON.stringify(next)) } catch {}
+      try { localStorage.setItem(KEY, JSON.stringify(next)) } catch (e) {
+        console.warn('[tweaks] failed to persist preferences:', e)
+      }
       return next
     })
   }, [])
