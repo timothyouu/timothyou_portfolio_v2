@@ -86,6 +86,7 @@ describe('handleCallback', () => {
     }
 
     global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: true,
       json: () => Promise.resolve(mockTokens),
     })
 
@@ -102,10 +103,24 @@ describe('handleCallback', () => {
     mockStorage['spotify_verifier'] = 'v'
 
     global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: true,
       json: () => Promise.resolve({ error: 'invalid_grant', error_description: 'bad code' }),
     })
 
     await expect(handleCallback('bad-code', 'my-state')).rejects.toThrow('bad code')
+  })
+
+  it('throws when the HTTP response is not ok', async () => {
+    mockStorage['spotify_state'] = 'my-state'
+    mockStorage['spotify_verifier'] = 'v'
+
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: false,
+      status: 400,
+      json: () => Promise.resolve({}),
+    })
+
+    await expect(handleCallback('bad-code', 'my-state')).rejects.toThrow('Token request failed (400)')
   })
 })
 
@@ -163,6 +178,7 @@ describe('fetchTopTracks', () => {
     }
 
     global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: true,
       json: () => Promise.resolve(apiTracks),
     })
 
@@ -192,8 +208,8 @@ describe('fetchTopTracks', () => {
     }
 
     global.fetch = jest.fn()
-      .mockResolvedValueOnce({ json: () => Promise.resolve(refreshedTokens) })
-      .mockResolvedValueOnce({ json: () => Promise.resolve(apiTracks) })
+      .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(refreshedTokens) })
+      .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(apiTracks) })
 
     const result = await fetchTopTracks(true)
     expect(result).toEqual([{ name: 'NewTrack', artist: 'ArtistX', url: 'url' }])
@@ -210,6 +226,7 @@ describe('fetchTopTracks', () => {
     })
 
     global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: true,
       json: () => Promise.resolve({ error: 'invalid_grant' }),
     })
 
@@ -231,6 +248,54 @@ describe('fetchTopTracks', () => {
     expect(mockStorage[TOKEN_KEY]).toBeUndefined()
   })
 
+  it('returns null when token refresh HTTP response is not ok', async () => {
+    mockStorage[TOKEN_KEY] = JSON.stringify({
+      access_token: 'old-tok',
+      refresh_token: 'ref-tok',
+      expires_at: Date.now() + 100_000,
+    })
+
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: false,
+      status: 401,
+      json: () => Promise.resolve({}),
+    })
+
+    const result = await fetchTopTracks(true)
+    expect(result).toBeNull()
+    expect(mockStorage[TOKEN_KEY]).toBeUndefined()
+  })
+
+  it('returns null when top tracks HTTP response is not ok', async () => {
+    mockStorage[TOKEN_KEY] = JSON.stringify({
+      access_token: 'valid-tok',
+      expires_at: Date.now() + 3600_000,
+    })
+
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: false,
+      status: 403,
+      json: () => Promise.resolve({}),
+    })
+
+    const result = await fetchTopTracks(true)
+    expect(result).toBeNull()
+  })
+
+  it('handles corrupt token data in localStorage', async () => {
+    mockStorage[TOKEN_KEY] = 'not-valid-json'
+    const result = await fetchTopTracks(true)
+    expect(result).toBeNull()
+    expect(mockStorage[TOKEN_KEY]).toBeUndefined()
+  })
+
+  it('handles corrupt cache data in localStorage', async () => {
+    mockStorage[CACHE_KEY] = 'not-valid-json'
+    // No token, so should return null after clearing bad cache
+    const result = await fetchTopTracks()
+    expect(result).toBeNull()
+  })
+
   it('returns null when API returns error', async () => {
     mockStorage[TOKEN_KEY] = JSON.stringify({
       access_token: 'valid-tok',
@@ -238,6 +303,7 @@ describe('fetchTopTracks', () => {
     })
 
     global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: true,
       json: () => Promise.resolve({ error: { status: 401 } }),
     })
 
