@@ -24,9 +24,13 @@ export async function authorize() {
   const verifier = rand(64)
   const challenge = await sha256b64url(verifier)
   const state = rand(16)
-  localStorage.setItem('spotify_verifier', verifier)
-  localStorage.setItem('spotify_state', state)
-  localStorage.setItem('spotify_return_hash', window.location.hash || '#about')
+  try {
+    localStorage.setItem('spotify_verifier', verifier)
+    localStorage.setItem('spotify_state', state)
+    localStorage.setItem('spotify_return_hash', window.location.hash || '#about')
+  } catch (e) {
+    throw new Error('Cannot save auth state — localStorage unavailable')
+  }
   window.location.href = 'https://accounts.spotify.com/authorize?' + new URLSearchParams({
     client_id: CLIENT_ID, response_type: 'code', redirect_uri: redirectUri(),
     scope: SCOPE, code_challenge_method: 'S256', code_challenge: challenge, state,

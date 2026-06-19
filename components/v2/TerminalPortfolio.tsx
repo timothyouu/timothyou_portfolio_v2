@@ -53,8 +53,10 @@ export default function TerminalPortfolio() {
     if (h.includes('v1')) {
       setVersion('v1')
     } else {
-      const stored = localStorage.getItem('portfolio-version')
-      if (stored === 'v1' || stored === 'v2') setVersion(stored)
+      try {
+        const stored = localStorage.getItem('portfolio-version')
+        if (stored === 'v1' || stored === 'v2') setVersion(stored)
+      } catch {}
       if (h.replace('#', '') === 'about') setPage('about')
     }
   }, [])
@@ -101,9 +103,12 @@ export default function TerminalPortfolio() {
     if (!code && !error) return
 
     // Clean URL immediately
-    const returnHash = localStorage.getItem('spotify_return_hash') || '#about'
+    let returnHash = '#about'
+    try {
+      returnHash = localStorage.getItem('spotify_return_hash') || '#about'
+      localStorage.removeItem('spotify_return_hash')
+    } catch {}
     history.replaceState(null, '', window.location.pathname + returnHash)
-    localStorage.removeItem('spotify_return_hash')
 
     if (code) {
       setPage('about')
@@ -136,7 +141,7 @@ export default function TerminalPortfolio() {
 
   // Sync hash and localStorage with current version/page
   useEffect(() => {
-    localStorage.setItem('portfolio-version', version)
+    try { localStorage.setItem('portfolio-version', version) } catch {}
     const base = page === 'about' ? 'about' : 'home'
     if (window.location.hash.replace('#', '') !== base) {
       history.replaceState(null, '', '#' + base)
