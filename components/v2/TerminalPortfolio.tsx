@@ -9,6 +9,7 @@ import Terminal, { type TerminalApi } from './Terminal'
 import SettingsPanel from './SettingsPanel'
 import VersionToggle from './VersionToggle'
 import { handleCallback, fetchTopTracks } from '@/lib/v2/spotify'
+import { scrollToElement } from '@/lib/utils'
 
 const FONT_STACKS: Record<string, string> = {
   'JetBrains Mono': 'var(--font-jetbrains-mono), ui-monospace, Menlo, monospace',
@@ -73,10 +74,7 @@ export default function TerminalPortfolio() {
     navigate: (p, id) => {
       setPage(p === 'about' ? 'about' : 'home')
       setTimeout(() => {
-        if (id) {
-          const el = document.getElementById(id)
-          if (el) { window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 24, behavior: 'smooth' }); return }
-        }
+        if (id) { scrollToElement(id); return }
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }, 90)
     },
@@ -89,10 +87,7 @@ export default function TerminalPortfolio() {
       setTimeout(() => window.dispatchEvent(new CustomEvent('portfolio:open-project', { detail: { title } })), 60)
     },
     scrollTo: (id) => {
-      setTimeout(() => {
-        const el = document.getElementById(id)
-        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 24, behavior: 'smooth' })
-      }, 60)
+      setTimeout(() => scrollToElement(id), 60)
     },
     close: () => setTermOpen(false),
   }), [page, version, t.theme, t.font, t.asciiSize, t.hoverReveal, setTweak])

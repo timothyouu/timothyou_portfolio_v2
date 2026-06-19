@@ -6,6 +6,7 @@ import { ASCII_DATA } from '@/data/v2/ascii-data'
 import AsciiImage from './AsciiImage'
 import TopBar from './TopBar'
 import Footer from './Footer'
+import { titleCase } from '@/lib/utils'
 
 // Refreshed daily by the Last.fm GitHub Action; falls back to whatever the
 // last successful run committed to top-tracks.json.
@@ -118,8 +119,8 @@ export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => 
             <h4>music</h4>
             <ul>
               {TOP_TRACKS.map((t, i) => <li key={i}>
-                  <span className="t">{t.name.replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase())}</span>
-                  <span className="s">{t.artist.replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase())}</span>
+                  <span className="t">{titleCase(t.name)}</span>
+                  <span className="s">{titleCase(t.artist)}</span>
                 </li>
               )}
             </ul>

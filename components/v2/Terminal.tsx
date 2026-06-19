@@ -39,7 +39,39 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
   }));
   const projectKeys = projects.map((p) => p.key);
 
-  const open = (url: any) => { if (url) window.open(url, '_blank', 'noopener'); };
+  const openUrl = (url: string) => { window.open(url, '_blank', 'noopener'); };
+
+  const makeEasterToggle = (theme: string, onMsg: string, offMsg: string) => ({
+    hidden: true,
+    desc: `toggle ${theme} mode`,
+    run: (a: any, ctx: any) => {
+      const current = (window as any).PORTFOLIO_EASTER || 'none'
+      const next = current === theme ? 'none' : theme
+      ;(window as any).PORTFOLIO_EASTER = next
+      window.dispatchEvent(new CustomEvent('portfolio:easter', { detail: { theme: next } }))
+      document.body.classList.toggle(theme, next === theme)
+      const other = theme === 'matcha' ? 'lavender' : 'matcha'
+      document.body.classList.remove(other)
+      ctx.ok(next === theme ? onMsg : offMsg)
+    },
+  })
+
+  const makeEasterOff = (theme: string, offMsg: string) => ({
+    hidden: true,
+    desc: `leave ${theme} mode`,
+    run: (a: any, ctx: any) => {
+      const wasOn = ((window as any).PORTFOLIO_EASTER || 'none') === theme
+      ;(window as any).PORTFOLIO_EASTER = 'none'
+      window.dispatchEvent(new CustomEvent('portfolio:easter', { detail: { theme: 'none' } }))
+      document.body.classList.remove(theme)
+      ctx.ok(wasOn ? `${theme} mode off — back to ${api.getState().theme} theme` : `${theme} mode is already off.`)
+    },
+  })
+
+  const makeSocialCmd = (desc: string, url: string, label: string) => ({
+    desc,
+    run: (a: any, ctx: any) => { openUrl(url); ctx.ok(`opening ${label}`); },
+  })
 
   // navigable filesystem: dir -> { page, section id }
   const DESTS: Record<string, { page: string; id: string | null }> = {
@@ -179,7 +211,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
 
     resume: {
       desc: 'open my resume (pdf)',
-      run: (a: any, ctx: any) => { open(L.resume); ctx.ok('opening resume.pdf in a new tab'); },
+      run: (a: any, ctx: any) => { openUrl(L.resume); ctx.ok('opening resume.pdf in a new tab'); },
     },
 
     changelog: {
@@ -256,11 +288,11 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
         );
       },
     },
-    github: { desc: 'open github', run: (a: any, ctx: any) => { open(L.github); ctx.ok('opening github'); } },
-    linkedin: { desc: 'open linkedin', run: (a: any, ctx: any) => { open(L.linkedin); ctx.ok('opening linkedin'); } },
-    x: { desc: 'open x / twitter', run: (a: any, ctx: any) => { open(L.x); ctx.ok('opening x'); } },
-    email: { desc: 'compose an email', run: (a: any, ctx: any) => { open(L.email); ctx.ok('opening mail client'); } },
-    web: { desc: 'open timothyou.dev', run: (a: any, ctx: any) => { open(L.web); ctx.ok('opening timothyou.dev'); } },
+    github: makeSocialCmd('open github', L.github, 'github'),
+    linkedin: makeSocialCmd('open linkedin', L.linkedin, 'linkedin'),
+    x: makeSocialCmd('open x / twitter', L.x, 'x'),
+    email: makeSocialCmd('compose an email', L.email, 'mail client'),
+    web: makeSocialCmd('open timothyou.dev', L.web, 'timothyou.dev'),
 
     reveal: {
       desc: 'photo reveal mode',
@@ -294,22 +326,8 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
     exit: { desc: 'close terminal', run: (a: any, ctx: any) => ctx.close() },
 
     sudo: { hidden: true, desc: 'try to escalate privileges', run: (a: any, ctx: any) => ctx.err("nice try. you don't have root here :)") },
-    matcha: { hidden: true, desc: 'replenish caffeine levels', run: (a: any, ctx: any) => {
-      const current = (window as any).PORTFOLIO_EASTER || 'none';
-      const next = current === 'matcha' ? 'none' : 'matcha';
-      (window as any).PORTFOLIO_EASTER = next;
-      window.dispatchEvent(new CustomEvent('portfolio:easter', { detail: { theme: next } }));
-      document.body.classList.toggle('matcha', next === 'matcha');
-      document.body.classList.remove('lavender');
-      ctx.ok(next === 'matcha' ? 'matcha mode on 🍵 brewing...' : 'matcha mode off. back to terminal.');
-    } },
-    unmatcha: { hidden: true, desc: 'leave matcha mode', run: (a: any, ctx: any) => {
-      const wasOn = ((window as any).PORTFOLIO_EASTER || 'none') === 'matcha';
-      (window as any).PORTFOLIO_EASTER = 'none';
-      window.dispatchEvent(new CustomEvent('portfolio:easter', { detail: { theme: 'none' } }));
-      document.body.classList.remove('matcha');
-      ctx.ok(wasOn ? `matcha mode off — back to ${api.getState().theme} theme` : 'matcha mode is already off.');
-    } },
+    matcha: makeEasterToggle('matcha', 'matcha mode on 🍵 brewing...', 'matcha mode off. back to terminal.'),
+    unmatcha: makeEasterOff('matcha', 'matcha mode off'),
     coffee: { hidden: true, desc: 'wrong drink', run: (a: any, ctx: any) => ctx.out('we use matcha in this house. try `matcha`.') },
     disc: { hidden: true, desc: 'kill the wifi 😈', usage: 'network', args: ['network'], run: (args: any, ctx: any) => {
       if ((args[0] || '').toLowerCase() !== 'network') return ctx.err('usage: disc network');
@@ -319,22 +337,8 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
     } },
     disconnect: { hidden: true, run: (args: any, ctx: any) => cmds.disc.run(args, ctx) },
     rm: { hidden: true, desc: 'delete something', run: (a: any, ctx: any) => ctx.err('absolutely not.') },
-    timmy: { hidden: true, desc: 'toggle lavender mode', run: (a: any, ctx: any) => {
-      const current = (window as any).PORTFOLIO_EASTER || 'none';
-      const next = current === 'lavender' ? 'none' : 'lavender';
-      (window as any).PORTFOLIO_EASTER = next;
-      window.dispatchEvent(new CustomEvent('portfolio:easter', { detail: { theme: next } }));
-      document.body.classList.toggle('lavender', next === 'lavender');
-      document.body.classList.remove('matcha');
-      ctx.ok(next === 'lavender' ? 'lavender mode on 💜' : 'lavender mode off.');
-    } },
-    untimmy: { hidden: true, desc: 'leave lavender mode', run: (a: any, ctx: any) => {
-      const wasOn = ((window as any).PORTFOLIO_EASTER || 'none') === 'lavender';
-      (window as any).PORTFOLIO_EASTER = 'none';
-      window.dispatchEvent(new CustomEvent('portfolio:easter', { detail: { theme: 'none' } }));
-      document.body.classList.remove('lavender');
-      ctx.ok(wasOn ? `lavender mode off — back to ${api.getState().theme} theme` : 'lavender mode is already off.');
-    } },
+    timmy: makeEasterToggle('lavender', 'lavender mode on 💜', 'lavender mode off.'),
+    untimmy: makeEasterOff('lavender', 'lavender mode off'),
     ll: { hidden: true, run: (a: any, ctx: any) => cmds.ls.run([], ctx) },
   };
   return cmds;

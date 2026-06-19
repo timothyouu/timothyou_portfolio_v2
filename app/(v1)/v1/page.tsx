@@ -1,6 +1,12 @@
 import Image from 'next/image'
 import TextCycler from '@/components/v1/TextCycler'
 
+const FUN_FACTS = [
+  "🤝 I'm an Open Source and Marketing Board member @acmcsuf",
+  '🖥️ I play Valorant and Roblox in my free time',
+  '📸 I love taking pictures',
+]
+
 export default function Home() {
   return (
     <div className="flex flex-row flex-wrap justify-center items-center w-full max-w-[1400px] px-5 py-6 gap-[clamp(2rem,6vw,7rem)] max-[1050px]:flex-col max-[1050px]:gap-8">
@@ -19,24 +25,15 @@ export default function Home() {
         </h2>
         <TextCycler />
         <div className="flex flex-col gap-[clamp(0.4rem,1vh,0.75rem)] w-full">
-          <p
-            className="text-[#E0E1DD] font-semibold leading-snug m-0 font-[family-name:var(--font-titan-one)]"
-            style={{ fontSize: 'clamp(0.85rem, 1.8vw, 1.75rem)' }}
-          >
-            🤝 I&apos;m an Open Source and Marketing Board member @acmcsuf
-          </p>
-          <p
-            className="text-[#E0E1DD] font-semibold leading-snug m-0 font-[family-name:var(--font-titan-one)]"
-            style={{ fontSize: 'clamp(0.85rem, 1.8vw, 1.75rem)' }}
-          >
-            🖥️ I play Valorant and Roblox in my free time
-          </p>
-          <p
-            className="text-[#E0E1DD] font-semibold leading-snug m-0 font-[family-name:var(--font-titan-one)]"
-            style={{ fontSize: 'clamp(0.85rem, 1.8vw, 1.75rem)' }}
-          >
-            📸 I love taking pictures
-          </p>
+          {FUN_FACTS.map((fact) => (
+            <p
+              key={fact}
+              className="text-[#E0E1DD] font-semibold leading-snug m-0 font-[family-name:var(--font-titan-one)]"
+              style={{ fontSize: 'clamp(0.85rem, 1.8vw, 1.75rem)' }}
+            >
+              {fact}
+            </p>
+          ))}
         </div>
       </div>
       <Image
