@@ -27,7 +27,10 @@ export function useTweaks(): [Tweaks, <K extends keyof Tweaks>(k: K, v: Tweaks[K
   useEffect(() => {
     try {
       const raw = localStorage.getItem(KEY)
-      if (raw) setT((prev) => ({ ...prev, ...JSON.parse(raw) }))
+      if (raw) {
+        const parsed = JSON.parse(raw)
+        setT((prev) => ({ ...prev, ...parsed }))
+      }
     } catch (e) {
       console.warn('[tweaks] failed to parse saved preferences, using defaults:', e)
       try { localStorage.removeItem(KEY) } catch {}
