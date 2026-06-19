@@ -9,7 +9,9 @@ export default function BackToV2() {
       onClick={() => {
         // Record the v1→v2 intent so the v2 root doesn't read the persisted
         // 'v1' preference and immediately redirect back to /v1.
-        try { localStorage.setItem('portfolio-version', 'v2') } catch {}
+        try { localStorage.setItem('portfolio-version', 'v2') } catch (e) {
+          console.warn('[portfolio] failed to persist version preference:', e)
+        }
       }}
       className="fixed bottom-5 left-5 z-[100] flex items-center gap-2 rounded-full border border-[#3f3b79] bg-[#0A081D] px-3 py-1.5 text-[11px] uppercase tracking-wider text-[#D5B8E2] no-underline hover:bg-[#16142A]"
       aria-label="Switch to v2 portfolio"

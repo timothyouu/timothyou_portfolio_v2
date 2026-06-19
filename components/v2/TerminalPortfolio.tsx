@@ -115,7 +115,11 @@ export default function TerminalPortfolio() {
       handleCallback(code, state)
         .then(() => fetchTopTracks(true))
         .then(() => window.dispatchEvent(new CustomEvent('spotify:connected')))
-        .catch((err: unknown) => console.error('Spotify auth error:', err))
+        .catch((err: unknown) => {
+          const message = err instanceof Error ? err.message : 'Unknown error'
+          console.error('[spotify] auth callback failed:', message)
+          window.dispatchEvent(new CustomEvent('spotify:error', { detail: { message } }))
+        })
     }
   }, [])
 
