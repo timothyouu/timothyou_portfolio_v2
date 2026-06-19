@@ -1,7 +1,7 @@
 // Spotify PKCE OAuth helpers — no client secret needed. Dormant in v2 (no connect
 // button); only handleCallback runs if the app loads with ?code=. Top-tracks needs
 // Premium, so the RAM "music" column renders the manual TOP_TRACKS list instead.
-const CLIENT_ID = '932f971de9dd4076af84d7d118bf165b'
+const CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID || ''
 const SCOPE = 'user-top-read'
 const TOKEN_KEY = 'spotify_tokens'
 const CACHE_KEY = 'spotify_top_tracks'
