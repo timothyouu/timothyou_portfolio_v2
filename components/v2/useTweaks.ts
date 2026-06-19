@@ -30,7 +30,7 @@ export function useTweaks(): [Tweaks, <K extends keyof Tweaks>(k: K, v: Tweaks[K
       if (raw) setT((prev) => ({ ...prev, ...JSON.parse(raw) }))
     } catch (e) {
       console.warn('[tweaks] failed to parse saved preferences, using defaults:', e)
-      localStorage.removeItem(KEY)
+      try { localStorage.removeItem(KEY) } catch {}
     }
   }, [])
 
