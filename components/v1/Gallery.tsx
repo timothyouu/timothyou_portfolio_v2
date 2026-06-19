@@ -9,6 +9,24 @@ type GalleryProps =
   | { variant: 'photos'; items: Photo[] }
   | { variant: 'projects'; items: Project[] }
 
+function GalleryNavButton({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) {
+  const svgPath = direction === 'prev'
+    ? 'M639-80 710-151 381-480 710-809 639-880 239-480Z'
+    : 'm321-80-71-71 329-329-329-329 71-71 400 400-400 400Z'
+
+  return (
+    <button
+      onClick={onClick}
+      aria-label={direction === 'prev' ? 'Previous' : 'Next'}
+      className="bg-[#282450] w-[90px] max-[1050px]:w-[40px] max-[480px]:w-[32px] h-[90%] rounded-[32px] max-[480px]:rounded-[16px] flex justify-center items-center shrink-0 hover:bg-[#3f3b79] transition-colors cursor-pointer border-0"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" className="w-[58px] h-[58px] max-[1050px]:w-[28px] max-[1050px]:h-[28px] max-[480px]:w-[20px] max-[480px]:h-[20px]" viewBox="0 -960 960 960" fill="#D5B8E2">
+        <path d={svgPath} />
+      </svg>
+    </button>
+  )
+}
+
 export default function Gallery(props: GalleryProps) {
   const [index, setIndex] = useState(0)
   const prev = () => setIndex(i => (i - 1 + props.items.length) % props.items.length)
@@ -18,15 +36,7 @@ export default function Gallery(props: GalleryProps) {
   return (
     <>
       <div className="w-full flex-1 flex flex-row justify-between items-center gap-8 min-h-0">
-        <button
-          onClick={prev}
-          aria-label="Previous"
-          className="bg-[#282450] w-[90px] max-[1050px]:w-[40px] max-[480px]:w-[32px] h-[90%] rounded-[32px] max-[480px]:rounded-[16px] flex justify-center items-center shrink-0 hover:bg-[#3f3b79] transition-colors cursor-pointer border-0"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-[58px] h-[58px] max-[1050px]:w-[28px] max-[1050px]:h-[28px] max-[480px]:w-[20px] max-[480px]:h-[20px]" viewBox="0 -960 960 960" fill="#D5B8E2">
-            <path d="M639-80 710-151 381-480 710-809 639-880 239-480Z" />
-          </svg>
-        </button>
+        <GalleryNavButton direction="prev" onClick={prev} />
 
         <div className="flex-1 h-full rounded-[32px] overflow-hidden relative min-w-0">
           <Image
@@ -37,15 +47,7 @@ export default function Gallery(props: GalleryProps) {
           />
         </div>
 
-        <button
-          onClick={next}
-          aria-label="Next"
-          className="bg-[#282450] w-[90px] max-[1050px]:w-[40px] max-[480px]:w-[32px] h-[90%] rounded-[32px] max-[480px]:rounded-[16px] flex justify-center items-center shrink-0 hover:bg-[#3f3b79] transition-colors cursor-pointer border-0"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-[58px] h-[58px] max-[1050px]:w-[28px] max-[1050px]:h-[28px] max-[480px]:w-[20px] max-[480px]:h-[20px]" viewBox="0 -960 960 960" fill="#D5B8E2">
-            <path d="m321-80-71-71 329-329-329-329 71-71 400 400-400 400Z" />
-          </svg>
-        </button>
+        <GalleryNavButton direction="next" onClick={next} />
       </div>
 
       {props.variant === 'photos' && 'location' in current && (

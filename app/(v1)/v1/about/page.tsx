@@ -4,6 +4,12 @@ import { photos } from '@/data/photos'
 
 const lavenderFilter = 'invert(100%) sepia(100%) saturate(200%) hue-rotate(270deg) brightness(100%) contrast(100%)'
 
+const SOCIAL_LINKS = [
+  { href: 'https://www.linkedin.com/in/timothy-ou/', icon: '/linkedin.png', alt: 'LinkedIn' },
+  { href: 'https://www.instagram.com/timothyouu/', icon: '/instagram.png', alt: 'Instagram' },
+  { href: 'https://github.com/timothyouu', icon: '/github.png', alt: 'GitHub' },
+]
+
 export default function About() {
   return (
     <div className="flex flex-row items-center justify-center gap-10 w-full max-w-[2000px] px-8 max-[480px]:px-4 py-8 box-border max-[768px]:flex-col max-[768px]:items-center">
@@ -35,39 +41,20 @@ export default function About() {
 
           {/* Social icons */}
           <div className="flex flex-row justify-around w-[90%] items-center pb-4">
-            <a
-              href="https://www.linkedin.com/in/timothy-ou/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#282450] w-[30%] h-[110px] max-[1050px]:h-[40px] rounded-[32px] flex justify-center items-center hover:bg-[#3f3b79] transition-colors"
-            >
-              <Image src="/linkedin.png" alt="LinkedIn" width={60} height={60}
-                className="h-[60px] max-[1050px]:h-[25px] w-auto"
-                style={{ filter: lavenderFilter }}
-              />
-            </a>
-            <a
-              href="https://www.instagram.com/timothyouu/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#282450] w-[30%] h-[110px] max-[1050px]:h-[40px] rounded-[32px] flex justify-center items-center hover:bg-[#3f3b79] transition-colors"
-            >
-              <Image src="/instagram.png" alt="Instagram" width={60} height={60}
-                className="h-[60px] max-[1050px]:h-[25px] w-auto"
-                style={{ filter: lavenderFilter }}
-              />
-            </a>
-            <a
-              href="https://github.com/timothyouu"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#282450] w-[30%] h-[110px] max-[1050px]:h-[40px] rounded-[32px] flex justify-center items-center hover:bg-[#3f3b79] transition-colors"
-            >
-              <Image src="/github.png" alt="GitHub" width={60} height={60}
-                className="h-[60px] max-[1050px]:h-[25px] w-auto"
-                style={{ filter: lavenderFilter }}
-              />
-            </a>
+            {SOCIAL_LINKS.map(({ href, icon, alt }) => (
+              <a
+                key={alt}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#282450] w-[30%] h-[110px] max-[1050px]:h-[40px] rounded-[32px] flex justify-center items-center hover:bg-[#3f3b79] transition-colors"
+              >
+                <Image src={icon} alt={alt} width={60} height={60}
+                  className="h-[60px] max-[1050px]:h-[25px] w-auto"
+                  style={{ filter: lavenderFilter }}
+                />
+              </a>
+            ))}
           </div>
         </div>
       </div>

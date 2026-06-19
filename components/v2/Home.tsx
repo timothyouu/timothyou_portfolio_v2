@@ -7,6 +7,7 @@ import { CURRENT_VERSION } from '@/data/v2/changelog'
 import AsciiImage from './AsciiImage'
 import TopBar from './TopBar'
 import Footer from './Footer'
+import { scrollToElement } from '@/lib/utils'
 
 export default function Home({ goTo, setSettingsOpen }: { goTo: (p: string) => void; setSettingsOpen: (fn: (o: boolean) => boolean) => void }) {
   const [open, setOpen] = useState<number | null>(null);
@@ -18,10 +19,7 @@ export default function Home({ goTo, setSettingsOpen }: { goTo: (p: string) => v
       const idx = HOME_PROJECTS.findIndex((p) => p.title === title);
       if (idx >= 0) {
         setOpen(idx);
-        setTimeout(() => {
-          const el = document.getElementById('projects');
-          if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 24, behavior: 'smooth' });
-        }, 40);
+        setTimeout(() => scrollToElement('projects'), 40);
       }
     };
     window.addEventListener('portfolio:open-project', onOpen);
