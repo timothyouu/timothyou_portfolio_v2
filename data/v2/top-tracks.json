@@ -1,5 +1,9 @@
 [
   {
+    "name": "less",
+    "artist": "Olivia Rodrigo"
+  },
+  {
     "name": "cigarette smoke",
     "artist": "Olivia Rodrigo"
   },
@@ -12,11 +16,7 @@
     "artist": "Olivia Rodrigo"
   },
   {
-    "name": "stupid song",
-    "artist": "Olivia Rodrigo"
-  },
-  {
-    "name": "the cure",
+    "name": "maggots for brains",
     "artist": "Olivia Rodrigo"
   }
 ]
