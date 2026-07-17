@@ -4,10 +4,6 @@
     "artist": "Bella Kay"
   },
   {
-    "name": "the cure",
-    "artist": "Olivia Rodrigo"
-  },
-  {
     "name": "You Stole The Show",
     "artist": "Sienna Spiro"
   },
@@ -16,7 +12,11 @@
     "artist": "beabadoobee"
   },
   {
-    "name": "Tough Love",
-    "artist": "Gracie Abrams"
+    "name": "Picture You",
+    "artist": "Chappell Roan"
+  },
+  {
+    "name": "The Cut That Always Bleeds",
+    "artist": "Conan Gray"
   }
 ]
