@@ -1,13 +1,5 @@
 [
   {
-    "name": "Hit the Wall",
-    "artist": "Gracie Abrams"
-  },
-  {
-    "name": "Look At My Life",
-    "artist": "Gracie Abrams"
-  },
-  {
     "name": "Afflictions",
     "artist": "Gracie Abrams"
   },
@@ -17,6 +9,14 @@
   },
   {
     "name": "Cold Goodbyes",
+    "artist": "Gracie Abrams"
+  },
+  {
+    "name": "Daughter From Hell",
+    "artist": "Gracie Abrams"
+  },
+  {
+    "name": "Good Reason",
     "artist": "Gracie Abrams"
   }
 ]
