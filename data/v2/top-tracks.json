@@ -1,5 +1,9 @@
 [
   {
+    "name": "Men Like You",
+    "artist": "Gracie Abrams"
+  },
+  {
     "name": "Afflictions",
     "artist": "Gracie Abrams"
   },
@@ -13,10 +17,6 @@
   },
   {
     "name": "Daughter From Hell",
-    "artist": "Gracie Abrams"
-  },
-  {
-    "name": "Good Reason",
     "artist": "Gracie Abrams"
   }
 ]
