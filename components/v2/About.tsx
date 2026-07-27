@@ -51,19 +51,19 @@ export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => 
         <h3>experience</h3>
         <div className="timeline">
           <div className="exp">
+            <div className="when">Mar 2026 to Present</div>
+            <div className="what">
+              <div className="role">ChatGPT Student Lab Member</div>
+              <div className="org">OpenAI</div>
+              <div className="blurb">One of 50 students exploring how AI shows up in student workflows</div>
+            </div>
+          </div>
+          <div className="exp">
             <div className="when">Jan 2026 to Present</div>
             <div className="what">
               <div className="role">Embedded Tutor</div>
               <div className="org">California State University, Fullerton</div>
               <div className="blurb">Helping intro CS and C++ students debug and figure things out in real time</div>
-            </div>
-          </div>
-          <div className="exp">
-            <div className="when">Jun 2025 to Aug 2025</div>
-            <div className="what">
-              <div className="role">Technical Research Assistant</div>
-              <div className="org">California Institute of Technology</div>
-              <div className="blurb">Volunteer tech support and data work at the research lab</div>
             </div>
           </div>
           <div className="exp">
@@ -76,11 +76,11 @@ export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => 
             </div>
           </div>
           <div className="exp">
-            <div className="when">Mar 2026 to Present</div>
+            <div className="when">Jun 2025 to Aug 2025</div>
             <div className="what">
-              <div className="role">ChatGPT Student Lab Member</div>
-              <div className="org">OpenAI</div>
-              <div className="blurb">One of 50 students exploring how AI shows up in student workflows</div>
+              <div className="role">Technical Research Assistant</div>
+              <div className="org">California Institute of Technology</div>
+              <div className="blurb">Volunteer tech support and data work at the research lab</div>
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => 
             <div className="blurb">Open source workshops and marketing that got people to show up</div>
           </div>
           <div className="card">
-            <div className="role">Marketing &amp; Operations Officer</div>
+            <div className="role">Director &middot; Marketing &middot; Operations</div>
             <div className="org">FullyHacks, CSUF&apos;s annual hackathon</div>
             <div className="blurb">Sponsorships, logistics, and the brand identity people remember</div>
           </div>
