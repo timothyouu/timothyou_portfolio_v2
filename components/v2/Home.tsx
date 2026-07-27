@@ -57,7 +57,7 @@ export default function Home({ goTo, setSettingsOpen }: { goTo: (p: string) => v
       <section className="intro">
         <p><span className="prompt">$</span>whoami</p>
         <p>I'm Timothy, a junior CS student at Cal State Fullerton, building full-stack apps and AI-powered tools.</p>
-        <p>I'm a <a className="link" href={L.figma} target="_blank" rel="noopener">Figma Campus Leader</a> and a member of the <a className="link" href={L.openai} target="_blank" rel="noopener">OpenAI ChatGPT Student Lab</a>, a 50-person national cohort exploring how students actually use AI.</p>
+        <p>I'm a <a className="link" href={L.figma} target="_blank" rel="noopener">Figma Campus Leader</a> and a member of the <a className="link" href={L.openai} target="_blank" rel="noopener">OpenAI ChatGPT Student Lab</a>, a 50-person national cohort exploring how students actually use AI. I'm also Director of <a className="link" href={L.fullyhacks} target="_blank" rel="noopener">FullyHacks</a>, working on bringing it to life.</p>
         <p>Previously at CSUF I served as Open Source Officer for <a className="link" href={L.acm} target="_blank" rel="noopener">ACM</a>, ran sponsorships &amp; ops for <a className="link" href={L.fullyhacks} target="_blank" rel="noopener">FullyHacks</a>, and supported technical research with a professor at <a className="link" href={L.caltech} target="_blank" rel="noopener">Caltech</a>.</p>
         <p>Reach me via <a className="link" href={L.x} target="_blank" rel="noopener">X</a>, <a className="link" href={L.linkedin} target="_blank" rel="noopener">LinkedIn</a>, or <a className="link" href={L.email}>email</a>. This is my <a className="link" href={L.resume} target="_blank" rel="noopener">resume</a>.</p>
       </section>

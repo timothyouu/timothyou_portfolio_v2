@@ -5,7 +5,7 @@ export const LINKS = {
   linkedin:   'https://www.linkedin.com/in/timothy-ou/',
   x:          'https://x.com/timothyouuu',
   email:      'mailto:timothyou02@gmail.com',
-  resume:     '/uploads/Timothy_Ou_Resume-1028b77d.pdf',
+  resume:     '/uploads/Timothy_Ou_Resume-b24a19cb.pdf',
   web:        'https://timothyou.dev',
   figma:      'https://www.instagram.com/figmaatcsuf/',
   openai:     'https://chatgpt.com/use-cases/students/',
