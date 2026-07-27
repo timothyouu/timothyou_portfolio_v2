@@ -15,7 +15,18 @@ export type HomeProject = {
 
 export const HOME_PROJECTS: HomeProject[] = [
   {
-    n: '01', title: 'Tenet',
+    n: '01', title: 'Policy Intelligence Assistant',
+    blurb: 'AI policy search assistant with cited, conflict-aware answers for CSUB',
+    meta: ['react', 'typescript', 'fastapi', 'python', 'aws bedrock', 'dynamodb'],
+    ascii: '', label: 'Policy Intelligence Assistant',
+    detail: 'Built for the AI Summer Camp hackathon (Academic Affairs / Senate Resolution track), where it placed 2nd. Lets CSUB employees ask a policy chatbot for cited, conflict-aware answers, and lets reviewers check draft resolutions against the existing policy corpus from a persistent drafting workspace. A six-agent pipeline traces every conflict check, running locally by default or AWS-backed via Bedrock and DynamoDB.',
+    image: '/uploads/proj-policy-intel.png',
+    links: [
+      { label: 'github', url: 'https://github.com/timothyouu/AI-Summer-Camp-Academicaffairs-Senateresolution' },
+    ],
+  },
+  {
+    n: '02', title: 'Tenet',
     blurb: 'Branch, merge, and rollback AI chat states on the ASUS Ascent GX10',
     meta: ['react', 'typescript', 'fastapi', 'mongodb', 'd3.js', 'ollama', 'ASUS GX10'],
     ascii: ASCII_DATA.tenet, label: 'Tenet UI',
@@ -24,18 +35,6 @@ export const HOME_PROJECTS: HomeProject[] = [
     links: [
       { label: 'github', url: 'https://github.com/Yd025/Tenet' },
       { label: 'devpost', url: 'https://devpost.com/software/tenet' },
-    ],
-  },
-  {
-    n: '02', title: 'WalkBack',
-    blurb: 'Mobile safety navigator with real-time safety-scored routing',
-    meta: ['react-native', 'fastapi', 'supabase', 'graphhopper'],
-    ascii: ASCII_DATA.walkback, label: 'WalkBack app',
-    detail: 'Built with React Native and react-native-maps to surface safety-scored routes and live GPS positioning. FastAPI endpoints sync user data and power the Buddy System group-matching feature so you never walk back alone.',
-    image: '/uploads/proj-walkback.png',
-    links: [
-      { label: 'github', url: 'https://github.com/galacticaledge/diamondhacks2026-map' },
-      { label: 'devpost', url: 'https://devpost.com/software/walkback-zctpik' },
     ],
   },
   {
@@ -51,7 +50,18 @@ export const HOME_PROJECTS: HomeProject[] = [
     ],
   },
   {
-    n: '04', title: 'OSS Stats',
+    n: '04', title: 'Oculi',
+    blurb: 'Map-first photo-spot discovery with timed shoot-route planning',
+    meta: ['nextjs', 'react', 'typescript', 'tailwind', 'mapbox', 'supabase'],
+    ascii: '', label: 'Oculi',
+    detail: "Oculi is a map-first photo-spot discovery product: browse a discover feed, drop into a live Mapbox map, and save places you want to shoot. The Saved page turns favorites into a shoot-planning workspace, recommending a morning or sunset route with arrival times, shoot notes, and one-tap links into Google or Apple Maps.",
+    image: '/uploads/proj-oculi.png',
+    links: [
+      { label: 'github', url: 'https://github.com/timothyouu/oculi' },
+    ],
+  },
+  {
+    n: '05', title: 'OSS Stats',
     blurb: 'Python CLI auditing PRs, commits, and velocity for the ACM CSUF org',
     meta: ['python', 'github-api'],
     ascii: ASCII_DATA.oss, label: 'OSS Stats CLI',
@@ -60,7 +70,19 @@ export const HOME_PROJECTS: HomeProject[] = [
     links: [{ label: 'github', url: 'https://github.com/acmcsufoss/oss-stats' }],
   },
   {
-    n: '05', title: 'FigPals Bubble Blast!',
+    n: '06', title: 'WalkBack',
+    blurb: 'Mobile safety navigator with real-time safety-scored routing',
+    meta: ['react-native', 'fastapi', 'supabase', 'graphhopper'],
+    ascii: ASCII_DATA.walkback, label: 'WalkBack app',
+    detail: 'Built with React Native and react-native-maps to surface safety-scored routes and live GPS positioning. FastAPI endpoints sync user data and power the Buddy System group-matching feature so you never walk back alone.',
+    image: '/uploads/proj-walkback.png',
+    links: [
+      { label: 'github', url: 'https://github.com/galacticaledge/diamondhacks2026-map' },
+      { label: 'devpost', url: 'https://devpost.com/software/walkback-zctpik' },
+    ],
+  },
+  {
+    n: '07', title: 'FigPals Bubble Blast!',
     blurb: 'A nostalgic water hoop game built in 6 hours for FullyHacks',
     meta: ['react', 'typescript', 'figma-make', 'claude-code'],
     ascii: ASCII_DATA.figpals, label: 'FigPals Bubble Blast',

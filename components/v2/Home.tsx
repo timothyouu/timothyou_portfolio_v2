@@ -9,16 +9,30 @@ import TopBar from './TopBar'
 import Footer from './Footer'
 import { scrollToElement } from '@/lib/utils'
 
+const PAGE_SIZE = 5;
+
 export default function Home({ goTo, setSettingsOpen }: { goTo: (p: string) => void; setSettingsOpen: (fn: (o: boolean) => boolean) => void }) {
   const [open, setOpen] = useState<number | null>(null);
+  const [page, setPage] = useState(0);
   const L = LINKS;
+
+  const pageCount = Math.max(1, Math.ceil(HOME_PROJECTS.length / PAGE_SIZE));
+  const pageStart = page * PAGE_SIZE;
+  const pageEnd = Math.min(pageStart + PAGE_SIZE, HOME_PROJECTS.length);
+  const pageProjects = HOME_PROJECTS.slice(pageStart, pageEnd);
+
+  const goToPage = (next: number) => {
+    setPage(Math.max(0, Math.min(pageCount - 1, next)));
+    setOpen(null);
+  };
 
   useEffect(() => {
     const onOpen = (e: Event) => {
       const title = (e as CustomEvent).detail && (e as CustomEvent).detail.title;
       const idx = HOME_PROJECTS.findIndex((p) => p.title === title);
       if (idx >= 0) {
-        setOpen(idx);
+        setPage(Math.floor(idx / PAGE_SIZE));
+        setOpen(idx % PAGE_SIZE);
         setTimeout(() => scrollToElement('projects'), 40);
       }
     };
@@ -51,10 +65,28 @@ export default function Home({ goTo, setSettingsOpen }: { goTo: (p: string) => v
       <section id="projects">
         <div className="section-h">
           <h2>Featured Projects</h2>
-          <div className="count">{String(HOME_PROJECTS.length).padStart(2, '0')} / {String(HOME_PROJECTS.length).padStart(2, '0')}</div>
+          <div className="count-nav">
+            <button
+              type="button"
+              className="page-btn"
+              aria-label="previous projects"
+              disabled={page === 0}
+              onClick={() => goToPage(page - 1)}>
+              &larr;
+            </button>
+            <div className="count">{String(pageEnd).padStart(2, '0')} / {String(HOME_PROJECTS.length).padStart(2, '0')}</div>
+            <button
+              type="button"
+              className="page-btn"
+              aria-label="next projects"
+              disabled={page >= pageCount - 1}
+              onClick={() => goToPage(page + 1)}>
+              &rarr;
+            </button>
+          </div>
         </div>
         <div className="projects">
-          {HOME_PROJECTS.map((p, i) =>
+          {pageProjects.map((p, i) =>
           <div
             key={p.n}
             className={`project ${open === i ? 'expanded' : ''}`}
