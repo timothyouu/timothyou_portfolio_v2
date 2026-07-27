@@ -8,6 +8,17 @@ export type ChangelogEntry = {
 // site version is just a matter of adding a new entry here.
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '2.0.4',
+    date: '2026-07-27',
+    changes: [
+      'featured projects now include Policy Intelligence Assistant and Oculi',
+      'updated community roles — FullyHacks title is now Director · Marketing · Operations',
+      'reordered the experience timeline',
+      'updated resume',
+      'whoami now notes I\'m Director of FullyHacks, working on bringing it to life',
+    ],
+  },
+  {
     version: '2.0.3',
     date: '2026-07-27',
     changes: [
