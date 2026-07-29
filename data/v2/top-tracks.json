@@ -1,6 +1,10 @@
 [
   {
-    "name": "Death Wish",
+    "name": "the cure",
+    "artist": "Olivia Rodrigo"
+  },
+  {
+    "name": "I miss you, I’m sorry",
     "artist": "Gracie Abrams"
   },
   {
@@ -12,11 +16,7 @@
     "artist": "Gracie Abrams"
   },
   {
-    "name": "The Knife",
-    "artist": "Gracie Abrams"
-  },
-  {
-    "name": "Good Reason",
-    "artist": "Gracie Abrams"
+    "name": "Casual",
+    "artist": "Chappell Roan"
   }
 ]
