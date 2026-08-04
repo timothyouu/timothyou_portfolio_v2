@@ -1,14 +1,10 @@
 [
   {
-    "name": "the cure",
-    "artist": "Olivia Rodrigo"
+    "name": "Sailor Song",
+    "artist": "Gigi Perez"
   },
   {
     "name": "begged",
-    "artist": "Olivia Rodrigo"
-  },
-  {
-    "name": "what’s wrong with me",
     "artist": "Olivia Rodrigo"
   },
   {
@@ -16,7 +12,11 @@
     "artist": "Cigarettes After Sex"
   },
   {
-    "name": "exile (feat. Bon Iver)",
-    "artist": "Taylor Swift"
+    "name": "what’s wrong with me",
+    "artist": "Olivia Rodrigo"
+  },
+  {
+    "name": "White Keys",
+    "artist": "Dominic Fike"
   }
 ]
