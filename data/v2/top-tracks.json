@@ -1,5 +1,9 @@
 [
   {
+    "name": "the cure",
+    "artist": "Olivia Rodrigo"
+  },
+  {
     "name": "Sailor Song",
     "artist": "Gigi Perez"
   },
@@ -8,15 +12,11 @@
     "artist": "Olivia Rodrigo"
   },
   {
-    "name": "the cure",
-    "artist": "Olivia Rodrigo"
-  },
-  {
-    "name": "Nobody New",
-    "artist": "The Marías"
-  },
-  {
-    "name": "THE GREATEST",
+    "name": "TV",
     "artist": "Billie Eilish"
+  },
+  {
+    "name": "Hit the Wall",
+    "artist": "Gracie Abrams"
   }
 ]
