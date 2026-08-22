@@ -4,10 +4,6 @@
     "artist": "Olivia Rodrigo"
   },
   {
-    "name": "what’s wrong with me",
-    "artist": "Olivia Rodrigo"
-  },
-  {
     "name": "Sailor Song",
     "artist": "Gigi Perez"
   },
@@ -18,5 +14,9 @@
   {
     "name": "Love in the Dark",
     "artist": "Adele"
+  },
+  {
+    "name": "Little Runaway",
+    "artist": "Benson Boone"
   }
 ]
