@@ -1,9 +1,5 @@
 [
   {
-    "name": "the cure",
-    "artist": "Olivia Rodrigo"
-  },
-  {
     "name": "Talk",
     "artist": "beabadoobee"
   },
@@ -16,7 +12,11 @@
     "artist": "Bruno Mars"
   },
   {
-    "name": "Roommates",
-    "artist": "Malcolm Todd"
+    "name": "Yellow",
+    "artist": "Coldplay"
+  },
+  {
+    "name": "the cure",
+    "artist": "Olivia Rodrigo"
   }
 ]
