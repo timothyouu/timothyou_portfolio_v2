@@ -4,10 +4,6 @@
     "artist": "Ariana Grande"
   },
   {
-    "name": "my tears ricochet",
-    "artist": "Taylor Swift"
-  },
-  {
     "name": "we can't be friends (wait for your love)",
     "artist": "Ariana Grande"
   },
@@ -18,5 +14,9 @@
   {
     "name": "How Long",
     "artist": "Charlie Puth"
+  },
+  {
+    "name": "K.",
+    "artist": "Cigarettes After Sex"
   }
 ]
