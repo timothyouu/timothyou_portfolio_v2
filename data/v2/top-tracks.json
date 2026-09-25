@@ -1,22 +1,22 @@
 [
   {
-    "name": "i love you",
-    "artist": "Billie Eilish"
+    "name": "I know it won't work",
+    "artist": "Gracie Abrams"
+  },
+  {
+    "name": "Autumn Leaves",
+    "artist": "Sienna Spiro"
+  },
+  {
+    "name": "Ain't In LA",
+    "artist": "ADÉLA"
+  },
+  {
+    "name": "California",
+    "artist": "beabadoobee"
   },
   {
     "name": "Estranged",
-    "artist": "beabadoobee"
-  },
-  {
-    "name": "In Motion",
-    "artist": "beabadoobee"
-  },
-  {
-    "name": "It's Alright",
-    "artist": "beabadoobee"
-  },
-  {
-    "name": "Memories",
     "artist": "beabadoobee"
   }
 ]
