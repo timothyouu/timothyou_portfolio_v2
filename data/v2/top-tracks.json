@@ -1,7 +1,15 @@
 [
   {
-    "name": "Mono No Aware",
-    "artist": "Sienna Spiro"
+    "name": "stupid song",
+    "artist": "Olivia Rodrigo"
+  },
+  {
+    "name": "cigarette smoke",
+    "artist": "Olivia Rodrigo"
+  },
+  {
+    "name": "what’s wrong with me",
+    "artist": "Olivia Rodrigo"
   },
   {
     "name": "WILDFLOWER",
@@ -10,13 +18,5 @@
   {
     "name": "Casual",
     "artist": "Chappell Roan"
-  },
-  {
-    "name": "Apocalypse",
-    "artist": "Cigarettes After Sex"
-  },
-  {
-    "name": "my tears ricochet",
-    "artist": "Taylor Swift"
   }
 ]
