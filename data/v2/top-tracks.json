@@ -1,5 +1,9 @@
 [
   {
+    "name": "drop dead",
+    "artist": "Olivia Rodrigo"
+  },
+  {
     "name": "stupid song",
     "artist": "Olivia Rodrigo"
   },
@@ -8,15 +12,11 @@
     "artist": "Olivia Rodrigo"
   },
   {
-    "name": "what’s wrong with me",
+    "name": "my way",
     "artist": "Olivia Rodrigo"
   },
   {
-    "name": "WILDFLOWER",
-    "artist": "Billie Eilish"
-  },
-  {
-    "name": "Casual",
-    "artist": "Chappell Roan"
+    "name": "what’s wrong with me",
+    "artist": "Olivia Rodrigo"
   }
 ]
