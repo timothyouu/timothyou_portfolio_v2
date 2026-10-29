@@ -10,12 +10,54 @@ export type HomeProject = {
   label: string
   detail: string
   image: string | null
+  previews?: { src: string; label: string }[]
   links: ProjectLink[]
 }
 
 export const HOME_PROJECTS: HomeProject[] = [
   {
-    n: '01', title: 'Policy Intelligence Assistant',
+    n: '01', title: "Ender's Bench",
+    blurb: 'Observe AI decisions under pressure in survival and finance simulations',
+    meta: ['react', 'typescript', 'spacetimedb', 'LoRA', 'vLLM', 'DGX Spark'],
+    ascii: '', label: "Ender's Bench app mockup",
+    detail: "Built at Cal Hacks 13.0, where it won 4th place in the SpacetimeDB track. Tests how AI agents share limited resources in The Clearing and follow financial rules in Ledger Street. Lets users choose models, watch simulations live, and inspect recorded decisions through replay and run history.",
+    image: '/uploads/proj-enders-bench.png',
+    previews: [
+      { src: '/uploads/proj-enders-bench.png', label: 'The Clearing' },
+      { src: '/uploads/proj-ledger-street.png', label: 'Ledger Street' },
+    ],
+    links: [
+      { label: 'github', url: 'https://github.com/BeanyZoldyck/endersbench' },
+      { label: 'devpost', url: 'https://devpost.com/software/ender-s-bench' },
+    ],
+  },
+  {
+    n: '02', title: 'Encore',
+    blurb: 'Piano-practice feedback with Gemini coaching and Even Realities G2 glasses',
+    meta: ['typescript', 'python', 'gemini', 'strands agents', 'basic pitch', 'even hub sdk'],
+    ascii: '', label: 'Encore product mockup',
+    detail: 'Built for the Even Realities LAHacks AI Hackathon, Encore is a piano-practice prototype with a phone companion and an Even Realities G2 glasses interface. Combines Basic Pitch audio analysis with Gemini coaching to turn recordings into note and timing feedback, helping players review mistakes and decide what to practice next.',
+    image: '/uploads/proj-encore.png',
+    previews: [{ src: '/uploads/proj-encore-glasses.png', label: 'Through the glasses' }],
+    links: [
+      { label: 'github', url: 'https://github.com/timothyouu/encore' },
+      { label: 'devpost', url: 'https://devpost.com/software/encore-u2ijry' },
+    ],
+  },
+  {
+    n: '03', title: 'Tenet',
+    blurb: 'Branch, merge, and rollback AI chat states on the NVIDIA DGX Spark',
+    meta: ['react', 'typescript', 'fastapi', 'mongodb', 'd3.js', 'ollama', 'NVIDIA DGX Spark'],
+    ascii: ASCII_DATA.tenet, label: 'Tenet UI',
+    detail: 'Built on an NVIDIA DGX Spark, Tenet lets you branch, merge, and rollback AI chat states using Directed Acyclic Graphs. Four local LLMs run on Blackwell GPUs orchestrated via Fetch.ai agents, with real-time hardware telemetry so you always know what the machine is doing.',
+    image: '/uploads/proj-tenet.png',
+    links: [
+      { label: 'github', url: 'https://github.com/Yd025/Tenet' },
+      { label: 'devpost', url: 'https://devpost.com/software/tenet' },
+    ],
+  },
+  {
+    n: '04', title: 'Policy Intelligence Assistant',
     blurb: 'AI policy search assistant with cited, conflict-aware answers for CSUB',
     meta: ['react', 'typescript', 'fastapi', 'python', 'aws bedrock', 'dynamodb'],
     ascii: '', label: 'Policy Intelligence Assistant',
@@ -26,51 +68,7 @@ export const HOME_PROJECTS: HomeProject[] = [
     ],
   },
   {
-    n: '02', title: 'Tenet',
-    blurb: 'Branch, merge, and rollback AI chat states on the ASUS Ascent GX10',
-    meta: ['react', 'typescript', 'fastapi', 'mongodb', 'd3.js', 'ollama', 'ASUS GX10'],
-    ascii: ASCII_DATA.tenet, label: 'Tenet UI',
-    detail: 'Built on an ASUS Ascent GX10, Tenet lets you branch, merge, and rollback AI chat states using Directed Acyclic Graphs. Four local LLMs run on Blackwell GPUs orchestrated via Fetch.ai agents, with real-time hardware telemetry so you always know what the machine is doing.',
-    image: '/uploads/proj-tenet.png',
-    links: [
-      { label: 'github', url: 'https://github.com/Yd025/Tenet' },
-      { label: 'devpost', url: 'https://devpost.com/software/tenet' },
-    ],
-  },
-  {
-    n: '03', title: 'AI Recipe Assistant',
-    blurb: 'Meal planning powered by persistent pantry memory and Gemini',
-    meta: ['react', 'tailwind', 'supabase', 'clerk', 'letta', 'gemini'],
-    ascii: ASCII_DATA.recipe, label: 'Recipe assistant',
-    detail: 'Integrates Letta and Gemini 2.5 Flash for persistent pantry memory and structured JSON recipe generation. Tracks what you actually have, plans around it, and keeps a running profile of what you liked.',
-    image: null,
-    links: [
-      { label: 'prd', url: 'https://www.notion.so/PRD-Smart-AI-Recipe-Assistant-338f8be3ccbe44fdaf189d19ec45be98?source=copy_link' },
-      { label: 'github — soon', url: null },
-    ],
-  },
-  {
-    n: '04', title: 'Oculi',
-    blurb: 'Map-first photo-spot discovery with timed shoot-route planning',
-    meta: ['nextjs', 'react', 'typescript', 'tailwind', 'mapbox', 'supabase'],
-    ascii: '', label: 'Oculi',
-    detail: "Oculi is a map-first photo-spot discovery product: browse a discover feed, drop into a live Mapbox map, and save places you want to shoot. The Saved page turns favorites into a shoot-planning workspace, recommending a morning or sunset route with arrival times, shoot notes, and one-tap links into Google or Apple Maps.",
-    image: '/uploads/proj-oculi.png',
-    links: [
-      { label: 'github', url: 'https://github.com/timothyouu/oculi' },
-    ],
-  },
-  {
-    n: '05', title: 'OSS Stats',
-    blurb: 'Python CLI auditing PRs, commits, and velocity for the ACM CSUF org',
-    meta: ['python', 'github-api'],
-    ascii: ASCII_DATA.oss, label: 'OSS Stats CLI',
-    detail: 'A CLI tool that audits pull requests, commits, and contribution velocity across the acmcsufoss GitHub org. Cut API latency 50% with in-memory JSON caching and refactored calls to eliminate redundant requests.',
-    image: '/uploads/proj-oss.png',
-    links: [{ label: 'github', url: 'https://github.com/acmcsufoss/oss-stats' }],
-  },
-  {
-    n: '06', title: 'WalkBack',
+    n: '05', title: 'WalkBack',
     blurb: 'Mobile safety navigator with real-time safety-scored routing',
     meta: ['react-native', 'fastapi', 'supabase', 'graphhopper'],
     ascii: ASCII_DATA.walkback, label: 'WalkBack app',
@@ -82,7 +80,27 @@ export const HOME_PROJECTS: HomeProject[] = [
     ],
   },
   {
-    n: '07', title: 'FigPals Bubble Blast!',
+    n: '06', title: 'Oculi',
+    blurb: 'Map-first photo-spot discovery with timed shoot-route planning',
+    meta: ['nextjs', 'react', 'typescript', 'tailwind', 'mapbox', 'supabase'],
+    ascii: '', label: 'Oculi',
+    detail: "Oculi is a map-first photo-spot discovery product: browse a discover feed, drop into a live Mapbox map, and save places you want to shoot. The Saved page turns favorites into a shoot-planning workspace, recommending a morning or sunset route with arrival times, shoot notes, and one-tap links into Google or Apple Maps.",
+    image: '/uploads/proj-oculi.png',
+    links: [
+      { label: 'github', url: 'https://github.com/timothyouu/oculi' },
+    ],
+  },
+  {
+    n: '07', title: 'OSS Stats',
+    blurb: 'Python CLI auditing PRs, commits, and velocity for the ACM CSUF org',
+    meta: ['python', 'github-api'],
+    ascii: ASCII_DATA.oss, label: 'OSS Stats CLI',
+    detail: 'A CLI tool that audits pull requests, commits, and contribution velocity across the acmcsufoss GitHub org. Cut API latency 50% with in-memory JSON caching and refactored calls to eliminate redundant requests.',
+    image: '/uploads/proj-oss.png',
+    links: [{ label: 'github', url: 'https://github.com/acmcsufoss/oss-stats' }],
+  },
+  {
+    n: '08', title: 'FigPals Bubble Blast!',
     blurb: 'A nostalgic water hoop game built in 6 hours for FullyHacks',
     meta: ['react', 'typescript', 'figma-make', 'claude-code'],
     ascii: ASCII_DATA.figpals, label: 'FigPals Bubble Blast',

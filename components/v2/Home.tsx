@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { HOME_PROJECTS } from '@/data/v2/projects'
+import { HOME_PROJECTS, type HomeProject } from '@/data/v2/projects'
 import { LINKS } from '@/data/v2/config'
 import { CURRENT_VERSION } from '@/data/v2/changelog'
 import AsciiImage from './AsciiImage'
@@ -11,6 +11,40 @@ import { scrollToElement } from '@/lib/utils'
 
 const PAGE_SIZE = 5;
 
+function ProjectImage({ project }: { project: HomeProject }) {
+  const [preview, setPreview] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const visible = preview || hovered;
+
+  if (!project.previews?.length) {
+    return <img src={project.image!} alt={project.title} className="project-screenshot" onClick={(e) => e.stopPropagation()} />;
+  }
+
+  return (
+    <button
+      type="button"
+      className="project-image-preview"
+      aria-label={`${project.title}: toggle ${project.previews.map((item) => item.label).join(' and ')} preview`}
+      aria-pressed={visible}
+      onPointerEnter={(e) => { if (e.pointerType === 'mouse') setHovered(true); }}
+      onPointerLeave={() => setHovered(false)}
+      onClick={(e) => { e.stopPropagation(); setPreview(!preview); }}
+      onKeyDown={(e) => { if (e.key === 'Escape') { setPreview(false); setHovered(false); } }}
+      data-preview={visible}
+    >
+      <img src={project.image!} alt={project.label} className="project-preview-cover" />
+      <span className={`project-preview-images ${project.previews.length > 1 ? 'multiple' : ''}`} aria-hidden={!visible}>
+        {project.previews.map((item) => (
+          <span className="project-preview-item" key={item.src}>
+            <img src={item.src} alt={`${item.label} mockup`} />
+            <span className="project-preview-caption">{item.label}</span>
+          </span>
+        ))}
+      </span>
+      <span className="project-preview-hint">{preview ? 'Tap to unpin preview' : visible ? 'Tap to keep preview' : 'Hover or tap to preview'}</span>
+    </button>
+  );
+}
 export default function Home({ goTo, setSettingsOpen }: { goTo: (p: string) => void; setSettingsOpen: (fn: (o: boolean) => boolean) => void }) {
   const [open, setOpen] = useState<number | null>(null);
   const [page, setPage] = useState(0);
@@ -57,7 +91,7 @@ export default function Home({ goTo, setSettingsOpen }: { goTo: (p: string) => v
       <section className="intro">
         <p><span className="prompt">$</span>whoami</p>
         <p>I'm Timothy, a junior CS student at Cal State Fullerton, building full-stack apps and AI-powered tools.</p>
-        <p>I'm a <a className="link" href={L.figma} target="_blank" rel="noopener">Figma Campus Leader</a> and a member of the <a className="link" href={L.openai} target="_blank" rel="noopener">OpenAI ChatGPT Student Lab</a>, a 50-person national cohort exploring how students actually use AI. I'm also Director of <a className="link" href={L.fullyhacks} target="_blank" rel="noopener">FullyHacks</a>, working on bringing it to life.</p>
+        <p>I'm a <a className="link" href={L.figma} target="_blank" rel="noopener">Figma Campus Leader</a> and a member of the <a className="link" href={L.openai} target="_blank" rel="noopener">OpenAI Product Lab</a>, where I test the latest OpenAI features. I'm also Director of <a className="link" href={L.fullyhacks} target="_blank" rel="noopener">FullyHacks</a>, working on bringing it to life.</p>
         <p>Previously at CSUF I served as Open Source Officer for <a className="link" href={L.acm} target="_blank" rel="noopener">ACM</a> and supported technical research with a professor at <a className="link" href={L.caltech} target="_blank" rel="noopener">Caltech</a>.</p>
         <p>Reach me via <a className="link" href={L.x} target="_blank" rel="noopener">X</a>, <a className="link" href={L.linkedin} target="_blank" rel="noopener">LinkedIn</a>, or <a className="link" href={L.email}>email</a>. This is my <a className="link" href={L.resume} target="_blank" rel="noopener">resume</a>.</p>
       </section>
@@ -105,7 +139,7 @@ export default function Home({ goTo, setSettingsOpen }: { goTo: (p: string) => v
               {open === i &&
             <div className="project-detail">
                   {p.image ? (
-                    <img src={p.image} alt={p.title} className="project-screenshot" onClick={(e) => e.stopPropagation()} />
+                    <ProjectImage project={p} />
                   ) : p.image === null ? (
                     <div className="project-coming-soon">coming soon</div>
                   ) : (

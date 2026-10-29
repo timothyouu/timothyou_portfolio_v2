@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, Fragment } from 'react'
+import { useState, useEffect, useRef, Fragment, type ReactNode } from 'react'
 import { LINKS } from '@/data/v2/config'
 import { HOME_PROJECTS } from '@/data/v2/projects'
 import DinoGame from './DinoGame'
@@ -18,6 +18,25 @@ export type TerminalApi = {
   close: () => void
 }
 
+type CommandContext = {
+  out: (text: string) => void
+  ok: (text: string) => void
+  err: (text: string) => void
+  node: (node: ReactNode) => void
+  clear: () => void
+  close: () => void
+}
+type Command = {
+  desc: string
+  hidden?: boolean
+  usage?: string
+  args?: string[] | (() => string[])
+  run: (args: string[], ctx: CommandContext) => void
+}
+
+function projectKey(value: string): string {
+  return value.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+}
 function WelcomeBanner() {
   return (
     <div className="term-block">
@@ -29,13 +48,14 @@ function WelcomeBanner() {
   );
 }
 
-function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath: (p: string[]) => void) {
+export function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath: (p: string[]) => void) {
   const L = LINKS;
   const projects = (HOME_PROJECTS).map((p) => ({
-    key: p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+    key: projectKey(p.title),
     title: p.title,
     blurb: p.blurb,
     meta: p.meta,
+    detail: p.detail,
   }));
   const projectKeys = projects.map((p) => p.key);
 
@@ -44,7 +64,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
   const makeEasterToggle = (theme: string, onMsg: string, offMsg: string) => ({
     hidden: true,
     desc: `toggle ${theme} mode`,
-    run: (a: any, ctx: any) => {
+    run: (a: string[], ctx: CommandContext) => {
       const current = (window as any).PORTFOLIO_EASTER || 'none'
       const next = current === theme ? 'none' : theme
       ;(window as any).PORTFOLIO_EASTER = next
@@ -59,7 +79,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
   const makeEasterOff = (theme: string, offMsg: string) => ({
     hidden: true,
     desc: `leave ${theme} mode`,
-    run: (a: any, ctx: any) => {
+    run: (a: string[], ctx: CommandContext) => {
       const wasOn = ((window as any).PORTFOLIO_EASTER || 'none') === theme
       ;(window as any).PORTFOLIO_EASTER = 'none'
       window.dispatchEvent(new CustomEvent('portfolio:easter', { detail: { theme: 'none' } }))
@@ -70,7 +90,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
 
   const makeSocialCmd = (desc: string, url: string, label: string) => ({
     desc,
-    run: (a: any, ctx: any) => { openUrl(url); ctx.ok(`opening ${label}`); },
+    run: (a: string[], ctx: CommandContext) => { openUrl(url); ctx.ok(`opening ${label}`); },
   })
 
   // navigable filesystem: dir -> { page, section id }
@@ -85,18 +105,19 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
   };
 
   const CMD_GROUPS = [
-    { name: 'navigation', cmds: ['cd', 'ls', 'pwd'] },
+    { name: 'navigation', cmds: ['help', 'cd', 'ls', 'pwd', 'open', 'experience', 'gear'] },
     { name: 'settings  — cd settings', cmds: ['theme', 'font', 'reveal'] },
-    { name: 'info', cmds: ['whoami', 'contact', 'resume', 'changelog'] },
-    { name: 'socials', cmds: ['github', 'linkedin', 'x', 'email', 'web'] },
+    { name: 'info', cmds: ['whoami', 'projects', 'project', 'contact', 'resume', 'changelog'] },
+    { name: 'versions', cmds: ['v1', 'v2'] },
+    { name: 'socials', cmds: ['socials', 'github', 'linkedin', 'x', 'email', 'web'] },
     { name: 'misc', cmds: ['echo', 'clear', 'exit'] },
-    { name: 'secrets 🤫', cmds: ['sudo', 'rm', 'coffee', 'matcha', 'timmy', 'disc'], showHidden: true },
+    { name: 'secrets 🤫', cmds: ['sudo', 'rm', 'coffee', 'matcha', 'unmatcha', 'timmy', 'untimmy', 'disc', 'disconnect', 'll'], showHidden: true },
   ];
 
-  const cmds: Record<string, any> = {
+  const cmds: Record<string, Command> = {
     help: {
       desc: 'list commands by category',
-      run: (args: any, ctx: any) => {
+      run: (args: string[], ctx: CommandContext) => {
         ctx.node(
           <div className="term-block">
             <div className="term-line out" style={{ marginBottom: 8 }}>hit <span className="accent">tab</span> to autocomplete &middot; <span className="accent">cd settings</span> for appearance tweaks</div>
@@ -125,7 +146,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
       desc: 'change directory',
       usage: '<dir>',
       args: () => Object.keys(DESTS).concat(['settings', '~', '..']),
-      run: (args: any, ctx: any) => {
+      run: (args: string[], ctx: CommandContext) => {
         let dest = (args[0] || '').toLowerCase().replace(/^\.?\/+/, '').replace(/\/+$/, '');
         // back / root
         if (!dest || dest === '~') {
@@ -157,7 +178,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
       desc: 'list this directory',
       usage: '[projects]',
       args: ['projects'],
-      run: (args: any, ctx: any) => {
+      run: (args: string[], ctx: CommandContext) => {
         const cwd = getNavPath();
         // settings directory listing
         if (cwd[0] === 'settings' && (args[0] || '') !== 'projects') {
@@ -167,14 +188,14 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
               <div className="term-cols">
                 <div className="k">theme [light|dark]</div><div className="v">switch color theme</div>
                 <div className="k">font &lt;name&gt;</div><div className="v">change mono font</div>
-                <div className="k">reveal [ascii|real]</div><div className="v">photo reveal mode</div>
+                <div className="k">reveal [ascii|realistic]</div><div className="v">photo reveal mode</div>
                 <div className="k">cd ..</div><div className="v">back to ~/</div>
               </div>
             </div>
           );
           return;
         }
-        if ((args[0] || '').toLowerCase() === 'projects') {
+        if ((args[0] || '').toLowerCase() === 'projects' || (!args.length && cwd[0] === 'projects')) {
           ctx.node(
             <div className="term-block">
               {projects.map((p) => (
@@ -203,7 +224,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
     },
     pwd: {
       desc: 'show current location',
-      run: (a: any, ctx: any) => {
+      run: (a: string[], ctx: CommandContext) => {
         const p = getNavPath();
         ctx.out('~/' + (p.length ? p.join('/') : ''));
       },
@@ -211,19 +232,19 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
 
     resume: {
       desc: 'open my resume (pdf)',
-      run: (a: any, ctx: any) => { openUrl(L.resume); ctx.ok('opening resume.pdf in a new tab'); },
+      run: (a: string[], ctx: CommandContext) => { openUrl(L.resume); ctx.ok('opening resume.pdf in a new tab'); },
     },
 
     changelog: {
       desc: 'changes by version',
-      run: (a: any, ctx: any) => { ctx.node(<Changelog />); },
+      run: (a: string[], ctx: CommandContext) => { ctx.node(<Changelog />); },
     },
 
     theme: {
       desc: 'switch color theme',
       usage: '[light|dark]',
       args: ['light', 'dark', 'toggle'],
-      run: (args: any, ctx: any) => {
+      run: (args: string[], ctx: CommandContext) => {
         const cur = api.getState().theme;
         let next = args[0];
         if (!next || next === 'toggle') next = cur === 'dark' ? 'light' : 'dark';
@@ -234,31 +255,60 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
     },
 
 
-    v1: { desc: 'view portfolio v1 (archive)', run: (a: any, ctx: any) => { api.setVersion('v1'); ctx.ok('rolling back to v1'); ctx.close(); } },
-    v2: { desc: 'view portfolio v2 (current)', run: (a: any, ctx: any) => { api.setVersion('v2'); ctx.ok('back to v2'); ctx.close(); } },
+    v1: { desc: 'view portfolio v1 (archive)', run: (a: string[], ctx: CommandContext) => { api.setVersion('v1'); ctx.ok('rolling back to v1'); ctx.close(); } },
+    v2: { desc: 'view portfolio v2 (current)', run: (a: string[], ctx: CommandContext) => { api.setVersion('v2'); ctx.ok('back to v2'); ctx.close(); } },
 
     open: {
       desc: 'open a featured project',
       usage: '<project>',
       args: () => projectKeys,
-      run: (args: any, ctx: any) => {
-        const key = (args[0] || '').toLowerCase();
+      run: (args: string[], ctx: CommandContext) => {
+        const key = projectKey(args.join(' '));
         if (!key) return ctx.err('usage: open <project> — try "open ' + (projectKeys[0] || 'tenet') + '"');
-        const p = projects.find((x) => x.key === key || x.key.startsWith(key));
+        const matches = projects.filter((x) => x.key === key || x.key.startsWith(key));
+        if (matches.length > 1) return ctx.err('ambiguous project: ' + matches.map((p) => p.key).join(', '));
+        const p = matches[0];
         if (!p) return ctx.err(`no project "${key}" — run ls projects`);
         api.openProject(p.title);
         ctx.ok(`opening ${p.title}`);
       },
     },
 
+    projects: {
+      desc: 'list the current featured projects',
+      run: (args: string[], ctx: CommandContext) => cmds.ls.run(['projects'], ctx),
+    },
+    project: {
+      desc: 'show a project description and tech stack',
+      usage: '<project>',
+      args: () => projectKeys,
+      run: (args: string[], ctx: CommandContext) => {
+        const key = projectKey(args.join(' '));
+        if (!key) return ctx.err('usage: project <name> — run projects');
+        const matches = projects.filter((p) => p.key === key || p.key.startsWith(key));
+        if (matches.length !== 1) return ctx.err(matches.length ? 'ambiguous project — use its full name' : `no project "${key}" — run projects`);
+        const p = matches[0];
+        ctx.out(p.title);
+        ctx.out(p.detail);
+        ctx.out('stack: ' + p.meta.join(' · '));
+      },
+    },
+    experience: {
+      desc: 'view current and previous roles',
+      run: (args: string[], ctx: CommandContext) => cmds.cd.run(['experience'], ctx),
+    },
+    gear: {
+      desc: 'view my current peripherals in ram',
+      run: (args: string[], ctx: CommandContext) => cmds.cd.run(['ram'], ctx),
+    },
     whoami: {
       desc: 'a quick intro',
-      run: (a: any, ctx: any) => {
+      run: (a: string[], ctx: CommandContext) => {
         ctx.node(
           <div className="term-block">
             <div className="term-line out"><span className="accent">Timothy Ou</span> — full-stack engineer &amp; AI builder</div>
             <div className="term-line out">junior cs @ cal state fullerton</div>
-            <div className="term-line out">figma campus leader · openai chatgpt student lab</div>
+            <div className="term-line out">figma campus leader · openai product lab · fullyhacks director</div>
             <div className="term-line out" style={{ color: 'var(--fg-dim)' }}>interests: full-stack · ai/ml · product</div>
           </div>
         );
@@ -267,7 +317,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
 
     contact: {
       desc: 'how to reach me',
-      run: (a: any, ctx: any) => {
+      run: (a: string[], ctx: CommandContext) => {
         ctx.node(
           <div className="term-block term-cols">
             <div className="k">email</div><div className="v">timothyou02@gmail.com</div>
@@ -280,7 +330,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
     },
     socials: {
       desc: 'list my links',
-      run: (a: any, ctx: any) => {
+      run: (a: string[], ctx: CommandContext) => {
         ctx.node(
           <div className="term-block">
             <div className="term-line out">run <span className="accent">github</span>, <span className="accent">linkedin</span>, <span className="accent">x</span>, <span className="accent">email</span>, or <span className="accent">web</span> to open</div>
@@ -296,12 +346,13 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
 
     reveal: {
       desc: 'photo reveal mode',
-      usage: '[ascii|real]',
-      args: ['ascii', 'realistic'],
-      run: (args: any, ctx: any) => {
+      usage: '[ascii|realistic]',
+      args: ['ascii', 'realistic', 'real'],
+      run: (args: string[], ctx: CommandContext) => {
         const s = api.getState();
         const cur = (s.hoverReveal === true || s.hoverReveal === 'ascii') ? 'ascii' : 'realistic';
         let next = (args[0] || '').toLowerCase();
+        if (next === 'real') next = 'realistic';
         if (!next) next = cur === 'ascii' ? 'realistic' : 'ascii';
         if (next !== 'ascii' && next !== 'realistic') return ctx.err('usage: reveal ascii | realistic');
         api.setTweak('hoverReveal', next);
@@ -313,7 +364,7 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
       desc: 'change the mono font',
       usage: '<name>',
       args: ['JetBrains', 'IBM', 'Fira', 'Space'],
-      run: (args: any, ctx: any) => {
+      run: (args: string[], ctx: CommandContext) => {
         const map: Record<string, string> = { jetbrains: 'JetBrains Mono', ibm: 'IBM Plex Mono', fira: 'Fira Code', space: 'Space Mono' };
         const k = (args[0] || '').toLowerCase();
         if (!map[k]) return ctx.err('try: font jetbrains | ibm | fira | space');
@@ -321,25 +372,25 @@ function buildCommands(api: TerminalApi, getNavPath: () => string[], setNavPath:
         ctx.ok(`font set to ${map[k]}`);
       },
     },
-    echo: { desc: 'print text', usage: '<text>', run: (args: any, ctx: any) => ctx.out(args.join(' ') || '') },
-    clear: { desc: 'clear screen', run: (a: any, ctx: any) => { ctx.clear(); ctx.node(<WelcomeBanner />); } },
-    exit: { desc: 'close terminal', run: (a: any, ctx: any) => ctx.close() },
+    echo: { desc: 'print text', usage: '<text>', run: (args: string[], ctx: CommandContext) => ctx.out(args.join(' ') || '') },
+    clear: { desc: 'clear screen', run: (a: string[], ctx: CommandContext) => { ctx.clear(); ctx.node(<WelcomeBanner />); } },
+    exit: { desc: 'close terminal', run: (a: string[], ctx: CommandContext) => ctx.close() },
 
-    sudo: { hidden: true, desc: 'try to escalate privileges', run: (a: any, ctx: any) => ctx.err("nice try. you don't have root here :)") },
+    sudo: { hidden: true, desc: 'try to escalate privileges', run: (a: string[], ctx: CommandContext) => ctx.err("nice try. you don't have root here :)") },
     matcha: makeEasterToggle('matcha', 'matcha mode on 🍵 brewing...', 'matcha mode off. back to terminal.'),
     unmatcha: makeEasterOff('matcha', 'matcha mode off'),
-    coffee: { hidden: true, desc: 'wrong drink', run: (a: any, ctx: any) => ctx.out('we use matcha in this house. try `matcha`.') },
-    disc: { hidden: true, desc: 'kill the wifi 😈', usage: 'network', args: ['network'], run: (args: any, ctx: any) => {
+    coffee: { hidden: true, desc: 'wrong drink', run: (a: string[], ctx: CommandContext) => ctx.out('we use matcha in this house. try `matcha`.') },
+    disc: { hidden: true, desc: 'kill the wifi 😈', usage: 'network', args: ['network'], run: (args: string[], ctx: CommandContext) => {
       if ((args[0] || '').toLowerCase() !== 'network') return ctx.err('usage: disc network');
       ctx.err('✕ network connection lost.');
       ctx.out('no internet — but here is something to do:');
       ctx.node(<DinoGame />);
     } },
-    disconnect: { hidden: true, run: (args: any, ctx: any) => cmds.disc.run(args, ctx) },
-    rm: { hidden: true, desc: 'delete something', run: (a: any, ctx: any) => ctx.err('absolutely not.') },
+    disconnect: { hidden: true, desc: 'alias for disc network', usage: 'network', args: ['network'], run: (args: string[], ctx: CommandContext) => cmds.disc.run(args, ctx) },
+    rm: { hidden: true, desc: 'delete something', run: (a: string[], ctx: CommandContext) => ctx.err('absolutely not.') },
     timmy: makeEasterToggle('lavender', 'lavender mode on 💜', 'lavender mode off.'),
     untimmy: makeEasterOff('lavender', 'lavender mode off'),
-    ll: { hidden: true, run: (a: any, ctx: any) => cmds.ls.run([], ctx) },
+    ll: { hidden: true, desc: 'alias for ls', run: (a: string[], ctx: CommandContext) => cmds.ls.run([], ctx) },
   };
   return cmds;
 }
@@ -364,7 +415,7 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
   const dragOffset = useRef<{ active: boolean; dx: number; dy: number }>({ active: false, dx: 0, dy: 0 });
   const inputRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
-  const cmds = useRef<Record<string, any> | null>(null);
+  const cmds = useRef<Record<string, Command> | null>(null);
   if (!cmds.current) cmds.current = buildCommands(api, () => navPath, setNavPath);
   useEffect(() => { cmds.current = buildCommands(api, () => navPath, setNavPath); });
 
@@ -569,6 +620,7 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
           <input
             ref={inputRef}
             className="term-input"
+            aria-label="Terminal command"
             value={input}
             spellCheck={false}
             autoComplete="off"

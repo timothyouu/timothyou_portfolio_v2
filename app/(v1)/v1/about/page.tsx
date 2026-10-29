@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { LINKS } from '@/data/v2/config'
 import Gallery from '@/components/v1/Gallery'
 import { photos } from '@/data/photos'
 
@@ -31,7 +32,7 @@ export default function About() {
 
           {/* Resume */}
           <a
-            href="/timothy_resume.pdf"
+            href={LINKS.resume}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-[#282450] w-[90%] py-5 max-[1050px]:py-3 max-[480px]:py-2 rounded-[32px] flex justify-center items-center text-[#D5B8E2] no-underline font-[family-name:var(--font-titan-one)] text-[2.5rem] max-[1050px]:text-[1.75rem] max-[480px]:text-[1.4rem] hover:bg-[#3f3b79] transition-colors"
