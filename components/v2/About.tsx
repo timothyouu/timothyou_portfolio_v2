@@ -51,11 +51,19 @@ export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => 
         <h3>experience</h3>
         <div className="timeline">
           <div className="exp">
-            <div className="when">Mar 2026 to Present</div>
+            <div className="when">Sep 2026 to Present</div>
+            <div className="what">
+              <div className="role">Product Lab Member</div>
+              <div className="org">OpenAI</div>
+              <div className="blurb">Testing unreleased OpenAI products and providing feedback directly to product teams</div>
+            </div>
+          </div>
+          <div className="exp">
+            <div className="when">Mar 2026 to Aug 2026</div>
             <div className="what">
               <div className="role">ChatGPT Student Lab Member</div>
               <div className="org">OpenAI</div>
-              <div className="blurb">One of 50 students exploring how AI shows up in student workflows</div>
+              <div className="blurb">One of 50 students nationwide contributing product feedback and AI research</div>
             </div>
           </div>
           <div className="exp">
@@ -131,7 +139,7 @@ export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => 
               <li><span className="t">ULX Aceu</span><span className="s">mouse &middot; Lion</span></li>
               <li><span className="t">Wooting 60HE</span><span className="s">keyboard &middot; Gateron Magnetic Jade</span></li>
               <li><span className="t">Artisan Hien</span><span className="s">mousepad &middot; large &middot; soft</span></li>
-              <li><span className="t">Moondrop Aria 2</span><span className="s">iems</span></li>
+              <li><span className="t">SIMGOT SuperMix 4</span><span className="s">iems</span></li>
               <li><span className="t">Dell G2723H</span><span className="s">monitor &middot; 280Hz</span></li>
             </ul>
           </div>
