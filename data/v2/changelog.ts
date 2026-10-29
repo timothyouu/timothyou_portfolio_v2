@@ -8,6 +8,21 @@ export type ChangelogEntry = {
 // site version is just a matter of adding a new entry here.
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '2.0.5',
+    date: '2026-10-29',
+    changes: [
+      "replaced AI Recipe Assistant with Ender's Bench and Encore, and reordered featured projects",
+      "updated project descriptions, tech stacks, and links, including Ender's Bench's 4th-place SpacetimeDB award",
+      "added Encore's glasses preview and both Ender's Bench simulation previews on hover or tap",
+      "updated Ender's Bench and Tenet hardware details to DGX Spark",
+      'updated whoami for OpenAI Product Lab and split Product Lab and ChatGPT Student Lab into separate experience entries',
+      'updated my IEMs to SIMGOT SuperMix 4',
+      'replaced my resume across both portfolio versions',
+      'terminal: help now lists every command, with current project details, tech stacks, and experience/gear shortcuts',
+      'terminal: improved project-name matching and autocomplete, and updated whoami',
+    ],
+  },
+  {
     version: '2.0.4',
     date: '2026-07-27',
     changes: [
