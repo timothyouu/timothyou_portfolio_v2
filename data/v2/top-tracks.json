@@ -1,5 +1,9 @@
 [
   {
+    "name": "BLUE",
+    "artist": "girl in red"
+  },
+  {
     "name": "About You",
     "artist": "The 1975"
   },
@@ -14,9 +18,5 @@
   {
     "name": "WHAT AM I RUNNING FROM",
     "artist": "Tiffany Day"
-  },
-  {
-    "name": "I RUN MY HANDS THRU IT",
-    "artist": "daine"
   }
 ]
