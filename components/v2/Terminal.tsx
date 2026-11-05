@@ -3,6 +3,9 @@
 import { useState, useEffect, useRef, Fragment, type ReactNode } from 'react'
 import { LINKS } from '@/data/v2/config'
 import { HOME_PROJECTS } from '@/data/v2/projects'
+import Tetris from './Tetris'
+import EtchSketch from './EtchSketch'
+import SnakeGame from './SnakeGame'
 import DinoGame from './DinoGame'
 import Changelog from './Changelog'
 
@@ -18,11 +21,15 @@ export type TerminalApi = {
   close: () => void
 }
 
+const games = { snake: SnakeGame, tetris: Tetris, etch: EtchSketch }
+type GameName = keyof typeof games
+
 type CommandContext = {
   out: (text: string) => void
   ok: (text: string) => void
   err: (text: string) => void
   node: (node: ReactNode) => void
+  playGame: (game: GameName) => void
   clear: () => void
   close: () => void
 }
@@ -110,6 +117,7 @@ export function buildCommands(api: TerminalApi, getNavPath: () => string[], setN
     { name: 'info', cmds: ['whoami', 'projects', 'project', 'contact', 'resume', 'changelog'] },
     { name: 'versions', cmds: ['v1', 'v2'] },
     { name: 'socials', cmds: ['socials', 'github', 'linkedin', 'x', 'email', 'web'] },
+    { name: 'games', cmds: ['snake', 'tetris', 'etch'] },
     { name: 'misc', cmds: ['echo', 'clear', 'exit'] },
     { name: 'secrets 🤫', cmds: ['sudo', 'rm', 'coffee', 'matcha', 'unmatcha', 'timmy', 'untimmy', 'disc', 'disconnect', 'll'], showHidden: true },
   ];
@@ -372,6 +380,9 @@ export function buildCommands(api: TerminalApi, getNavPath: () => string[], setN
         ctx.ok(`font set to ${map[k]}`);
       },
     },
+    snake: { desc: 'play classic Snake', run: (_, ctx) => ctx.playGame('snake') },
+    tetris: { desc: 'stack falling blocks and clear lines', run: (_, ctx) => ctx.playGame('tetris') },
+    etch: { desc: 'draw with a pixel stylus', run: (_, ctx) => ctx.playGame('etch') },
     echo: { desc: 'print text', usage: '<text>', run: (args: string[], ctx: CommandContext) => ctx.out(args.join(' ') || '') },
     clear: { desc: 'clear screen', run: (a: string[], ctx: CommandContext) => { ctx.clear(); ctx.node(<WelcomeBanner />); } },
     exit: { desc: 'close terminal', run: (a: string[], ctx: CommandContext) => ctx.close() },
@@ -397,6 +408,8 @@ export function buildCommands(api: TerminalApi, getNavPath: () => string[], setN
 
 export default function Terminal({ open, onClose, api }: { open: boolean; onClose: () => void; api: TerminalApi }) {
   const [lines, setLines] = useState<any[]>([]);
+  const [game, setGame] = useState<GameName | null>(null);
+  const ActiveGame = game && games[game];
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [histIdx, setHistIdx] = useState(-1);
@@ -476,12 +489,13 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
   }, [open]);
 
   useEffect(() => {
-    if (open && inputRef.current) inputRef.current.focus();
-  }, [open]);
+    if (!open) setGame(null);
+    else if (!game) inputRef.current?.focus();
+  }, [open, game]);
 
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-  }, [lines, open, vv]);
+  }, [lines, open, vv, game]);
 
   // ---- completion ----
   const getCompletion = (val: string) => {
@@ -521,6 +535,7 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
       ok: (t: any) => push('ok', t),
       err: (t: any) => push('err', t),
       node: (n: any) => push('node', n),
+      playGame: setGame,
       clear: () => setLines([]),
       close: () => setTimeout(onClose, 120),
     };
@@ -599,7 +614,7 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
       >
         <div className="lights"><span></span><span></span><span></span></div>
         <div className="title">timothy_ou — zsh</div>
-        <div className="hint">close<span className="kbd" style={{cursor:'pointer'}} onClick={onClose}>esc</span></div>
+        <div className="hint" hidden={!!game}>close<span className="kbd" style={{cursor:'pointer'}} onClick={onClose}>esc</span></div>
         <button
           className="term-close"
           aria-label="close terminal"
@@ -607,35 +622,37 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
           onClick={onClose}
         >✕</button>
       </div>
-      <div className="term-body" ref={bodyRef} onMouseDown={(e) => { e.preventDefault(); focusEnd(); }}>
-        {lines.map((l, i) => {
-          if (l.kind === 'node') return <div key={i}>{l.node}</div>;
-          if (l.kind === 'cmd') return <div key={i} className="term-line cmd"><span className="ps">{l.path || '~/'} $</span> {l.text}</div>;
-          return <div key={i} className={`term-line ${l.kind}`}>{l.text}</div>;
-        })}
-      </div>
-      <div className="term-inputrow">
-        <span className="ps">{(navPath.length ? '~/' + navPath.join('/') : '~/') + ' $'}</span>
-        <div className="term-inputwrap">
-          <input
-            ref={inputRef}
-            className="term-input"
-            aria-label="Terminal command"
-            value={input}
-            spellCheck={false}
-            autoComplete="off"
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={onKeyDown}
-            onMouseDown={(e) => { e.preventDefault(); focusEnd(); }}
-          />
-          {completion && (
-            <div className="term-ghost" aria-hidden="true">
-              <span className="typed">{input}</span><span>{completion.suffix}</span>
-              <span className="tabhint">tab</span>
-            </div>
-          )}
+      {ActiveGame ? <ActiveGame onExit={() => setGame(null)} /> : <>
+        <div className="term-body" ref={bodyRef} onMouseDown={(e) => { e.preventDefault(); focusEnd(); }}>
+          {lines.map((l, i) => {
+            if (l.kind === 'node') return <div key={i}>{l.node}</div>;
+            if (l.kind === 'cmd') return <div key={i} className="term-line cmd"><span className="ps">{l.path || '~/'} $</span> {l.text}</div>;
+            return <div key={i} className={`term-line ${l.kind}`}>{l.text}</div>;
+          })}
         </div>
-      </div>
+        <div className="term-inputrow">
+          <span className="ps">{(navPath.length ? '~/' + navPath.join('/') : '~/') + ' $'}</span>
+          <div className="term-inputwrap">
+            <input
+              ref={inputRef}
+              className="term-input"
+              aria-label="Terminal command"
+              value={input}
+              spellCheck={false}
+              autoComplete="off"
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={onKeyDown}
+              onMouseDown={(e) => { e.preventDefault(); focusEnd(); }}
+            />
+            {completion && (
+              <div className="term-ghost" aria-hidden="true">
+                <span className="typed">{input}</span><span>{completion.suffix}</span>
+                <span className="tabhint">tab</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </>}
     </div>
   );
 }

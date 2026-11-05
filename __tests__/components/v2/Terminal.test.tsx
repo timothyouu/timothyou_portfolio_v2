@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import Terminal, { buildCommands, type TerminalApi } from '@/components/v2/Terminal'
 import { HOME_PROJECTS } from '@/data/v2/projects'
 import { LINKS } from '@/data/v2/config'
@@ -10,7 +10,7 @@ function setup() {
     setTweak: jest.fn(), openProject: jest.fn(), scrollTo: jest.fn(), close: jest.fn(),
     getState: () => ({ page: 'home', theme: 'light', version: 'v2', font: 'JetBrains Mono', asciiSize: 12, hoverReveal: 'ascii' }),
   }
-  const ctx = { out: jest.fn(), ok: jest.fn(), err: jest.fn(), node: jest.fn(), clear: jest.fn(), close: jest.fn() }
+  const ctx = { playGame: jest.fn(), out: jest.fn(), ok: jest.fn(), err: jest.fn(), node: jest.fn(), clear: jest.fn(), close: jest.fn() }
   const commands = buildCommands(api, () => path, (next) => { path = next })
   return { api, ctx, commands }
 }
@@ -79,4 +79,100 @@ test('terminal autocompletes current project slugs and runs them with Enter', ()
   fireEvent.keyDown(input, { key: 'Enter' })
   expect(api.openProject).toHaveBeenCalledWith("Ender's Bench")
   expect(screen.getByText("opening Ender's Bench")).toBeInTheDocument()
+})
+test('snake accepts both control schemes, scores, restarts and returns focus to the shell', () => {
+  jest.useFakeTimers()
+  try {
+    render(<Terminal open onClose={jest.fn()} api={setup().api} />)
+    const input = screen.getByRole('textbox')
+    fireEvent.change(input, { target: { value: 'snake' } })
+    fireEvent.keyDown(input, { key: 'Enter' })
+    const game = screen.getByLabelText('Snake game')
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+    expect(game).toHaveFocus()
+    fireEvent.keyDown(game, { key: 'd' })
+    act(() => jest.advanceTimersByTime(160 * 6))
+    expect(game).toHaveTextContent('SCORE 001')
+    fireEvent.keyDown(game, { key: 'ArrowUp' })
+    act(() => jest.advanceTimersByTime(160 * 8))
+    expect(game).toHaveTextContent('GAME OVER')
+    fireEvent.keyDown(game, { key: 'Enter' })
+    expect(game).toHaveTextContent('SCORE 000')
+    fireEvent.keyDown(game, { key: 'Escape' })
+    const prompt = screen.getByRole('textbox')
+    expect(prompt).toHaveFocus()
+    expect(game).not.toBeInTheDocument()
+    fireEvent.change(prompt, { target: { value: 'snake' } })
+    fireEvent.keyDown(prompt, { key: 'Enter' })
+    expect(screen.getByLabelText('Snake game')).toHaveTextContent('SCORE 000 · HI 001')
+  } finally {
+    jest.useRealTimers()
+  }
+})
+
+function launchGame(command: string) {
+  render(<Terminal open onClose={jest.fn()} api={setup().api} />)
+  const prompt = screen.getByRole('textbox')
+  fireEvent.change(prompt, { target: { value: command } })
+  fireEvent.keyDown(prompt, { key: 'Enter' })
+}
+
+test('tetris locks pieces, clears completed rows and exits to the prompt', () => {
+  const random = jest.spyOn(Math, 'random').mockReturnValue(1.5 / 7)
+  try {
+    launchGame('tetris')
+    const game = screen.getByLabelText('Tetris game')
+    expect(game).toHaveFocus()
+    for (const offset of [-4, -2, 0, 2, 4]) {
+      for (let i = 0; i < Math.abs(offset); i++) {
+        fireEvent.keyDown(game, { key: offset < 0 ? 'a' : 'ArrowRight' })
+      }
+      fireEvent.keyDown(game, { key: ' ' })
+    }
+    expect(game).toHaveTextContent('LINES 2')
+    fireEvent.keyDown(game, { key: 'Escape' })
+    expect(screen.getByRole('textbox')).toHaveFocus()
+  } finally {
+    random.mockRestore()
+  }
+})
+
+test('etch draws a continuous keyboard stroke and clears it', () => {
+  launchGame('etch')
+  const game = screen.getByLabelText('Etch Sketch')
+  fireEvent.keyDown(game, { key: 'w' })
+  fireEvent.keyDown(game, { key: 'ArrowRight' })
+  expect(game.querySelector('path')).toHaveAttribute('d', 'M60 30 L60 29 L61 29')
+  fireEvent.keyDown(game, { key: 'c' })
+  expect(game.querySelector('path')).toHaveAttribute('d', 'M60 30')
+  fireEvent.keyDown(game, { key: 'Escape' })
+  expect(screen.getByRole('textbox')).toHaveFocus()
+})
+
+test('tetris holds once per lock, swaps back and remembers its own high score', () => {
+  const random = jest.spyOn(Math, 'random').mockReturnValue(0)
+  try {
+    launchGame('tetris')
+    const game = screen.getByLabelText('Tetris game')
+    random.mockReturnValue(0.2)
+    fireEvent.keyDown(game, { key: 'c' })
+    expect(screen.getByLabelText('Held I piece')).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Hold piece' })).toBeDisabled()
+    fireEvent.keyDown(game, { key: 'c' })
+    expect(screen.getByLabelText('Held I piece')).toBeVisible()
+    fireEvent.keyDown(game, { key: ' ' })
+    expect(game).toHaveTextContent('SCORE 36')
+    fireEvent.keyDown(game, { key: 'c' })
+    expect(screen.getByLabelText('Held O piece')).toBeVisible()
+    const record = localStorage.getItem('portfolio.tetris.highScore')
+    expect(Number(record)).toBeGreaterThanOrEqual(36)
+    fireEvent.keyDown(game, { key: 'Escape' })
+    const prompt = screen.getByRole('textbox')
+    fireEvent.change(prompt, { target: { value: 'tetris' } })
+    fireEvent.keyDown(prompt, { key: 'Enter' })
+    expect(screen.getByLabelText('Tetris game')).toHaveTextContent('SCORE 0 · HI ' + record)
+    expect(screen.getByLabelText('Empty hold slot')).toBeVisible()
+  } finally {
+    random.mockRestore()
+  }
 })

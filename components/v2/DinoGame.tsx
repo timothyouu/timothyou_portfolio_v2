@@ -338,6 +338,7 @@ export default function DinoGame() {
 
     function onKeyDown(e: KeyboardEvent) {
       if (G.id !== (window as any).__activeDinoId || G.quit) return;
+      if (e.target instanceof Element && e.target.closest('[aria-label="Snake game"]')) return;
       const k = e.key;
       if (k === ' ' || k === 'Spacebar' || k === 'ArrowUp') {
         e.preventDefault(); e.stopPropagation();
