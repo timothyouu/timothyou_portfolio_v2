@@ -117,22 +117,33 @@ function launchGame(command: string) {
   fireEvent.keyDown(prompt, { key: 'Enter' })
 }
 
-test('tetris locks pieces, clears completed rows and exits to the prompt', () => {
+test('tetris speeds up after ten cleared lines and exits to the prompt', () => {
+  jest.useFakeTimers()
   const random = jest.spyOn(Math, 'random').mockReturnValue(1.5 / 7)
   try {
     launchGame('tetris')
     const game = screen.getByLabelText('Tetris game')
     expect(game).toHaveFocus()
-    for (const offset of [-4, -2, 0, 2, 4]) {
+    const top = () => game.querySelector('[aria-label="Tetris playfield"] rect')?.getAttribute('y')
+    act(() => jest.advanceTimersByTime(798))
+    expect(top()).toBe('0.5')
+    act(() => jest.advanceTimersByTime(1))
+    expect(top()).toBe('10.5')
+    for (const offset of Array(5).fill([-4, -2, 0, 2, 4]).flat()) {
       for (let i = 0; i < Math.abs(offset); i++) {
         fireEvent.keyDown(game, { key: offset < 0 ? 'a' : 'ArrowRight' })
       }
       fireEvent.keyDown(game, { key: ' ' })
     }
-    expect(game).toHaveTextContent('LINES 2')
+    expect(game).toHaveTextContent('LEVEL 1 · LINES 10')
+    act(() => jest.advanceTimersByTime(714))
+    expect(top()).toBe('0.5')
+    act(() => jest.advanceTimersByTime(1))
+    expect(top()).toBe('10.5')
     fireEvent.keyDown(game, { key: 'Escape' })
     expect(screen.getByRole('textbox')).toHaveFocus()
   } finally {
+    jest.useRealTimers()
     random.mockRestore()
   }
 })

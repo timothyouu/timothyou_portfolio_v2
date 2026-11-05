@@ -6,6 +6,12 @@ import styles from './TerminalGame.module.css'
 
 const WIDTH = 10
 const HEIGHT = 20
+// NTSC NES Tetris gravity, in frames per row at roughly 60 frames per second.
+const FRAMES_PER_ROW = [
+  48, 43, 38, 33, 28, 23, 18, 13, 8, 6, // Levels 0–9
+  5, 5, 5, 4, 4, 4, 3, 3, 3,            // Levels 10–18
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1,      // Levels 19–29+
+]
 const shapes = [
   ['1111'], ['11', '11'], ['010', '111'], ['011', '110'],
   ['110', '011'], ['100', '111'], ['001', '111'],
@@ -74,13 +80,16 @@ const controls: Record<string, Move> = {
 export default function Tetris({ onExit }: { onExit: () => void }) {
   const [state, dispatch] = useReducer(update, null, () => start(pick()))
   const best = useGameHighScore('portfolio.tetris.highScore', state.score)
+  const level = Math.floor(state.lines / 10)
+  const frames = FRAMES_PER_ROW[Math.min(level, FRAMES_PER_ROW.length - 1)]
+  const gravityMs = Math.round(frames * 1000 / 60.1)
   const panel = useRef<HTMLDivElement>(null)
   useEffect(() => { panel.current?.focus() }, [])
   useEffect(() => {
     if (state.over) return
-    const timer = window.setInterval(() => dispatch({ move: 'down', next: pick() }), 650)
+    const timer = window.setInterval(() => dispatch({ move: 'down', next: pick() }), gravityMs)
     return () => window.clearInterval(timer)
-  }, [state.over])
+  }, [state.over, gravityMs])
 
   function handleKey(event: KeyboardEvent<HTMLDivElement>) {
     if (event.ctrlKey || event.altKey || event.metaKey) return
@@ -96,7 +105,7 @@ export default function Tetris({ onExit }: { onExit: () => void }) {
   const blocks = state.board.flatMap((row, y) => row.flatMap((solid, x) => solid ? [{ x, y }] : []))
   if (!state.over) blocks.push(...cells(state.piece))
   return <div className={styles.panel} tabIndex={0} ref={panel} onKeyDown={handleKey} aria-label="Tetris game">
-    <header><strong>TETRIS</strong><span>LINES {state.lines} · SCORE {state.score} · HI {best}</span></header>
+    <header><strong>TETRIS</strong><span>LEVEL {level} · LINES {state.lines} · SCORE {state.score} · HI {best}</span></header>
     <div className={styles.field}>
       <svg className={styles.well} viewBox="0 0 100 200" role="img" aria-label="Tetris playfield">
         {blocks.map(({ x, y }) => <rect key={y * WIDTH + x} x={10 * x + 0.5} y={10 * y + 0.5} width="9" height="9" fill="currentColor" />)}
