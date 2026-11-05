@@ -8,6 +8,32 @@ export type ChangelogEntry = {
 // site version is just a matter of adding a new entry here.
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '2.0.6',
+    date: '2026-11-05',
+    changes: [
+      'added three full-window terminal games that follow the light and dark themes',
+      'type snake to play Snake with WASD or the arrow keys',
+      'type tetris to play Tetris. Press C to hold or swap a piece once before it locks',
+      'Snake and Tetris now save separate high scores in your browser',
+      'type etch to draw with WASD, the arrow keys, or by dragging. Press C to clear the sketch',
+    ],
+  },
+  {
+    version: '2.0.5',
+    date: '2026-10-29',
+    changes: [
+      "replaced AI Recipe Assistant with Ender's Bench and Encore, and reordered featured projects",
+      "updated project descriptions, tech stacks, and links, including Ender's Bench's 4th-place SpacetimeDB award",
+      "added Encore's glasses preview and both Ender's Bench simulation previews on hover or tap",
+      "updated Ender's Bench and Tenet hardware details to DGX Spark",
+      'updated whoami for OpenAI Product Lab and split Product Lab and ChatGPT Student Lab into separate experience entries',
+      'updated my IEMs to SIMGOT SuperMix 4',
+      'replaced my resume across both portfolio versions',
+      'terminal: help now lists every command, with current project details, tech stacks, and experience/gear shortcuts',
+      'terminal: improved project-name matching and autocomplete, and updated whoami',
+    ],
+  },
+  {
     version: '2.0.4',
     date: '2026-07-27',
     changes: [
