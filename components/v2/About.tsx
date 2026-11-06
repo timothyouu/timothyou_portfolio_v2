@@ -1,18 +1,29 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import type { Track } from '@/data/v2/config'
 import topTracksData from '@/data/v2/top-tracks.json'
+import { fetchStoredTopTracks } from '@/lib/v2/top-tracks'
 import { ASCII_DATA } from '@/data/v2/ascii-data'
 import AsciiImage from './AsciiImage'
 import TopBar from './TopBar'
 import Footer from './Footer'
 import { titleCase } from '@/lib/utils'
 
-// Refreshed daily by the Last.fm GitHub Action; falls back to whatever the
-// last successful run committed to top-tracks.json.
-const TOP_TRACKS = topTracksData as Track[]
+const FALLBACK_TOP_TRACKS = topTracksData as Track[]
 
 export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => void; setSettingsOpen: (fn: (o: boolean) => boolean) => void }) {
+  const [topTracks, setTopTracks] = useState<Track[]>(FALLBACK_TOP_TRACKS)
+
+  useEffect(() => {
+    const dataUrl = process.env.NEXT_PUBLIC_MUSIC_DATA_URL
+    if (!dataUrl) return
+
+    void fetchStoredTopTracks(dataUrl).then((tracks) => {
+      if (tracks) setTopTracks(tracks)
+    })
+  }, [])
+
   return (
     <div className="shell">
       <TopBar current="about" goTo={goTo} setSettingsOpen={setSettingsOpen} />
@@ -126,7 +137,7 @@ export default function About({ goTo, setSettingsOpen }: { goTo: (p: string) => 
           <div className="col">
             <h4>music</h4>
             <ul>
-              {TOP_TRACKS.map((t, i) => <li key={i}>
+              {topTracks.map((t, i) => <li key={i}>
                   <span className="t">{titleCase(t.name)}</span>
                   <span className="s">{titleCase(t.artist)}</span>
                 </li>

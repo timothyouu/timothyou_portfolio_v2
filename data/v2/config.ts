@@ -14,6 +14,6 @@ export const LINKS = {
   caltech:    'http://minerals.gps.caltech.edu/',
 } as const
 
-// Top tracks live in ./top-tracks.json, refreshed daily by the Last.fm
-// GitHub Action (scripts/update_top_tracks.py). About.tsx imports that file
-// directly. See scripts/LASTFM_SETUP.md for the one-time setup.
+// The committed top-tracks.json is the built-in fallback. The About page uses
+// Vercel Blob data when NEXT_PUBLIC_MUSIC_DATA_URL is configured. The GitHub
+// Action refreshes that Blob daily without changing this repository.

@@ -1,35 +1,40 @@
 #!/usr/bin/env python3
-"""Fetch my top 5 Last.fm tracks (last 7 days) and write them to JSON.
+"""Fetch my top 5 Last.fm tracks (last 7 days) and publish them to Vercel Blob.
 
 Last.fm scrobbles your Spotify plays, and its read API needs only an API key
 (no OAuth, no Premium). Run daily by .github/workflows/update-top-tracks.yml.
-On ANY failure it exits non-zero WITHOUT touching the JSON, so the last good
-list stays in place and the Action simply skips its commit.
+Last.fm failures never upload. An upload timeout can have an uncertain outcome.
 
 Required env vars (GitHub Actions secrets):
     LASTFM_API_KEY   your Last.fm API key
     LASTFM_USER      your Last.fm username
+    BLOB_READ_WRITE_TOKEN  a Vercel Blob read-write token
 
-Output: data/v2/top-tracks.json  ->  [{ "name": ..., "artist": ... }, ...]
+Output: public Blob at music/top-tracks.json
 """
 import json
 import os
 import sys
-from pathlib import Path
 
 import requests
+from vercel.blob import sync as blob
 
 API_URL = "https://ws.audioscrobbler.com/2.0/"
 PERIOD = "7day"
 LIMIT = 5
-OUTPUT_PATH = Path(__file__).resolve().parent.parent / "data" / "v2" / "top-tracks.json"
+OUTPUT_PATH = "music/top-tracks.json"
+CACHE_CONTROL_MAX_AGE = 300
 
 
 def main() -> int:
     api_key = os.environ.get("LASTFM_API_KEY")
     user = os.environ.get("LASTFM_USER")
-    if not (api_key and user):
-        print("ERROR: LASTFM_API_KEY and LASTFM_USER must both be set.", file=sys.stderr)
+    blob_token = os.environ.get("BLOB_READ_WRITE_TOKEN")
+    if not (api_key and user and blob_token):
+        print(
+            "ERROR: LASTFM_API_KEY, LASTFM_USER, and BLOB_READ_WRITE_TOKEN must all be set.",
+            file=sys.stderr,
+        )
         return 1
 
     resp = requests.get(
@@ -47,14 +52,19 @@ def main() -> int:
     resp.raise_for_status()
     data = resp.json()
 
+    if not isinstance(data, dict):
+        raise ValueError("Invalid response")
     if "error" in data:
-        print(f"ERROR: Last.fm API error {data['error']}: {data.get('message')}; "
-              "leaving JSON unchanged.", file=sys.stderr)
+        print("ERROR: Last.fm API error; "
+              "leaving Blob unchanged.", file=sys.stderr)
         return 1
 
-    items = data.get("toptracks", {}).get("track", [])
-    if not items:
-        print("ERROR: Last.fm returned no tracks; leaving JSON unchanged.", file=sys.stderr)
+    toptracks = data.get("toptracks")
+    if not isinstance(toptracks, dict):
+        raise ValueError("Invalid toptracks")
+    items = toptracks.get("track")
+    if not isinstance(items, list) or not items:
+        print("ERROR: Last.fm returned no tracks; leaving Blob unchanged.", file=sys.stderr)
         return 1
 
     tracks = [
@@ -65,19 +75,35 @@ def main() -> int:
         for t in items[:LIMIT]
     ]
 
-    OUTPUT_PATH.write_text(
-        json.dumps(tracks, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8",
+    if not isinstance(items, list) or any(
+        not isinstance(value, str) or not value.strip()
+        for track in tracks for value in track.values()
+    ):
+        raise ValueError("Invalid track data")
+    tracks = [{key: value.strip() for key, value in track.items()} for track in tracks]
+
+    payload = json.dumps(tracks, indent=2, ensure_ascii=False).encode("utf-8")
+    uploaded = blob.put_blob(
+        OUTPUT_PATH,
+        payload,
+        access="public",
+        content_type="application/json; charset=utf-8",
+        allow_overwrite=True,
+        cache_control_max_age=CACHE_CONTROL_MAX_AGE,
     )
-    print(f"Wrote {len(tracks)} tracks to {OUTPUT_PATH}")
+    print(f"Published {len(tracks)} tracks to {uploaded.url}")
     for t in tracks:
-        print(f"  - {t['name']} — {t['artist']}")
+        print(f"  - {t['name']} - {t['artist']}")
     return 0
 
 
-if __name__ == "__main__":
+def run() -> int:
     try:
-        raise SystemExit(main())
-    except Exception as exc:  # noqa: BLE001 — keep last good list on any error
-        print(f"ERROR: {exc}; leaving JSON unchanged.", file=sys.stderr)
-        raise SystemExit(1)
+        return main()
+    except Exception:
+        print("ERROR: Music refresh failed. If upload began, verify the stored object before retrying.", file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(run())

@@ -2,12 +2,16 @@ name: Update top tracks
 
 on:
   schedule:
-    # Daily at 12:00 UTC (~5am PT). Commits only when the top 5 actually change.
+    # Daily at 12:00 UTC (~5am PT).
     - cron: "0 12 * * *"
   workflow_dispatch: {} # allow manual runs from the Actions tab
 
 permissions:
-  contents: write # needed to commit the refreshed JSON
+  contents: read
+
+concurrency:
+  group: music-refresh
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -22,20 +26,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r scripts/requirements.txt
 
+      - name: Test refresh without network
+        run: python -m unittest discover -s scripts -p 'test_*.py'
+
       - name: Fetch top tracks
         env:
           LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
           LASTFM_USER: timothyou # public username, not a secret
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
         run: python scripts/update_top_tracks.py
-
-      - name: Commit if changed
-        run: |
-          if git diff --quiet -- data/v2/top-tracks.json; then
-            echo "No change in top tracks — nothing to commit."
-            exit 0
-          fi
-          git config user.name "Timothy Ou"
-          git config user.email "timothyou02@gmail.com"
-          git add data/v2/top-tracks.json
-          git commit -m "chore: refresh top tracks"
-          git push
