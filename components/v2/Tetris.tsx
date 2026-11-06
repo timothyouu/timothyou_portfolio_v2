@@ -112,16 +112,22 @@ export default function Tetris({ onExit }: { onExit: () => void }) {
       </svg>
       <button className={styles.hold} aria-label="Hold piece" disabled={!state.canHold || state.over}
         onClick={() => { dispatch({ move: 'hold', next: pick() }); panel.current?.focus() }}>
-        HOLD [C]
+        HOLD<span className={styles.keyboardHint}> [C]</span>
         <svg viewBox="0 0 48 36" role="img" aria-label={state.held === null ? 'Empty hold slot' : 'Held ' + ['I','O','T','S','Z','J','L'][state.held] + ' piece'}>
           {state.held !== null && shapes[state.held].map((row, y, rows) => Array.from(row, (cell, x) =>
             cell === '1' && <rect key={y * 4 + x} x={24 - row.length * 4 + x * 8} y={18 - rows.length * 4 + y * 8} width="7" height="7" fill="currentColor" />))}
         </svg>
       </button>
       {state.over && <button className={styles.result} onClick={() => { dispatch({ move: 'restart', next: pick() }); panel.current?.focus() }}>
-        <strong>GAME OVER</strong>Enter to play again
+        <strong>GAME OVER</strong>Play again
       </button>}
     </div>
-    <footer><span>A/D or ←/→ move · W/↑ rotate · S/↓ lower · Space drop</span><button onClick={onExit}>Esc · quit</button></footer>
+    <div className={styles.touchControls} role="group" aria-label="Move falling piece">
+      {([['left', '←', 'Move left'], ['right', '→', 'Move right'], ['rotate', '↻', 'Rotate'], ['down', '↓', 'Lower'], ['drop', 'Drop', 'Hard drop']] as const).map(([move, label, name]) =>
+        <button key={move} aria-label={name} disabled={state.over}
+          onClick={() => { dispatch({ move, next: pick() }); panel.current?.focus() }}>{label}</button>
+      )}
+    </div>
+    <footer><span className={styles.keyboardHint}>A/D or ←/→ move · W/↑ rotate · S/↓ lower · Space drop</span><button onClick={onExit}><span className={styles.keyboardHint}>Esc · </span>Quit</button></footer>
   </div>
 }

@@ -66,6 +66,13 @@ export default function SnakeGame({ onExit }: { onExit: () => void }) {
   }, [game.phase, focused])
 
   const finished = game.phase === 'over' || game.phase === 'won'
+  function steer(turn: number) {
+    panel.current?.focus()
+    setGame(current => {
+      if (finished || turn === -current.direction) return current
+      return { ...current, turn, phase: 'playing' }
+    })
+  }
   function handleKey(event: KeyboardEvent<HTMLDivElement>) {
     if (event.ctrlKey || event.metaKey || event.altKey) return
     const key = event.key.toLowerCase()
@@ -78,11 +85,7 @@ export default function SnakeGame({ onExit }: { onExit: () => void }) {
       setGame(initialGame())
     } else if (keys[key]) {
       event.preventDefault()
-      const turn = keys[key]
-      setGame(current => {
-        if (finished || turn === -current.direction) return current
-        return { ...current, turn, phase: 'playing' }
-      })
+      steer(keys[key])
     }
   }
 
@@ -104,10 +107,15 @@ export default function SnakeGame({ onExit }: { onExit: () => void }) {
           {game.food >= 0 && <path fill="currentColor" transform={`translate(${game.food % COLS * 10}, ${Math.floor(game.food / COLS) * 10})`} d="M3 1h4v2h2v4H7v2H3V7H1V3h2z" />}
         </svg>
         {finished && <button className={styles.result} onClick={() => { setGame(initialGame()); panel.current?.focus() }}>
-          <strong>{game.phase === 'won' ? 'YOU WIN' : 'GAME OVER'}</strong>Enter to play again
+          <strong>{game.phase === 'won' ? 'YOU WIN' : 'GAME OVER'}</strong>Play again
         </button>}
       </div>
-      <footer><span>{!focused ? 'Click board to resume' : game.phase === 'ready' ? 'WASD / arrows to start' : 'WASD / arrows to steer'}</span><button onClick={onExit}>Esc · quit</button></footer>
+      <div className={styles.touchControls} role="group" aria-label="Steer snake">
+        {([['Left', '←', -1], ['Up', '↑', -COLS], ['Down', '↓', COLS], ['Right', '→', 1]] as const).map(([name, icon, turn]) =>
+          <button key={name} aria-label={name} disabled={finished} onClick={() => steer(turn)}>{icon}</button>
+        )}
+      </div>
+      <footer><span className={styles.keyboardHint}>{!focused ? 'Click board to resume' : game.phase === 'ready' ? 'WASD / arrows to start' : 'WASD / arrows to steer'}</span><button onClick={onExit}><span className={styles.keyboardHint}>Esc · </span>Quit</button></footer>
     </div>
   )
 }

@@ -17,6 +17,11 @@ export default function EtchSketch({ onExit }: { onExit: () => void }) {
   const [drawing, setDrawing] = useState(blank)
   useEffect(() => { panel.current?.focus() }, [])
 
+  function clearPad() {
+    setDrawing(blank)
+    panel.current?.focus()
+  }
+
   function handleKey(event: KeyboardEvent<HTMLDivElement>) {
     if (event.ctrlKey || event.altKey || event.metaKey) return
     const key = event.key.toLowerCase()
@@ -34,6 +39,7 @@ export default function EtchSketch({ onExit }: { onExit: () => void }) {
   }
 
   function drawAt(event: PointerEvent<SVGSVGElement>, start: boolean) {
+    if (!event.isPrimary) return
     const svg = event.currentTarget
     if (start) {
       if (event.button !== 0) return
@@ -49,7 +55,8 @@ export default function EtchSketch({ onExit }: { onExit: () => void }) {
   }
 
   return <div className={styles.panel} tabIndex={0} ref={panel} onKeyDown={handleKey} aria-label="Etch Sketch">
-    <header><strong>ETCH SKETCH</strong><button onClick={() => { setDrawing(blank); panel.current?.focus() }}>Clear [C]</button></header>
+    <header><strong>ETCH SKETCH</strong><button onClick={clearPad}
+      onPointerUp={event => { if (event.pointerType === 'touch' && event.isPrimary) clearPad() }}>Clear<span className={styles.keyboardHint}> [C]</span></button></header>
     <div className={styles.field}>
       <svg className={styles.sketch} viewBox="0 0 120 60" role="img" aria-label="Sketch pad"
         onPointerDown={e => drawAt(e, true)} onPointerMove={e => drawAt(e, false)}>
@@ -57,6 +64,6 @@ export default function EtchSketch({ onExit }: { onExit: () => void }) {
         <circle cx={drawing.x} cy={drawing.y} r="1.1" fill="var(--paper)" stroke="currentColor" strokeWidth=".5" />
       </svg>
     </div>
-    <footer><span>WASD / arrows or drag to draw</span><button onClick={onExit}>Esc · quit</button></footer>
+    <footer><span><span className={styles.keyboardHint}>WASD / arrows or </span>Drag to draw</span><button onClick={onExit}><span className={styles.keyboardHint}>Esc · </span>Quit</button></footer>
   </div>
 }

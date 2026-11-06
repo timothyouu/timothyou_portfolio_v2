@@ -156,7 +156,7 @@ export default function TerminalPortfolio() {
       <VersionToggle version={version} setVersion={setVersion} />
       {version !== 'v1' && (
         <div className="bottom-buttons">
-          <button className="term-launch" onClick={() => setTermOpen(true)} title="open terminal">
+          <button className="term-launch" onClick={() => setTermOpen(true)} title="open terminal" aria-label="Open terminal">
             <span className="glyph">&gt;_</span>
             <span>terminal</span>
             <span className="kbd">⌘K</span>

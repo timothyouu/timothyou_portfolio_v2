@@ -38,3 +38,18 @@
 .panel .hold { align-self: flex-start; margin-left: 8px; padding: 4px; }
 .hold:disabled { border-style: dashed; cursor: default; }
 .hold svg { display: block; width: 48px; height: 36px; border: 0; background: transparent; }
+
+.touchControls { display: none; }
+
+@media (max-width: 760px), (any-pointer: coarse) {
+  .panel { padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+  .keyboardHint { display: none; }
+  .touchControls { display: flex; width: 100%; max-width: 380px; gap: 6px; }
+  .panel button { min-width: 44px; min-height: 44px; touch-action: manipulation; }
+  .touchControls button { flex: 1; font-size: 18px; user-select: none; }
+  .touchControls button:active { background: var(--ink); color: var(--paper); }
+  .panel footer button { margin-left: auto; }
+  .field { container-type: size; }
+  .field > svg { width: min(100cqw, 200cqh); height: auto; }
+  .field > svg.well { width: min(calc(100cqw - 76px), 50cqh); }
+}
