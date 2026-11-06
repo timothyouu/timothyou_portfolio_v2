@@ -6,6 +6,11 @@ import styles from './TerminalGame.module.css'
 
 const WIDTH = 10
 const HEIGHT = 20
+const gridLines = [
+  ...Array.from({ length: WIDTH - 1 }, (_, i) => `M${(i + 1) * 10} 0v${HEIGHT * 10}`),
+  ...Array.from({ length: HEIGHT - 1 }, (_, i) => `M0 ${(i + 1) * 10}h${WIDTH * 10}`),
+].join(' ')
+
 // NTSC NES Tetris gravity, in frames per row at roughly 60 frames per second.
 const FRAMES_PER_ROW = [
   48, 43, 38, 33, 28, 23, 18, 13, 8, 6, // Levels 0–9
@@ -108,6 +113,8 @@ export default function Tetris({ onExit }: { onExit: () => void }) {
     <header><strong>TETRIS</strong><span>LEVEL {level} · LINES {state.lines} · SCORE {state.score} · HI {best}</span></header>
     <div className={styles.field}>
       <svg className={styles.well} viewBox="0 0 100 200" role="img" aria-label="Tetris playfield">
+        <path d={gridLines} fill="none" stroke="currentColor" strokeOpacity=".28"
+          strokeWidth="1" vectorEffect="non-scaling-stroke" aria-hidden="true" />
         {blocks.map(({ x, y }) => <rect key={y * WIDTH + x} x={10 * x + 0.5} y={10 * y + 0.5} width="9" height="9" fill="currentColor" />)}
       </svg>
       <button className={styles.hold} aria-label="Hold piece" disabled={!state.canHold || state.over}
