@@ -2,6 +2,8 @@
 
 import { useEffect, useReducer, useRef, type KeyboardEvent } from 'react'
 import { useGameHighScore } from './useGameHighScore'
+import { useBoardGesture } from './useBoardGesture'
+import GameQuitButton from './GameQuitButton'
 import styles from './TerminalGame.module.css'
 
 const WIDTH = 10
@@ -23,7 +25,7 @@ const shapes = [
 ]
 type Piece = { index: number; rows: string[]; x: number; y: number }
 type State = { board: boolean[][]; piece: Piece; held: number | null; canHold: boolean; lines: number; score: number; over: boolean }
-type Move = 'left' | 'right' | 'rotate' | 'down' | 'drop' | 'restart' | 'hold'
+type Move = 'rotateLeft' | 'softDrop' | 'left' | 'right' | 'rotate' | 'down' | 'drop' | 'restart' | 'hold'
 type Action = { move: Move; next: number }
 
 const emptyRow = (): boolean[] => Array(WIDTH).fill(false)
@@ -55,8 +57,11 @@ function update(state: State, { move, next }: Action): State {
     const shifted = { ...piece, x: piece.x + (move === 'left' ? -1 : 1) }
     return fits(state.board, shifted) ? { ...state, piece: shifted } : state
   }
-  if (move === 'rotate') {
-    const rows = Array.from(piece.rows[0], (_, i) => piece.rows.map(row => row[i]).reverse().join(''))
+  if (move === 'rotate' || move === 'rotateLeft') {
+    const columns = Array.from(piece.rows[0], (_, i) => piece.rows.map(row => row[i]))
+    const rows = move === 'rotateLeft'
+      ? columns.reverse().map(column => column.join(''))
+      : columns.map(column => column.reverse().join(''))
     for (const shift of [0, -1, 1, -2, 2]) {
       const rotated = { ...piece, rows, x: piece.x + shift }
       if (fits(state.board, rotated)) return { ...state, piece: rotated }
@@ -65,8 +70,9 @@ function update(state: State, { move, next }: Action): State {
   }
   while (fits(state.board, { ...piece, y: piece.y + 1 })) {
     piece = { ...piece, y: piece.y + 1 }
-    if (move === 'down') return { ...state, piece }
+    if (move === 'down' || move === 'softDrop') return { ...state, piece }
   }
+  if (move === 'softDrop') return state
   const board = state.board.map(row => [...row])
   for (const { x, y } of cells(piece)) board[y][x] = true
   const remaining = board.filter(row => !row.every(Boolean))
@@ -96,6 +102,35 @@ export default function Tetris({ onExit }: { onExit: () => void }) {
     return () => window.clearInterval(timer)
   }, [state.over, gravityMs])
 
+  const gestures = useBoardGesture((stroke, event, released) => {
+    if (state.over) return
+    const bounds = event.currentTarget.getBoundingClientRect()
+    const step = Math.max(12, bounds.width / WIDTH)
+    const dx = event.clientX - stroke.x
+    const dy = event.clientY - stroke.y
+    const elapsed = event.timeStamp - stroke.started
+    const send = (move: Move) => dispatch({ move, next: pick() })
+
+    if (Math.abs(dx) >= step && Math.abs(dx) > Math.abs(dy)) {
+      const steps = Math.trunc(dx / step)
+      for (let i = 0; i < Math.abs(steps); i++) send(steps > 0 ? 'right' : 'left')
+      stroke.x += steps * step
+      stroke.y = event.clientY
+      stroke.moved = true
+    } else if (dy >= step && elapsed >= 230) {
+      const steps = Math.floor(dy / step)
+      for (let i = 0; i < steps; i++) send('softDrop')
+      stroke.y += steps * step
+      stroke.moved = true
+    } else if (released && !stroke.moved) {
+      if (dy >= Math.max(24, step) && dy > Math.abs(dx)) send('drop')
+      else if (-dy >= Math.max(24, step) && -dy > Math.abs(dx)) send('hold')
+      else if (elapsed < 230 && Math.hypot(dx, dy) < 8) {
+        send(event.clientX < bounds.left + bounds.width / 2 ? 'rotateLeft' : 'rotate')
+      }
+    }
+  })
+
   function handleKey(event: KeyboardEvent<HTMLDivElement>) {
     if (event.ctrlKey || event.altKey || event.metaKey) return
     const key = event.key.toLowerCase()
@@ -112,7 +147,7 @@ export default function Tetris({ onExit }: { onExit: () => void }) {
   return <div className={styles.panel} tabIndex={0} ref={panel} onKeyDown={handleKey} aria-label="Tetris game">
     <header><strong>TETRIS</strong><span>LEVEL {level} · LINES {state.lines} · SCORE {state.score} · HI {best}</span></header>
     <div className={styles.field}>
-      <svg className={styles.well} viewBox="0 0 100 200" role="img" aria-label="Tetris playfield">
+      <svg {...gestures} className={styles.well} viewBox="0 0 100 200" role="img" aria-label="Tetris playfield">
         <path d={gridLines} fill="none" stroke="currentColor" strokeOpacity=".28"
           strokeWidth="1" vectorEffect="non-scaling-stroke" aria-hidden="true" />
         {blocks.map(({ x, y }) => <rect key={y * WIDTH + x} x={10 * x + 0.5} y={10 * y + 0.5} width="9" height="9" fill="currentColor" />)}
@@ -135,6 +170,6 @@ export default function Tetris({ onExit }: { onExit: () => void }) {
           onClick={() => { dispatch({ move, next: pick() }); panel.current?.focus() }}>{label}</button>
       )}
     </div>
-    <footer><span className={styles.keyboardHint}>A/D or ←/→ move · W/↑ rotate · S/↓ lower · Space drop</span><button onClick={onExit}><span className={styles.keyboardHint}>Esc · </span>Quit</button></footer>
+    <footer><span className={styles.touchHint}>Drag to move or lower · Tap sides to rotate · Flick ↓ drop / ↑ hold</span><span className={styles.keyboardHint}>A/D or ←/→ move · W/↑ rotate · S/↓ lower · Space drop</span><GameQuitButton onExit={onExit} /></footer>
   </div>
 }

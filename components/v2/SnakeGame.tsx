@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { useGameHighScore } from './useGameHighScore'
+import { useBoardGesture } from './useBoardGesture'
+import GameQuitButton from './GameQuitButton'
 import styles from './TerminalGame.module.css'
 
 const COLS = 28
@@ -73,6 +75,14 @@ export default function SnakeGame({ onExit }: { onExit: () => void }) {
       return { ...current, turn, phase: 'playing' }
     })
   }
+  const gestures = useBoardGesture((stroke, event) => {
+    if (stroke.moved) return
+    const dx = event.clientX - stroke.x
+    const dy = event.clientY - stroke.y
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 12) return
+    stroke.moved = true
+    steer(Math.abs(dx) > Math.abs(dy) ? Math.sign(dx) : Math.sign(dy) * COLS)
+  })
   function handleKey(event: KeyboardEvent<HTMLDivElement>) {
     if (event.ctrlKey || event.metaKey || event.altKey) return
     const key = event.key.toLowerCase()
@@ -97,7 +107,7 @@ export default function SnakeGame({ onExit }: { onExit: () => void }) {
       aria-label="Snake game">
       <header><strong>S N A K E</strong><span>SCORE {String(score).padStart(3, '0')}{' · HI '}{String(best).padStart(3, '0')}</span></header>
       <div className={styles.field}>
-        <svg viewBox={`0 0 ${COLS * 10} ${ROWS * 10}`} role="img" aria-label="Snake playfield" shapeRendering="crispEdges">
+        <svg {...gestures} className={styles.gestureBoard} viewBox={`0 0 ${COLS * 10} ${ROWS * 10}`} role="img" aria-label="Snake playfield" shapeRendering="crispEdges">
           {game.body.map((cell, index) => (
             <g key={cell} transform={`translate(${cell % COLS * 10}, ${Math.floor(cell / COLS) * 10})`}>
               <rect x="1" y="1" width="8" height="8" fill="currentColor" />
@@ -115,7 +125,7 @@ export default function SnakeGame({ onExit }: { onExit: () => void }) {
           <button key={name} aria-label={name} disabled={finished} onClick={() => steer(turn)}>{icon}</button>
         )}
       </div>
-      <footer><span className={styles.keyboardHint}>{!focused ? 'Click board to resume' : game.phase === 'ready' ? 'WASD / arrows to start' : 'WASD / arrows to steer'}</span><button onClick={onExit}><span className={styles.keyboardHint}>Esc · </span>Quit</button></footer>
+      <footer><span className={styles.touchHint}>Swipe the board to steer</span><span className={styles.keyboardHint}>{!focused ? 'Click board to resume' : game.phase === 'ready' ? 'WASD / arrows to start' : 'WASD / arrows to steer'}</span><GameQuitButton onExit={onExit} /></footer>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react'
+import GameQuitButton from './GameQuitButton'
 import styles from './TerminalGame.module.css'
 
 const WIDTH = 120
@@ -64,6 +65,6 @@ export default function EtchSketch({ onExit }: { onExit: () => void }) {
         <circle cx={drawing.x} cy={drawing.y} r="1.1" fill="var(--paper)" stroke="currentColor" strokeWidth=".5" />
       </svg>
     </div>
-    <footer><span><span className={styles.keyboardHint}>WASD / arrows or </span>Drag to draw</span><button onClick={onExit}><span className={styles.keyboardHint}>Esc · </span>Quit</button></footer>
+    <footer><span><span className={styles.keyboardHint}>WASD / arrows or </span>Drag to draw</span><GameQuitButton onExit={onExit} /></footer>
   </div>
 }
