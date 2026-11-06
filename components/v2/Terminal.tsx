@@ -600,6 +600,11 @@ export default function Terminal({ open, onClose, api }: { open: boolean; onClos
   return (
     <div
       className="term-win"
+      onContextMenu={event => {
+        if (ActiveGame && event.target instanceof Element && event.target.closest('button')) {
+          event.preventDefault()
+        }
+      }}
       role="dialog"
       aria-label="terminal"
       style={{
